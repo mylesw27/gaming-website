@@ -1,10 +1,12 @@
+'use client'
 import React, { useState } from 'react';
+import Navigation from "../../components/Navigation/page.jsx";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: { target: { files: any[]; }; }) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
@@ -12,7 +14,7 @@ const Upload = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (file) {
       // Perform upload logic here
@@ -20,17 +22,18 @@ const Upload = () => {
       // Reset file state
       setFile(null);
     } else {
-      setError('Please select a file to upload.');
+      // setError('Please select a file to upload');
     }
   };
 
   return (
     <div>
+      <Navigation />
       <h2>Upload</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="file">Select File:</label>
-          <input type="file" id="file" onChange={handleFileChange} />
+          {/* <input type="file" id="file" onChange={handleFileChange} /> */}
         </div>
         {error && <div>{error}</div>}
         <button type="submit">Upload</button>
@@ -38,5 +41,6 @@ const Upload = () => {
     </div>
   );
 };
+
 
 export default Upload;
