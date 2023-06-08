@@ -1,4 +1,4 @@
-import Navigation from "../../../components/Navigation/page.jsx";
+import Navigation from "../../../components/Navigation/page";
 
 const Edit = () => {
     return (

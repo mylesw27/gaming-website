@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import Navigation from '../components/Navigation/page.jsx'
+import Navigation from '../components/Navigation/page'
 
 export default function Landing() {
 

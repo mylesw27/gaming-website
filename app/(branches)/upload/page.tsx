@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import Navigation from "../../components/Navigation/page.jsx";
+import Navigation from "../../components/Navigation/page";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
