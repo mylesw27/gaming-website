@@ -9,7 +9,7 @@ import HeroSection from '../components/HeroSection/page';
 
 export default function Landing() {
 
-  const objectIDs = ['64664b4caa140fdb81cf5034']
+  const objectIDs = ['648b504e826d1d431510d8bc']
 
   return (
     <div>
