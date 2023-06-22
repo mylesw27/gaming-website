@@ -2,7 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import jwt from 'jsonwebtoken';
 
 interface GameData {
-  userName: string; // Add the userName field
+  userName: string;
+  userId: string;
   title: string;
   description: string;
   category: string;
@@ -55,10 +56,12 @@ const Upload: React.FC = () => {
     const token = localStorage.getItem('token');
 
     if (token) {
-      const { userName } = jwt.decode(token) as { userName: string }; // Decode the token and extract the userName
+      const { userName } = jwt.decode(token) as { userName: string }; 
+      const { userId } = jwt.decode(token) as { userId: string };
 
       const gameData: GameData = {
         userName, // Set the userName field
+        userId,
         title,
         description,
         category,
@@ -69,7 +72,7 @@ const Upload: React.FC = () => {
       };
 
       try {
-        const response = await fetch('http://localhost:8000/api-v1/game/create', {
+        const response = await fetch('http://localhost:8000/api-v1/game', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -80,8 +83,8 @@ const Upload: React.FC = () => {
 
         if (response.ok) {
           const data = await response.json();
-          localStorage.setItem('token', data.token);
-          const game = jwt.decode(data.token);
+          localStorage.setItem('token', token);
+          const game = jwt.decode(token);
           console.log('Game uploaded successfully:', game);
           console.log('Game Data uploaded successfully:', data);
           window.location.href = '/';
