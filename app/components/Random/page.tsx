@@ -48,7 +48,7 @@ const Random: React.FC = () => {
         {games.length > 0 ? (
           games.map((game) => (
             <li key={game._id}>
-              <a href={`/game/${game._id}`}>
+              <a href={`/games/${game._id}`}>
                 <h3>{game.title}</h3>
               </a>
               <p>{game.image}</p>

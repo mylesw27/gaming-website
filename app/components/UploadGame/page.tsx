@@ -10,7 +10,7 @@ interface GameData {
   techstack: string;
   image: string;
   github: string;
-  demo: string;
+  link: string;
 }
 
 const Upload: React.FC = () => {
@@ -20,7 +20,7 @@ const Upload: React.FC = () => {
   const [techstack, setTechstack] = useState('');
   const [image, setImage] = useState('');
   const [github, setGithub] = useState('');
-  const [demo, setDemo] = useState('');
+  const [link, setLink] = useState('');
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -46,8 +46,8 @@ const Upload: React.FC = () => {
     setGithub(event.target.value);
   };
 
-  const handleDemoChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDemo(event.target.value);
+  const handlelinkChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setLink(event.target.value);
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -60,7 +60,7 @@ const Upload: React.FC = () => {
       const { userId } = jwt.decode(token) as { userId: string };
 
       const gameData: GameData = {
-        userName, // Set the userName field
+        userName,
         userId,
         title,
         description,
@@ -68,11 +68,11 @@ const Upload: React.FC = () => {
         techstack,
         image,
         github,
-        demo,
+        link,
       };
 
       try {
-        const response = await fetch('http://localhost:8000/api-v1/game', {
+        const response = await fetch('http://localhost:8000/api-v1/game/upload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -142,8 +142,8 @@ const Upload: React.FC = () => {
           <input type="text" value={github} onChange={handleGithubChange} required />
         </div>
         <div>
-          <label>Demo:</label>
-          <input type="text" value={demo} onChange={handleDemoChange} required />
+          <label>Link:</label>
+          <input type="text" value={link} onChange={handlelinkChange} required />
         </div>
         <button type="submit">Upload</button>
       </form>

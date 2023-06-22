@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Game {
   _id: string;
@@ -51,9 +52,9 @@ const Random: React.FC = () => {
         {games.length > 0 ? (
           games.map((game) => (
             <li key={game._id}>
-              <a href={`/game/${game._id}`}>
+              <Link href={`/games/${game._id}`} as={`/games/${game._id}`} passHref>
                 <h3>{game.title}</h3>
-              </a>
+              </Link>
               <p>{game.image}</p>
               <p>{game.category}</p>
               <p>{game.description}</p>
