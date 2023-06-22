@@ -1,13 +1,12 @@
 import Navigation from '../../components/Navigation/page';
 
-const UserGames = () => {
+const AllGames = () => {
   return (
     <div>
       <Navigation />
-      <h2>Only User Games</h2>
-      <a href="/games/edit">Edit</a>
+      <h2>All Games</h2>
     </div>
   );
 };
 
-export default UserGames;
+export default AllGames;
