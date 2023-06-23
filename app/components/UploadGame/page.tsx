@@ -101,7 +101,6 @@ const Upload: React.FC = () => {
 
   return (
     <div>
-      <h2>Upload Game</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Title:</label>

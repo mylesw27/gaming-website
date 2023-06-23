@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import PasswordReset from '@/app/components/PasswordReset/page';
+import PasswordReset from '../../components/PasswordReset/page';
 import Navigation from '../../components/Navigation/page';
 import jwt from 'jsonwebtoken';
 
@@ -70,7 +70,8 @@ const Profile = () => {
       <h2>Hi {decodedToken.name}</h2>
       <PasswordReset onSubmit={handlePasswordReset} />
       {/* List of current games uploaded */}
-      <a href = '/profile/games'>Uploaded Game</a>
+      <a href = '/profile/games'>Your Games</a>
+      <a href = '/profile/upload'>Upload a Game</a>
     </div>
   );
 };

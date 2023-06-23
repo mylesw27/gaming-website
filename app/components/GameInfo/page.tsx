@@ -21,7 +21,7 @@ interface Game {
 const GameComponent: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
 
-  const fetchRandomGame = async () => {
+  const fetchGame = async () => {
     try {
       // Get the game ID from the URL
       const gameID = window.location.pathname.split('/').pop();
@@ -45,7 +45,7 @@ const GameComponent: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchRandomGame();
+    fetchGame();
   }, []);
 
   return (
