@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 
 interface Game {
   _id: string;
@@ -16,10 +15,10 @@ interface Game {
   updatedAt: Date;
 }
 
-const NewGames: React.FC = () => {
+const AllGames: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
 
-  const fetchNewGames = async () => {
+  const fetchRandomGames = async () => {
     try {
       // Make an API request to fetch random games data
       const response = await fetch(`http://localhost:8000/api-v1/game/all`);
@@ -30,31 +29,27 @@ const NewGames: React.FC = () => {
       // Parse the response data as JSON
       const data = await response.json();
       // Update the games state variable with the fetched data
-      // Sort the games by date created
-      setGames(data.games.sort ((a: Game, b: Game) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }).slice(0, 10))
+      setGames(data.games)
     } catch (error) {
       console.error('Error fetching random games:', error);
     }
   };
 
   useEffect(() => {
-    fetchNewGames();
+    fetchRandomGames();
   }
   , []);
 
 
   return (
     <div>
-      <h2>New</h2>
       <ul>
         {games.length > 0 ? (
           games.map((game) => (
             <li key={game._id}>
-              <Link href={`/games/${game._id}`} as={`/games/${game._id}`} passHref>
+              <a href={`/games/${game._id}`}>
                 <h3>{game.title}</h3>
-              </Link>
+              </a>
               <p>{game.image}</p>
               <p>{game.category}</p>
               <p>{game.description}</p>
@@ -68,4 +63,4 @@ const NewGames: React.FC = () => {
   );
         }  
 
-export default NewGames;
+export default AllGames;
