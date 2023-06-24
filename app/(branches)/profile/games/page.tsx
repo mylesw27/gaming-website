@@ -60,7 +60,7 @@ const UserGames = () => {
         {userGames.length > 0 ? (
           userGames.map((game) => (
             <li key={game._id}>
-              <a href={`/games/${game._id}`}>
+              <a href={`/profile/games/edit/${game._id}`}>
                 <h3>{game.title}</h3>
               </a>
               <p>{game.image}</p>
