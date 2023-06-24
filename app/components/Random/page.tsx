@@ -51,7 +51,7 @@ const Random: React.FC = () => {
               <a href={`/games/${game._id}`}>
                 <h3>{game.title}</h3>
               </a>
-              <p>{game.image}</p>
+              <img src={game.image} alt={game.title} width={50} height={50} />
               <p>{game.category}</p>
               <p>{game.description}</p>
             </li>

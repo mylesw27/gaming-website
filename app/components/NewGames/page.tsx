@@ -55,7 +55,7 @@ const NewGames: React.FC = () => {
               <Link href={`/games/${game._id}`} as={`/games/${game._id}`} passHref>
                 <h3>{game.title}</h3>
               </Link>
-              <p>{game.image}</p>
+              <img src={game.image} alt={game.title} width={50} height={50} />
               <p>{game.category}</p>
               <p>{game.description}</p>
             </li>

@@ -54,7 +54,7 @@ const GameComponent: React.FC = () => {
         <div>{game ? <p>Username: {game.userName}</p> : <p>Loading...</p>}</div>
         <div>{game ? <p>Category: {game.category}</p> : <p>Loading...</p>}</div>
         <div>{game ? <p>Description: {game.description}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Image: {game.image}</p> : <p>Loading...</p>}</div>
+        <div>{game ? <p>Image: <img src={game.image} alt={game.title} width={50} height={50} /></p> : <p>Loading...</p>}</div>
         <div>{game ? <p>Link: {game.link}</p> : <p>Loading...</p>}</div>
         <div>{game ? <p>Github: {game.github}</p> : <p>Loading...</p>}</div>
         <div>{game ? <p>TechStack: {game.techstack}</p> : <p>Loading...</p>}</div>

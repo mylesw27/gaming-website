@@ -4,6 +4,7 @@ import Navigation from '../../../components/Navigation/page';
 import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
 
+
 // List of games that the user has uploaded
 // This page will be a list of games that the user has uploaded
 // Under each game will be a link to edit the game
@@ -63,7 +64,7 @@ const UserGames = () => {
               <a href={`/profile/games/edit/${game._id}`}>
                 <h3>{game.title}</h3>
               </a>
-              <p>{game.image}</p>
+              <img src={game.image} alt={game.title} width={50} height={50} />
               <p>{game.category}</p>
               <p>{game.description}</p>
             </li>
