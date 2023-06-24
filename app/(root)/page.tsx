@@ -17,9 +17,9 @@ export default function Landing() {
         <Navigation />
         <h1>Discover Amazing Designs</h1>
         <p>Be inspired by talented designers around the world.</p>
+        <HeroSection objectIDs={objectIDs}/>
         <Random />
         <NewGames />
-        <HeroSection objectIDs={objectIDs}/>
       </div>
       <footer>
         <p>© 2023 Website</p>

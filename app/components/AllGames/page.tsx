@@ -51,8 +51,9 @@ const AllGames: React.FC = () => {
                 <h3>{game.title}</h3>
               </a>
               <img src={game.image} alt={game.title} width={50} height={50} />
-              <p>{game.category}</p>
-              <p>{game.description}</p>
+              <p>Category: {game.category}</p>
+              <p>Description: {game.description}</p>
+              <p>By: {game.userName}</p>
             </li>
           ))
         ) : (

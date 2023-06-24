@@ -43,17 +43,17 @@ const Random: React.FC = () => {
 
   return (
     <div>
-      <h2>Discover</h2>
       <ul>
         {games.length > 0 ? (
           games.map((game) => (
             <li key={game._id}>
               <a href={`/games/${game._id}`}>
-                <h3>{game.title}</h3>
+              <h3>{game.title}</h3>
               </a>
+              <p>By: {game.userName}</p>
               <img src={game.image} alt={game.title} width={50} height={50} />
-              <p>{game.category}</p>
-              <p>{game.description}</p>
+              <p>Category: {game.category}</p>
+              <p>Description: {game.description}</p>
             </li>
           ))
         ) : (

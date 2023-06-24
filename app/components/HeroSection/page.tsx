@@ -5,6 +5,7 @@ interface HeroGame {
   title: string;
   image: string;
   description: string;
+  userName: string;
 }
 
 interface HeroSectionProps {
@@ -39,12 +40,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ objectIDs }) => {
 
   return (
     <div>
-      <h2>Hero Section</h2>
       {heroGame ? (
         <div>
-          <h3>{heroGame.title}</h3>
+          <h1>{heroGame.title}</h1>
+          <p>By: {heroGame.userName} </p>
           <img src={heroGame.image} alt={heroGame.title} />
-          <p>{heroGame.description}</p>
+          <p>Description: {heroGame.description}</p>
         </div>
       ) : (
         <p>No hero game found.</p>
