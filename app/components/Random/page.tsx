@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import '../../../styles/tailwind.css'
 
 interface Game {
   _id: string;

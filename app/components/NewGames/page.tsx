@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -18,6 +17,9 @@ interface Game {
 
 const NewGames: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const gamesPerPage = 3;
+  const lastPage = Math.ceil(games.length / gamesPerPage);
 
   const fetchNewGames = async () => {
     try {
@@ -31,9 +33,10 @@ const NewGames: React.FC = () => {
       const data = await response.json();
       // Update the games state variable with the fetched data
       // Sort the games by date created
-      setGames(data.games.sort ((a: Game, b: Game) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }).slice(0, 10))
+      setGames(
+        data.games
+          .sort((a: Game, b: Game) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      );
     } catch (error) {
       console.error('Error fetching random games:', error);
     }
@@ -41,32 +44,70 @@ const NewGames: React.FC = () => {
 
   useEffect(() => {
     fetchNewGames();
-  }
-  , []);
+  }, []);
 
+  const nextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [games]);
+
+  useEffect(() => {
+    if (currentPage === lastPage) {
+      setCurrentPage(lastPage);
+    }
+  }, [currentPage, lastPage]);
+
+  const canGoPrevious = currentPage > 1;
 
   return (
-    <div>
-      <h2>New</h2>
-      <ul>
-        {games.length > 0 ? (
-          games.map((game) => (
-            <li key={game._id}>
-              <Link href={`/games/${game._id}`} as={`/games/${game._id}`} passHref>
-                <h3>{game.title}</h3>
+    <div className="max-w-screen-xl mx-auto">
+      <h2 className="text-3xl font-bold mb-4">New</h2>
+      {games.length > 0 && (
+        <div className="flex overflow-x-auto">
+          {games.slice((currentPage - 1) * gamesPerPage, currentPage * gamesPerPage).map((game) => (
+            <div key={game._id} className="flex-shrink-1 w-full md:w-1/2 lg:w-1/3 bg-white rounded-lg shadow-lg p-1 mx-2">
+              <Link href={`/games/${game._id}`} passHref>
+                
+                  <img src={game.image} alt={game.title} className="w-full h-64 object-cover rounded-t-lg" />
+                  <div className="p-4">
+                    <h3 className="text-xl lg:text-2xl font-bold mb-2">{game.title}</h3>
+                    <p className="text-base lg:text-lg mb-2">By: {game.userName}</p>
+                    <p className="text-base lg:text-lg mb-2">Category: {game.category}</p>
+                    <p className="text-base lg:text-lg">Description: {game.description}</p>
+                  </div>
+              
               </Link>
-              <p>By: {game.userName}</p>
-              <img src={game.image} alt={game.title} width={50} height={50} />
-              <p>Category: {game.category}</p>
-              <p>Description: {game.description}</p>
-            </li>
-          ))
-        ) : (
-          <li>No games found.</li>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="flex justify-center mt-3">
+        {canGoPrevious && (
+          <button
+            onClick={previousPage}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md mr-2"
+          >
+            Previous
+          </button>
         )}
-      </ul>
+        {currentPage !== lastPage && (
+          <button
+            onClick={nextPage}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md"
+          >
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
-        }  
+};
 
 export default NewGames;
