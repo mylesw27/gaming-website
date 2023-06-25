@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSwipeable } from 'react-swipeable';
 
 interface Game {
   _id: string;
@@ -18,8 +19,8 @@ interface Game {
 const NewGames: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const gamesPerPage = 3;
-  const lastPage = Math.ceil(games.length / gamesPerPage);
+  const gamesPerPageDesktop = 3;
+  const gamesPerPageMobile = 2;
 
   const fetchNewGames = async () => {
     try {
@@ -34,8 +35,7 @@ const NewGames: React.FC = () => {
       // Update the games state variable with the fetched data
       // Sort the games by date created
       setGames(
-        data.games
-          .sort((a: Game, b: Game) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        data.games.sort((a: Game, b: Game) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       );
     } catch (error) {
       console.error('Error fetching random games:', error);
@@ -58,36 +58,78 @@ const NewGames: React.FC = () => {
     setCurrentPage(1);
   }, [games]);
 
-  useEffect(() => {
-    if (currentPage === lastPage) {
-      setCurrentPage(lastPage);
-    }
-  }, [currentPage, lastPage]);
-
   const canGoPrevious = currentPage > 1;
+
+
+
+  const handleSwipeLeft = () => {
+    if (currentPage < lastPage) {
+      nextPage();
+    }
+  };
+
+  const handleSwipeRight = () => {
+    if (currentPage > 1) {
+      previousPage();
+    }
+  };
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+  });
+  const lastPage = Math.ceil(games.length / (gamesPerPageDesktop));
 
   return (
     <div className="max-w-screen-xl mx-auto">
       <h2 className="text-3xl font-bold mb-4">New</h2>
-      {games.length > 0 && (
-        <div className="flex overflow-x-auto">
-          {games.slice((currentPage - 1) * gamesPerPage, currentPage * gamesPerPage).map((game) => (
-            <div key={game._id} className="flex-shrink-1 w-full md:w-1/2 lg:w-1/3 bg-white rounded-lg shadow-lg p-1 mx-2">
-              <Link href={`/games/${game._id}`} passHref>
-                
-                  <img src={game.image} alt={game.title} className="w-full h-64 object-cover rounded-t-lg" />
-                  <div className="p-4">
-                    <h3 className="text-xl lg:text-2xl font-bold mb-2">{game.title}</h3>
-                    <p className="text-base lg:text-lg mb-2">By: {game.userName}</p>
-                    <p className="text-base lg:text-lg mb-2">Category: {game.category}</p>
-                    <p className="text-base lg:text-lg">Description: {game.description}</p>
-                  </div>
-              
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="flex overflow-x-auto" {...swipeHandlers}>
+        {games.length > 0 ? (
+          games.map((game, index) => {
+            const isMobile = window.innerWidth <= 768;
+            const gamesPerPage = isMobile ? gamesPerPageMobile : gamesPerPageDesktop;
+            if (
+              index >= (currentPage - 1) * gamesPerPage &&
+              index < currentPage * gamesPerPage
+            ) {
+              return (
+                <div
+                  key={game._id}
+                  className={`flex-shrink-1 w-full ${
+                    isMobile ? 'md:w-1/2' : 'md:w-1/3'
+                  } bg-white rounded-lg shadow-lg p-1 mx-2`}
+                >
+                  <Link href={`/games/${game._id}`} passHref>
+                  
+                      <img
+                        src={game.image}
+                        alt={game.title}
+                        className="w-full h-64 object-cover rounded-t-lg"
+                      />
+                      <div className="p-4">
+                        <h3 className="text-xl lg:text-2xl font-bold mb-2">
+                          {game.title}
+                        </h3>
+                        <p className="text-base lg:text-lg mb-2">
+                          By: {game.userName}
+                        </p>
+                        <p className="text-base lg:text-lg mb-2">
+                          Category: {game.category}
+                        </p>
+                        <p className="text-base lg:text-lg">
+                          Description: {game.description}
+                        </p>
+                      </div>
+                   
+                  </Link>
+                </div>
+              );
+            }
+            return null;
+          })
+        ) : (
+          <p>No games found.</p>
+        )}
+      </div>
       <div className="flex justify-center mt-3">
         {canGoPrevious && (
           <button
@@ -97,7 +139,7 @@ const NewGames: React.FC = () => {
             Previous
           </button>
         )}
-        {currentPage !== lastPage && (
+        {currentPage < lastPage && (
           <button
             onClick={nextPage}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md"
