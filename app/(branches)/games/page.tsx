@@ -1,12 +1,14 @@
+'use client'
 import Navigation from '../../components/Navigation/page';
-import AllGames from '../../components/AllGames/page';
+
+import CategoryGames from '../../components/CategoryGames/page'
 
 const Games = () => {
   return (
     <div>
       <Navigation />
-      <h2>All Games</h2>
-      <AllGames />
+      <CategoryGames category='Adventure'/>
+      <CategoryGames category='Action'/>
     </div>
   );
 };
