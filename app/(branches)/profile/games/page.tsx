@@ -56,25 +56,28 @@ const UserGames = () => {
   return (
     <div>
       <Navigation />
-      <h2>Only User Games</h2>
-      <ul>
+      <h2 className="text-2xl font-bold mb-4 md:text-3xl md:mb-6">Only User Games</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {userGames.length > 0 ? (
           userGames.map((game) => (
-            <li key={game._id}>
-              <a href={`/profile/games/edit/${game._id}`}>
-                <h3>{game.title}</h3>
+            <div key={game._id} className="flex flex-col items-center space-y-6">
+              <a href={`/profile/games/edit/${game._id}`} className="text-center md:text-left">
+                <h3 className="text-3xl md:text-5xl font-bold mb-4">{game.title}</h3>
               </a>
-              <img src={game.image} alt={game.title} width={50} height={50} />
-              <p>{game.category}</p>
-              <p>{game.description}</p>
-            </li>
+              <img src={game.image} alt={game.title} className="w-24 h-24 rounded-full" />
+              <p className="text-base md:text-lg">Category: {game.category}</p>
+              <p className="text-base md:text-lg">Description: {game.description}</p>
+            </div>
           ))
         ) : (
-          <li>No games found.</li>
+          <div>No games found.</div>
         )}
-      </ul>
+      </div>
     </div>
   );
+  
+  
+  
 };
 
 export default UserGames;

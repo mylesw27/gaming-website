@@ -45,26 +45,39 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
 
   return (
     <div>
-      <h2>{category} Games</h2>
-      <div className="carousel">
+      <h2 className="text-2xl font-bold mb-4 md:text-3xl md:mb-6">{category} Games</h2>
+      <div className="flex justify-center mt-4">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Previous
+        </button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2">
+          Next
+        </button>
+      </div>
+      <div className="carousel grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {games.length > 0 ? (
           games.map((game) => (
-            <div key={game._id} className="carousel-item">
+            <div key={game._id} className="carousel-item p-4 bg-gray-100 rounded-lg">
               <a href={`/games/${game._id}`}>
-                <h3>{game.title}</h3>
+                <h3 className="text-lg font-bold mb-2 md:text-xl">{game.title}</h3>
               </a>
-              <img src={game.image} alt={game.title} width={50} height={50} />
-              <p>Category: {game.category}</p>
-              <p>Description: {game.description}</p>
-              <p>By: {game.userName}</p>
+              <div className="w-full h-64 md:h-80 lg:h-96">
+                <img src={game.image} alt={game.title} className="object-cover w-full h-full rounded-lg" />
+              </div>
+              <p className="text-sm text-gray-700 mb-2 md:text-base">Category: {game.category}</p>
+              <p className="text-sm text-gray-700 mb-2 md:text-base">Description: {game.description}</p>
+              <p className="text-sm text-gray-700">By: {game.userName}</p>
             </div>
           ))
         ) : (
-          <div>No games found.</div>
+          <div className="text-red-500">No games found.</div>
         )}
       </div>
+
     </div>
   );
-};
+  
+  
+}
 
 export default CategoryGames;
