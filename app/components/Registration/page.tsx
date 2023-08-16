@@ -68,7 +68,6 @@ const Registration: React.FC = () => {
 
   return (
     <div>
-      <h2>Registration</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>

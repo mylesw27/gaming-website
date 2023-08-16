@@ -50,9 +50,10 @@ const AllGames: React.FC = () => {
               <a href={`/games/${game._id}`}>
                 <h3>{game.title}</h3>
               </a>
-              <p>{game.image}</p>
-              <p>{game.category}</p>
-              <p>{game.description}</p>
+              <img src={game.image} alt={game.title} width={50} height={50} />
+              <p>Category: {game.category}</p>
+              <p>Description: {game.description}</p>
+              <p>By: {game.userName}</p>
             </li>
           ))
         ) : (

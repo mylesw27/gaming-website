@@ -49,17 +49,46 @@ const GameComponent: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <div>{game ? <p>Title: {game.title}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Username: {game.userName}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Category: {game.category}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Description: {game.description}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Image: {game.image}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Link: {game.link}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>Github: {game.github}</p> : <p>Loading...</p>}</div>
-        <div>{game ? <p>TechStack: {game.techstack}</p> : <p>Loading...</p>}</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-center">
+      <div className="col-span-2 md:col-span-1">
+        <div className="my-4 text-center">
+          {game ? <p className="text-3xl font-bold mb-2">{game.title}</p> : <p>Loading...</p>}
+        </div>
+        <div className="w-full h-64 rounded-lg overflow-hidden flex justify-center items-center">
+          {game ? (
+            <img src={game.image} alt={game.title} className="w-full h-full object-cover" />
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+        <div className="my-4 text-center">
+          {game ? <p>Username: {game.userName}</p> : <p>Loading...</p>}
+        </div>
+        <div className="my-4 text-center">
+          {game ? <p>Category: {game.category}</p> : <p>Loading...</p>}
+        </div>
+      </div>
+      <div className="col-span-1">
+        <div className="my-4">
+          {game ? <p className="text-xl font-bold text-center">Description:</p> : <p>Loading...</p>}
+          {game ? <p className="text-center">{game.description}</p> : null}
+        </div>
+        <div className="my-4">
+          {game ? <p className="text-xl font-bold text-center">Link:</p> : <p>Loading...</p>}
+          {game ? <p className="text-center">{game.link}</p> : null}
+        </div>
+        <div className="my-4">
+          {game ? <p className="text-xl font-bold text-center">Github:</p> : <p>Loading...</p>}
+          {game ? <p className="text-center">{game.github}</p> : null}
+        </div>
+        <div className="my-4">
+          {game ? <p className="text-xl font-bold text-center">TechStack:</p> : <p>Loading...</p>}
+          {game ? <p className="text-center">{game.techstack}</p> : null}
+        </div>
+      </div>
     </div>
   );
+  
 };
 
 export default GameComponent;

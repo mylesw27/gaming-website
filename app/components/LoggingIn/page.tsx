@@ -57,7 +57,6 @@ const Login: React.FC = () => {
     
     return (
         <div>
-        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
             <div>
             <label htmlFor="email">Email</label>

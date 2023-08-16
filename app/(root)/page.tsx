@@ -9,7 +9,7 @@ import HeroSection from '../components/HeroSection/page';
 
 export default function Landing() {
 
-  const objectIDs = ['648b504e826d1d431510d8bc']
+  const objectIDs = ['648ef4e763c484e397d5dfa3']
 
   return (
     <div>
@@ -17,9 +17,9 @@ export default function Landing() {
         <Navigation />
         <h1>Discover Amazing Designs</h1>
         <p>Be inspired by talented designers around the world.</p>
+        <HeroSection objectIDs={objectIDs}/>
         <Random />
         <NewGames />
-        <HeroSection objectIDs={objectIDs}/>
       </div>
       <footer>
         <p>© 2023 Website</p>

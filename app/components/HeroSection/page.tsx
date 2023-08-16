@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import '../../../styles/tailwind.css';
 
 interface HeroGame {
   _id: string;
   title: string;
   image: string;
   description: string;
+  userName: string;
+  category: string;
+  techstack: string;
+  github: string;
+  link: string;
+  likes: number;
+  comments: number;
+  views: number;
 }
 
 interface HeroSectionProps {
@@ -38,13 +47,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ objectIDs }) => {
   }, [objectIDs]);
 
   return (
-    <div>
-      <h2>Hero Section</h2>
+    <div className="flex flex-col items-center">
       {heroGame ? (
-        <div>
-          <h3>{heroGame.title}</h3>
-          <img src={heroGame.image} alt={heroGame.title} />
-          <p>{heroGame.description}</p>
+        <div className="flex flex-col items-center space-y-6 md:flex-row md:space-y-0 md:space-x-8">
+          <img className="w-3/4 md:w-1/2 rounded-lg" src={heroGame.image} alt={heroGame.title} />
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">{heroGame.title}</h1>
+            <p className="text-base md:text-lg">By: {heroGame.userName}</p>
+            <p className="text-base md:text-lg">Category: {heroGame.category}</p>
+            <p className="text-base md:text-lg">Tech Stack: {heroGame.techstack}</p>
+            <p className="text-base md:text-lg">Github: {heroGame.github}</p>
+            <p className="text-base md:text-lg">Deployment: {heroGame.link}</p>
+            <p className="text-base md:text-lg">Description: {heroGame.description}</p>
+          </div>
         </div>
       ) : (
         <p>No hero game found.</p>

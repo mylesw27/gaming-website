@@ -7,7 +7,6 @@ const Game = () => {
     return (
         <div>
         <Navigation />
-        <h2>Game</h2>
         <GameInfo />
         </div>
     );
