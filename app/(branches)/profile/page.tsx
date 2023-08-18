@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { use } from 'react';
 import PasswordReset from '../../components/PasswordReset/page';
 import Navigation from '../../components/Navigation/page';
 import jwt from 'jsonwebtoken';
@@ -105,6 +105,22 @@ const Profile = () => {
   }
   , []);
 
+  const deleteGame = async (gameId: string) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api-v1/game/${gameId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      }); 
+      console.log(gameId)
+    } catch (error) {
+      console.error('Error deleting game:', error);
+    }
+    fetchUserGames();
+  }
+
   return (
     <div>
       <Navigation />
@@ -124,6 +140,7 @@ const Profile = () => {
                 <img src={game.image} alt={game.title} className="w-24 h-24 rounded-full" />
                 <p className="text-base md:text-lg">Category: {game.category}</p>
                 <p className="text-base md:text-lg">Description: {game.description}</p>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => deleteGame(game._id)}>Delete game</button>
               </div>
             ))
           ) : (
