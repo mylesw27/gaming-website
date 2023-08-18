@@ -31,6 +31,7 @@ export default function Like(props: {game: Game}) {
     const [game, setGame] = useState(props.game._id)
     const [user, setUser] = useState<User | null>(null)
     const [time, setTime] = useState<any>(null)
+    const [like, setLike] = useState<any>(null)
     const token = localStorage.getItem("token")
 
     useEffect(() => {
@@ -38,12 +39,26 @@ export default function Like(props: {game: Game}) {
             const decoded: User = jwt_decode(token)
             setUser(decoded)
         }
-        setTime(new Date().getTime())
     }, [])
 
+    useEffect(() => {
+        if (user && game) {
+            try {
+                const response = fetch(`http://localhost:8000/api-v1/like/${user.id}/${game}`)
+                .then(response => response.json())
+                .then(data => setLike(data.like))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }, [user, game])
+    
+    console.log(like)
+
     const submitLike = () => {
+        setTime(new Date().getTime())
         console.log(game, user.id, time)
-        fetch(`http://localhost:8000/api-v1/like/`, {
+        const response = fetch(`http://localhost:8000/api-v1/like/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -51,12 +66,28 @@ export default function Like(props: {game: Game}) {
             },
             body: JSON.stringify({user_id: user.id, game_id: game, time: time})
         })
+        .then(response => response.json())
+        .then(data => setLike(data.like))
+    }
 
+    const deleteLike = () => {
+        fetch(`http://localhost:8000/api-v1/like/${like._id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+            },
+        })
+        setLike(null)
     }
 
     return (
         <>
-            <h1 className="text-red-500" onClick={submitLike}> &lt;3</h1>  
+            {like ? 
+            <h1 className="text-red-500" onClick={deleteLike}> Like {like._id} already exists</h1> 
+            :
+            <h1 className="text-red-500" onClick={submitLike}> &lt;3</h1>
+            } 
         </>
     )
 }
