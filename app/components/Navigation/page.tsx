@@ -10,9 +10,10 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-teal-500 p-6">
+    <nav className="flex items-center justify-between bg-gray-900 p-3">
       <div className="flex items-center space-x-4">
-        <span className="text-white font-semibold text-xl tracking-tight">Logo</span>
+        {/* <span className="text-white font-semibold text-xl tracking-tight">Logo</span> */}
+        <img src='/logo.png' alt="GA Games logo" className="object contain h-16 w-16 " />
       </div>
       <div className="block lg:hidden">
         <button

@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import Like from '../Like/Like';
 
 interface Game {
   _id: string;
@@ -48,6 +49,7 @@ const GameComponent: React.FC = () => {
     fetchGame();
   }, []);
 
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-center">
       <div className="col-span-2 md:col-span-1">
@@ -69,6 +71,7 @@ const GameComponent: React.FC = () => {
         </div>
       </div>
       <div className="col-span-1">
+        {game ? <Like game={game}/> : <p>Loading...</p>}
         <div className="my-4">
           {game ? <p className="text-xl font-bold text-center">Description:</p> : <p>Loading...</p>}
           {game ? <p className="text-center">{game.description}</p> : null}
