@@ -122,7 +122,7 @@ const Upload: React.FC = () => {
             <option value="Simulation">Simulation</option>
             <option value="Sports">Sports</option>
             <option value="Racing">Racing</option>
-            <option value="Card & Board">Card & Board</option>
+            <option value="CardandBoard">Card & Board</option>
             <option value="Casual">Casual</option>
             <option value="MMO">MMO</option>
             <option value="Arcade">Arcade</option>
