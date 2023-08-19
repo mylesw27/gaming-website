@@ -108,7 +108,6 @@ const EditGame: React.FC = () => {
 
   return (
     <div>
-      <Navigation />
       <h2>Edit Game</h2>
       <form onSubmit={handleSubmit}>
         <div>

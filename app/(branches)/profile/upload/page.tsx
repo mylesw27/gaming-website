@@ -6,7 +6,6 @@ import UploadGame from "../../../components/UploadGame/page";
 const Upload = () => {
   return (
     <div>
-      <Navigation />
       <h2>Upload Game</h2>
       <UploadGame />
       

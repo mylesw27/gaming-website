@@ -5,7 +5,6 @@ import CategoryGames from '../../components/CategoryGames/page'
 const Games = () => {
   return (
     <div>
-      <Navigation />
       <CategoryGames category='Action'/>
       <CategoryGames category='Adventure'/>
       <CategoryGames category='Strategy'/>
