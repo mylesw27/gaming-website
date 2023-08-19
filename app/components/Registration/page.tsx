@@ -55,11 +55,11 @@ const Registration: React.FC = () => {
         const user = jwt.decode(data.token);
         console.log('User registered successfully:', user);
         console.log('User registered successfully:', data);
+        // Redirect the user to the login page
+        window.location.href = '/login';
       } else {
         console.error('Error registering user:', response.statusText);
       }
-      // Redirect the user to the login page
-      window.location.href = '/login';
     } catch (error) {
       // Handle errors if the POST request fails
       console.error('Error registering user:', error);
@@ -67,26 +67,68 @@ const Registration: React.FC = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" value={name} onChange={handleNameChange} />
-        </div>
-        <div>
-          <label htmlFor='userName'>User Name:</label>
-          <input type='text' id='userName' autoComplete="username" value={userName} onChange={handleUserNameChange} />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" value={email} onChange={handleEmailChange} />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" autoComplete="current-password" value={password} onChange={handlePasswordChange} />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-4">Register</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-sm font-medium">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handleNameChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="userName" className="block text-sm font-medium">
+              User Name
+            </label>
+            <input
+              type="text"
+              id="userName"
+              autoComplete="username"
+              value={userName}
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handleUserNameChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handleEmailChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={password}
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handlePasswordChange}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded py-2 px-4 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
