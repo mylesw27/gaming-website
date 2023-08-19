@@ -6,7 +6,6 @@ import GameInfo from "../../../components/GameInfo/page";
 const Game = () => {
     return (
         <div>
-        <Navigation />
         <GameInfo />
         </div>
     );

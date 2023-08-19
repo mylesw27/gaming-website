@@ -55,7 +55,6 @@ const UserGames = () => {
   , []);
   return (
     <div>
-      <Navigation />
       <h2 className="text-2xl font-bold mb-4 md:text-3xl md:mb-6">Only User Games</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {userGames.length > 0 ? (

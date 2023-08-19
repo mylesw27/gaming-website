@@ -66,7 +66,6 @@ const Profile = () => {
 
   return (
     <div>
-      <Navigation />
       <h2>Hi {decodedToken.name}</h2>
       <PasswordReset onSubmit={handlePasswordReset} />
       {/* List of current games uploaded */}
