@@ -42,7 +42,7 @@ export default function Like(props: {game: Game}) {
     }, [])
 
     useEffect(() => {
-        if (user && game) {
+        if (user.id != "" && game) {
             try {
                 const response = fetch(`http://localhost:8000/api-v1/like/${user.id}/${game}`)
                 .then(response => response.json())
