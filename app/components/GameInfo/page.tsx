@@ -78,11 +78,11 @@ const GameComponent: React.FC = () => {
         </div>
         <div className="my-4">
           {game ? <p className="text-xl font-bold text-center">Link:</p> : <p>Loading...</p>}
-          {game ? <p className="text-center">{game.link}</p> : null}
+          {game ? <p className="text-center"><a className='underline' href={game.link} target='_blank'> {game.link} </a></p> : null}
         </div>
         <div className="my-4">
           {game ? <p className="text-xl font-bold text-center">Github:</p> : <p>Loading...</p>}
-          {game ? <p className="text-center">{game.github}</p> : null}
+          {game ? <p className="text-center"><a className='underline' href={game.github} target='_blank'> {game.github} </a></p> : null}
         </div>
         <div className="my-4">
           {game ? <p className="text-xl font-bold text-center">TechStack:</p> : <p>Loading...</p>}
