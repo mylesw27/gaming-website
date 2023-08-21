@@ -29,7 +29,7 @@ interface User {
 
 export default function Like(props: {game: Game}) {
     const [game, setGame] = useState(props.game._id)
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<User>({email: "", exp: 0, iat: 0, id: "", name: "", userName: ""})
     const [time, setTime] = useState<any>(null)
     const [like, setLike] = useState<any>(null)
     const token = localStorage.getItem("token")
