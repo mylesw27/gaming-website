@@ -2,12 +2,31 @@
 import { useState } from 'react';
 import '../../../styles/tailwind.css';
 
+
+
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]) as any[];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleSearch = async () => {
+    try {
+    const inputElement  = document.getElementById('search') as HTMLInputElement;
+    const input = inputElement.value;
+    const response = await fetch(`http://localhost:8000/api-v1/game/search/${input}`)
+    if (!response.ok) {
+      throw new Error(`Failed to search for game: ${input}`)
+    }
+    const data = await response.json()
+    setSearchResults(data.games)
+    } catch (error) {
+      console.error('Error searching for game:', error);
+    }
+  }
+
 
   return (
     <nav className="flex items-center justify-between bg-gray-900 p-3">
@@ -56,10 +75,12 @@ const Navigation = () => {
                 className="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
                 type="search"
                 name="search"
+                id="search"
                 placeholder="Search"
               />
               <button
                 type="submit"
+                onClick={handleSearch}
                 className="absolute right-0 top-0 mt-3 mr-2"
               >
                 <svg
@@ -70,7 +91,7 @@ const Navigation = () => {
                   x="0px"
                   y="0px"
                   viewBox="0 0 56.966 56.966"
-                  style={{ enableBackground: 'new 0 0 56.966 56.966' }}
+                  style={{ enableBackground: 'new 0 0 56.966 56.966' } as React.CSSProperties}
                   xmlSpace="preserve"
                   width="512px"
                   height="512px"
