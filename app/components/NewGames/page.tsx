@@ -96,7 +96,7 @@ const NewGames: React.FC = () => {
                   key={game._id}
                   className={`flex-shrink-1 w-full ${
                     isMobile ? 'md:w-1/2' : 'md:w-1/3'
-                  } bg-white rounded-lg shadow-lg p-1 mx-2`}
+                  } bg-gray-900 rounded-lg shadow-lg p-1 mx-2`}
                 >
                   <Link href={`/games/${game._id}`} passHref>
                   

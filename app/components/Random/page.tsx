@@ -79,7 +79,7 @@ const Random: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">New</h2>
+      <h2 className="text-3xl font-bold mb-4">Random</h2>
       <div className="flex overflow-x-auto" {...swipeHandlers}>
         {games.length > 0 ? (
           games.map((game, index) => {
@@ -94,7 +94,7 @@ const Random: React.FC = () => {
                   key={game._id}
                   className={`flex-shrink-1 w-full ${
                     isMobile ? 'md:w-1/2' : 'md:w-1/3'
-                  } bg-white rounded-lg shadow-lg p-1 mx-2`}
+                  } bg-gray-900 rounded-lg shadow-lg p-1 mx-2`}
                 >
                   <Link href={`/games/${game._id}`} passHref>
                   
