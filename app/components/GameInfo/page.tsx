@@ -1,11 +1,13 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Like from '../Like/Like';
+import Link from 'next/link';
 
 interface Game {
   _id: string;
   title: string;
   userName: string;
+  userId: number;
   category: string;
   description: string;
   image: string;
@@ -64,7 +66,7 @@ const GameComponent: React.FC = () => {
           )}
         </div>
         <div className="my-4 text-center">
-          {game ? <p>Username: {game.userName}</p> : <p>Loading...</p>}
+          {game ? <p>Username: <a className='underline' href={`../profile/${game.userId}`}>{game.userName}</a></p> : <p>Loading...</p>}
         </div>
         <div className="my-4 text-center">
           {game ? <p>Category: {game.category}</p> : <p>Loading...</p>}
