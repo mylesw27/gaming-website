@@ -21,6 +21,7 @@ const Upload: React.FC = () => {
   const [image, setImage] = useState('');
   const [github, setGithub] = useState('');
   const [link, setLink] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -53,7 +54,14 @@ const Upload: React.FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
+    message && setMessage('');
+
     const token = localStorage.getItem('token');
+
+    // if (!link.startsWith('http://') && !link.startsWith('https://')) {
+    //   setMessage('Invalid URL - Link must start with http:// or https://');
+    //   return;
+    // }
 
     if (token) {
       const { userName } = jwt.decode(token) as { userName: string }; 
@@ -89,6 +97,9 @@ const Upload: React.FC = () => {
           console.log('Game Data uploaded successfully:', data);
           window.location.href = '/';
         } else {
+          if (response.status === 422) {
+            response.json().then((message) => setMessage(message.msg));
+          }
           console.error('Error uploading game:', response.statusText);
         }
       } catch (error) {
@@ -101,6 +112,7 @@ const Upload: React.FC = () => {
 
   return (
     <div>
+      {message && <p className='text-red-500'>{message}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Title:</label>
