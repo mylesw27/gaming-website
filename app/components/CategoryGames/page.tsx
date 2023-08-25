@@ -4,6 +4,7 @@ interface Game {
   _id: string;
   title: string;
   userName: string;
+  userId: string;
   category: string;
   description: string;
   image: string;
@@ -30,6 +31,7 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
         throw new Error(`Failed to fetch games for category: ${category}`);
       }
       const data = await response.json();
+      console.log(data.games)
       setGames(data.games);
     } catch (error) {
       console.error(`Error fetching games for category ${category}:`, error);
@@ -89,7 +91,9 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
               </div>
               <p className="text-sm text-slate-300 mb-2 md:text-base">Category: {game.category}</p>
               <p className="text-sm text-slate-300 mb-2 md:text-base">Description: {game.description}</p>
+              <a href={`/profile/${game.userId}`}>
               <p className="text-sm text-slate-300">By: {game.userName}</p>
+              </a>
             </div>
           ))
         ) : (
