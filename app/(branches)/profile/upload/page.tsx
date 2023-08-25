@@ -6,9 +6,7 @@ import UploadGame from "../../../components/UploadGame/page";
 const Upload = () => {
   return (
     <div>
-      <h2>Upload Game</h2>
       <UploadGame />
-      
     </div>
   );
 };
