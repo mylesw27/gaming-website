@@ -83,7 +83,9 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
                 <h3 className="text-lg font-bold mb-2 md:text-xl">{game.title}</h3>
               </a>
               <div className="w-full h-64 md:h-80 lg:h-96">
+              <a href={`/games/${game._id}`}>
                 <img src={game.image} alt={game.title} className="object-cover w-full h-full rounded-lg" />
+              </a>
               </div>
               <p className="text-sm text-slate-300 mb-2 md:text-base">Category: {game.category}</p>
               <p className="text-sm text-slate-300 mb-2 md:text-base">Description: {game.description}</p>
