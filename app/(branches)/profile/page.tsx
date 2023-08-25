@@ -168,37 +168,57 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <h2>Hi {decodedToken.name}</h2>
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken.name}</h2>
       <PasswordReset onSubmit={handlePasswordReset} />
-      <div>
-        <input type="text" placeholder="Update your bio" value={bio} onChange={(e) => setBio(e.target.value)}/>
-        <button onClick={() => handleUpdateBio(bio)}>Update Bio</button>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Update your bio"
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          className="border rounded w-full py-2 px-3"
+        />
+        <button
+          onClick={() => handleUpdateBio(bio)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+        >
+          Update Bio
+        </button>
       </div>
-      {/* List of current games uploaded */}
-      <a href = '/profile/upload'><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Upload a Game</button></a>
+      <a href="/profile/upload">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+          Upload a Game
+        </button>
+      </a>
       <div>
-        <h2 className="text-2xl font-bold mb-4 md:text-3xl md:mb-6">Your Games</h2>
+        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">Your Games</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {userGames.length > 0 ? (
             userGames.map((game) => (
               <div key={game._id} className="flex flex-col items-center space-y-6">
                 <a href={`/profile/games/edit/${game._id}`} className="text-center md:text-left">
-                  <h3 className="text-3xl md:text-5xl font-bold mb-4">{game.title}</h3>
+                  <h3 className="text-3xl md:text-5xl font-semibold mb-4">{game.title}</h3>
                 </a>
                 <img src={game.image} alt={game.title} className="w-24 h-24 rounded-full" />
                 <p className="text-base md:text-lg">Category: {game.category}</p>
                 <p className="text-base md:text-lg">Description: {game.description}</p>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => deleteGame(game._id)}>Delete game</button>
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
+                  onClick={() => deleteGame(game._id)}
+                >
+                  Delete Game
+                </button>
               </div>
             ))
           ) : (
-            <div>No games found.</div>
+            <div className="text-gray-600">No games found.</div>
           )}
         </div>
       </div>
     </div>
   );
 };
+
 
 export default Profile;
