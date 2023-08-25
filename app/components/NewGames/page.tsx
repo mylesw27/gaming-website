@@ -29,13 +29,13 @@ const NewGames: React.FC = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch random games');
       }
-
+  
       // Parse the response data as JSON
       const data = await response.json();
-      // Update the games state variable with the fetched data
-      // Sort the games by date created
       setGames(
-        data.games.sort((a: Game, b: Game) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        data.games
+          .sort((a: Game, b: Game) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .reverse()
       );
     } catch (error) {
       console.error('Error fetching random games:', error);
@@ -59,8 +59,6 @@ const NewGames: React.FC = () => {
   }, [games]);
 
   const canGoPrevious = currentPage > 1;
-
-
 
   const handleSwipeLeft = () => {
     if (currentPage < lastPage) {
