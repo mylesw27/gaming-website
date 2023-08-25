@@ -47,7 +47,7 @@ const Upload: React.FC = () => {
     setGithub(event.target.value);
   };
 
-  const handlelinkChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLink(event.target.value);
   };
 
@@ -111,20 +111,21 @@ const Upload: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="p-8">
+       <h2 className="text-2xl font-bold mb-4">Upload Game</h2>
       {message && <p className='text-red-500'>{message}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>Title:</label>
-          <input type="text" value={title} onChange={handleTitleChange} required />
+          <label className="block font-semibold">Title:</label>
+          <input type="text" value={title} onChange={handleTitleChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label>Description:</label>
-          <input type="text" value={description} onChange={handleDescriptionChange} required />
+          <label className="block font-semibold">Description:</label>
+          <input type="text" value={description} onChange={handleDescriptionChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label>Category:</label>
-          <select value={category} onChange={handleCategoryChange} required>
+          <label className="block font-semibold">Category:</label>
+          <select value={category} onChange={handleCategoryChange} required className="w-full p-2 border rounded">
             <option value="">Select a category</option>
             <option value="Action">Action</option>
             <option value="Adventure">Adventure</option>
@@ -141,22 +142,24 @@ const Upload: React.FC = () => {
           </select>
         </div>
         <div>
-          <label>Techstack:</label>
-          <input type="text" value={techstack} onChange={handleTechstackChange} required />
+          <label className="block font-semibold">Techstack:</label>
+          <input type="text" value={techstack} onChange={handleTechstackChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label>Image:</label>
-          <input type="text" value={image} onChange={handleImageChange} required />
+          <label className="block font-semibold">Image:</label>
+          <input type="text" value={image} onChange={handleImageChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label>Github:</label>
-          <input type="text" value={github} onChange={handleGithubChange} required />
+          <label className="block font-semibold">Github:</label>
+          <input type="text" value={github} onChange={handleGithubChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label>Link:</label>
-          <input type="text" value={link} onChange={handlelinkChange} required />
+          <label className="block font-semibold">Link:</label>
+          <input type="text" value={link} onChange={handleLinkChange} required className="w-full p-2 border rounded" />
         </div>
-        <button type="submit">Upload</button>
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700">
+          Upload
+        </button>
       </form>
     </div>
   );
