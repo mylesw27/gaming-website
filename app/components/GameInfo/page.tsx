@@ -1,7 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Like from '../Like/Like';
-import Link from 'next/link';
+import { FacebookShareButton, TwitterShareButton } from 'react-share';
+
 
 interface Game {
   _id: string;
@@ -51,6 +52,15 @@ const GameComponent: React.FC = () => {
     fetchGame();
   }, []);
 
+  const copyLink = () => {
+    const textField = document.createElement('textarea');
+    textField.innerText = window.location.href;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+    alert('Link copied to clipboard');
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-center">
@@ -70,6 +80,27 @@ const GameComponent: React.FC = () => {
         </div>
         <div className="my-4 text-center">
           {game ? <p>Category: {game.category}</p> : <p>Loading...</p>}
+        </div>
+        <div className="my-4">
+          <p className="text-xl font-bold text-center">Share:</p>
+          <div className="flex justify-center space-x-4">
+            <FacebookShareButton url={window.location.href}>
+              <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                Share on Facebook
+              </button>
+            </FacebookShareButton>
+            <TwitterShareButton url={window.location.href}>
+              <button className="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded">
+                Share on Twitter
+              </button>
+            </TwitterShareButton>
+            <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
+                onClick={copyLink}
+              >
+                Copy Link
+              </button>
+          </div>
         </div>
       </div>
       <div className="col-span-1">
