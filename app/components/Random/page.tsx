@@ -25,7 +25,7 @@ const Random: React.FC = () => {
   const fetchRandomGames = async () => {
     try {
       // Make an API request to fetch random games data
-      const response = await fetch(`http://localhost:8000/api-v1/game/all`);
+      const response = await fetch(`http://localhost:8000/api-v1/game/random`);
       if (!response.ok) {
         throw new Error('Failed to fetch random games');
       }
@@ -33,7 +33,7 @@ const Random: React.FC = () => {
       // Parse the response data as JSON
       const data = await response.json();
       // Update the games state variable with the fetched data
-      setGames(data.games.slice(0, 10));
+      setGames(data);
     } catch (error) {
       console.error('Error fetching random games:', error);
     }
