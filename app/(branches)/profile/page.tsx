@@ -186,11 +186,6 @@ const Profile = () => {
           Update Bio
         </button>
       </div>
-      <a href="/profile/upload">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-          Upload a Game
-        </button>
-      </a>
       <div>
         <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">Your Games</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -216,8 +211,16 @@ const Profile = () => {
           )}
         </div>
       </div>
+      <div className="flex justify-center mt-6">
+      <a href="/profile/upload">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+          Upload a Game
+        </button>
+      </a>
+    </div>
     </div>
   );
+
 };
 
 
