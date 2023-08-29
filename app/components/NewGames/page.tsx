@@ -99,8 +99,11 @@ const NewGames: React.FC = () => {
                   <Link href={`/games/${game._id}`} passHref>
                   
                       <img
-                        src={game.image}
+                        src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/'}
                         alt={game.title}
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/';
+                        }}
                         className="w-full h-64 object-cover rounded-t-lg"
                       />
                       <div className="p-4">
