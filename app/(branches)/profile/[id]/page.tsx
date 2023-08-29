@@ -6,6 +6,7 @@ interface Profile {
     name: string;
     username: string;
     bio: string;
+    avatar: string;
 }
 
 interface Game {
@@ -65,6 +66,7 @@ export default function ProfileView({ params }: { params: { id: string } }) {
             {profile ? 
             <>
                 <div>
+                    <img src={profile.avatar} alt={profile.name} className="w-24 h-24 rounded-full" />
                     <h1>{profile.name}</h1>  
                     <p>{profile.bio}</p>
                 </div>

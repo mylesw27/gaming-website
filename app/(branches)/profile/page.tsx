@@ -150,6 +150,7 @@ const Profile = () => {
     setBio((decodedToken as any).bio);
   }
   , []);
+  
 
   const deleteGame = async (gameId: string) => {
     try {
@@ -167,10 +168,52 @@ const Profile = () => {
     fetchUserGames();
   }
 
+  const [avatar, setAvatar] = useState<string>('');
+
+  const handleAvatarUpload = async () => {
+    try {
+      const userId = decodedToken? (decodedToken as any).id : null;
+      const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ avatar }),
+      });
+      if (response.ok) {
+        console.log('Avatar upload successful!');
+        // Perform any additional actions upon successful avatar upload
+      } else {
+        console.log('Avatar upload failed.');
+        // Handle error scenario, such as displaying an error message to the user
+      }
+    } catch (error) {
+      console.log('An error occurred during avatar upload:', error);
+    }
+  };
+
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken.name}</h2>
-      <PasswordReset onSubmit={handlePasswordReset} />
+
+      <div className="mb-4">
+  <input
+    type="text"
+    placeholder="Update your avatar URL"
+    value={avatar}
+    onChange={(e) => setAvatar(e.target.value)}
+    className="border rounded w-full py-2 px-3"
+  />
+  <button
+    onClick={() => handleAvatarUpload()}
+    className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+  >
+    Update Avatar
+  </button>
+</div>
+
+      
       <div className="mb-4">
         <input
           type="text"
@@ -218,6 +261,7 @@ const Profile = () => {
         </button>
       </a>
     </div>
+    <PasswordReset onSubmit={handlePasswordReset} />
     </div>
   );
 

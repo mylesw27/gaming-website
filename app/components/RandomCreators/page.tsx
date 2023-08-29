@@ -4,16 +4,11 @@ import { useSwipeable } from 'react-swipeable';
 
 interface User {
   _id: string;
-  title: string;
+  email: string;
   userName: string;
-  category: string;
-  description: string;
-  image: string;
-  likes: number;
-  comments: number;
-  views: number;
-  createdAt: Date;
-  updatedAt: Date;
+  avatar: string;
+  bio: string;
+  games: string[];
 }
 
 const RandomCreators: React.FC = () => {
@@ -100,22 +95,13 @@ const RandomCreators: React.FC = () => {
                   <Link href={`/profile/${user._id}`} passHref>
                   
                       <img
-                        src={user.image}
-                        alt={user.title}
+                        src={user.avatar}
+                        alt={user.userName}
                         className="w-full h-64 object-cover rounded-t-lg"
                       />
                       <div className="p-4">
-                        <h3 className="text-xl lg:text-2xl font-bold mb-2">
-                          {user.title}
-                        </h3>
                         <p className="text-base lg:text-lg mb-2">
                           By: {user.userName}
-                        </p>
-                        <p className="text-base lg:text-lg mb-2">
-                          Category: {user.category}
-                        </p>
-                        <p className="text-base lg:text-lg">
-                          Description: {user.description}
                         </p>
                       </div>
                    
