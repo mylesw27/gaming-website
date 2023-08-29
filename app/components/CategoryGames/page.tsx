@@ -26,12 +26,14 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
 
   const fetchGamesByCategory = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/game/category/${category}`);
+      const response = await fetch(
+        `http://localhost:8000/api-v1/game/category/${category}`
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch games for category: ${category}`);
       }
       const data = await response.json();
-      console.log(data.games)
+      console.log(data.games);
       setGames(data.games);
     } catch (error) {
       console.error(`Error fetching games for category ${category}:`, error);
@@ -59,7 +61,7 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
   const displayedGames = games.slice(startIndex, startIndex + gamesPerPage);
 
   return (
-    <div className='text-slate-300 bg-gray-800 py-9'>
+    <div className="text-slate-300 bg-gray-800 py-9">
       <h2 className="text-slate-300 bg-gray-800 text-2xl font-bold mb-4 md:text-3xl md:mb-6 text-center">
         {category} Games
       </h2>
@@ -80,19 +82,35 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
       <div className="carousel grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {displayedGames.length > 0 ? (
           displayedGames.map((game) => (
-            <div key={game._id} className="carousel-item p-4 text-slate-300 bg-gray-700 rounded-lg">
+            <div
+              key={game._id}
+              className="carousel-item p-4 text-slate-300 bg-gray-700 rounded-lg"
+            >
               <a href={`/games/${game._id}`}>
-                <h3 className="text-lg font-bold mb-2 md:text-xl">{game.title}</h3>
+                <h3 className="text-lg font-bold mb-2 md:text-xl">
+                  {game.title}
+                </h3>
               </a>
               <div className="w-full h-64 md:h-80 lg:h-96">
-              <a href={`/games/${game._id}`}>
-                <img src={game.image} alt={game.title} className="object-cover w-full h-full rounded-lg" />
-              </a>
+                <a href={`/games/${game._id}`}>
+                  <img
+                    src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/'}
+                    alt={game.title}
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/';
+                    }}
+                    className="object-cover w-full h-full rounded-lg"
+                  />
+                </a>
               </div>
-              <p className="text-sm text-slate-300 mb-2 md:text-base">Category: {game.category}</p>
-              <p className="text-sm text-slate-300 mb-2 md:text-base">Description: {game.description}</p>
+              <p className="text-sm text-slate-300 mb-2 md:text-base">
+                Category: {game.category}
+              </p>
+              <p className="text-sm text-slate-300 mb-2 md:text-base">
+                Description: {game.description}
+              </p>
               <a href={`/profile/${game.userId}`}>
-              <p className="text-sm text-slate-300">By: {game.userName}</p>
+                <p className="text-sm text-slate-300">By: {game.userName}</p>
               </a>
             </div>
           ))
@@ -102,6 +120,6 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
       </div>
     </div>
   );
-}
+};
 
 export default CategoryGames;

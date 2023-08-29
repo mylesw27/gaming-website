@@ -95,7 +95,21 @@ const EditGame: React.FC = () => {
           <input type="text" name="title" defaultValue={game?.title} required className="w-full p-2 border rounded" />
 
           <label className="block font-semibold">Category:</label>
-          <input type="text" name="category" defaultValue={game?.category} required className="w-full p-2 border rounded" />
+          <select required className="w-full p-2 border rounded">
+            <option value="">Select a category</option>
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Strategy">Strategy</option>
+            <option value="RPG">RPG</option>
+            <option value="Puzzle">Puzzle</option>
+            <option value="Simulation">Simulation</option>
+            <option value="Sports">Sports</option>
+            <option value="Racing">Racing</option>
+            <option value="CardandBoard">Card & Board</option>
+            <option value="Casual">Casual</option>
+            <option value="MMO">MMO</option>
+            <option value="Arcade">Arcade</option>
+          </select>
 
           <label className="block font-semibold">Description:</label>
           <input type="text" name="description" defaultValue={game?.description} required className="w-full p-2 border rounded" />

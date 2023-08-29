@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation/page';
 import Random from '../components/Random/page';
 import NewGames from '../components/NewGames/page';
 import HeroSection from '../components/HeroSection/page';
+import RandomCreators from '../components/RandomCreators/page';
 
 // Grab games from API and
 
@@ -76,6 +77,9 @@ export default function Landing() {
         </div>
         <div className='py-9'>
         <NewGames />
+        </div>
+        <div className='py-9'>
+        <RandomCreators />
         </div>
       </div>
     </div>

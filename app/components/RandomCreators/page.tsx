@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSwipeable } from 'react-swipeable';
 
-interface Game {
+interface User {
   _id: string;
   title: string;
   userName: string;
@@ -16,31 +16,32 @@ interface Game {
   updatedAt: Date;
 }
 
-const Random: React.FC = () => {
-  const [games, setGames] = useState<Game[]>([]);
+const RandomCreators: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const gamesPerPageDesktop = 3;
-  const gamesPerPageMobile = 2;
+  const usersPerPageDesktop = 3;
+  const usersPerPageMobile = 2;
 
-  const fetchRandomGames = async () => {
+  const fetchRandomUsers = async () => {
     try {
-      // Make an API request to fetch random games data
-      const response = await fetch(`http://localhost:8000/api-v1/game/random`);
+      // Make an API request to fetch random users data
+      const response = await fetch(`http://localhost:8000/api-v1/users/random`);
       if (!response.ok) {
-        throw new Error('Failed to fetch random games');
+        throw new Error('Failed to fetch random users');
       }
 
       // Parse the response data as JSON
       const data = await response.json();
-      // Update the games state variable with the fetched data
-      setGames(data);
+      console.log(data)
+      // Update the users state variable with the fetched data
+      setUsers(data);
     } catch (error) {
-      console.error('Error fetching random games:', error);
+      console.error('Error fetching random users:', error);
     }
   };
 
   useEffect(() => {
-    fetchRandomGames();
+    fetchRandomUsers();
   }, []);
 
 
@@ -54,7 +55,7 @@ const Random: React.FC = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [games]);
+  }, [users]);
 
   const canGoPrevious = currentPage > 1;
 
@@ -75,49 +76,46 @@ const Random: React.FC = () => {
     onSwipedLeft: handleSwipeLeft,
     onSwipedRight: handleSwipeRight,
   });
-  const lastPage = Math.ceil(games.length / (gamesPerPageDesktop));
+  const lastPage = Math.ceil(users.length / (usersPerPageDesktop));
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">Random</h2>
+      <h2 className="text-3xl font-bold mb-4">Random Creators</h2>
       <div className="flex overflow-x-auto" {...swipeHandlers}>
-        {games.length > 0 ? (
-          games.map((game, index) => {
+        {users.length > 0 ? (
+          users.map((user, index) => {
             const isMobile = window.innerWidth <= 768;
-            const gamesPerPage = isMobile ? gamesPerPageMobile : gamesPerPageDesktop;
+            const usersPerPage = isMobile ? usersPerPageMobile : usersPerPageDesktop;
             if (
-              index >= (currentPage - 1) * gamesPerPage &&
-              index < currentPage * gamesPerPage
+              index >= (currentPage - 1) * usersPerPage &&
+              index < currentPage * usersPerPage
             ) {
               return (
                 <div
-                  key={game._id}
+                  key={user._id}
                   className={`flex-shrink-1 w-full ${
                     isMobile ? 'md:w-1/2' : 'md:w-1/3'
                   } bg-gray-900 rounded-lg shadow-lg p-1 mx-2`}
                 >
-                  <Link href={`/games/${game._id}`} passHref>
+                  <Link href={`/profile/${user._id}`} passHref>
                   
                       <img
-                        src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/'}
-                        alt={game.title}
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/';
-                        }}
+                        src={user.image}
+                        alt={user.title}
                         className="w-full h-64 object-cover rounded-t-lg"
                       />
                       <div className="p-4">
                         <h3 className="text-xl lg:text-2xl font-bold mb-2">
-                          {game.title}
+                          {user.title}
                         </h3>
                         <p className="text-base lg:text-lg mb-2">
-                          By: {game.userName}
+                          By: {user.userName}
                         </p>
                         <p className="text-base lg:text-lg mb-2">
-                          Category: {game.category}
+                          Category: {user.category}
                         </p>
                         <p className="text-base lg:text-lg">
-                          Description: {game.description}
+                          Description: {user.description}
                         </p>
                       </div>
                    
@@ -128,7 +126,7 @@ const Random: React.FC = () => {
             return null;
           })
         ) : (
-          <p>No games found.</p>
+          <p>No users found.</p>
         )}
       </div>
       <div className="flex justify-center mt-3">
@@ -153,4 +151,4 @@ const Random: React.FC = () => {
   );
 };
 
-export default Random;
+export default RandomCreators;

@@ -28,7 +28,7 @@ const handlePasswordReset = async (newPassword: string) => {
     console.log('Decoded token:', decodedToken);
 
     // Make a PUT request to update the user's password
-    const response = await fetch(`http://localhost:8000/api-v1/users/${userId}`, {
+    const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const handleUpdateBio = async (newBio: string) => {
     console.log('Decoded token:', decodedToken);
 
     // Make a PUT request to update the user's bio
-    const response = await fetch(`http://localhost:8000/api-v1/users/${userId}`, {
+    const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
