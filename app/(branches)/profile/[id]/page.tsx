@@ -24,7 +24,7 @@ export default function ProfileView({ params }: { params: { id: string } }) {
      
     const fetchProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api-v1/users/${params.id}`);
+            const response = await fetch(`http://localhost:8000/api-v1/users/profile/${params.id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch profile');
             }
