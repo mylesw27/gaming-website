@@ -64,8 +64,8 @@ const GameComponent: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-center">
-      <div className="col-span-2 md:col-span-1">
+    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8 justify-center items-center  bg-gray-800 px-64 text-gray-200">
+      <div className="col-span-1 md:col-span-1">
         <div className="my-4 text-center">
           {game ? (
             <p className="text-3xl font-bold mb-2">{game.title}</p>
@@ -86,6 +86,13 @@ const GameComponent: React.FC = () => {
           ) : (
             <p>Loading...</p>
           )}
+          {game ? 
+            <div className='absolute'>
+              <Like game={game} /> 
+            </div>
+          : 
+            <p>Loading...</p>
+          }
         </div>
         <div className="my-4 text-center">
           {game ? (
@@ -123,9 +130,6 @@ const GameComponent: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
-      <div className="col-span-1">
-        {game ? <Like game={game} /> : <p>Loading...</p>}
         <div className="my-4">
           {game ? (
             <p className="text-xl font-bold text-center">Description:</p>
