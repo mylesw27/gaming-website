@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
+import { FaHeartCircleMinus, FaHeartCirclePlus } from "react-icons/fa6"
 
 interface Game {   
     _id: string;
@@ -83,11 +84,15 @@ export default function Like(props: {game: Game}) {
 
     return (
         <>
-            {like ? 
-            <h1 className="text-red-500" onClick={deleteLike}> Like {like._id} already exists</h1> 
-            :
-            <h1 className="text-red-500" onClick={submitLike}> &lt;3</h1>
-            } 
+            <div 
+            className="flex w-20 h-20 rounded-full bg-gray-300 justify-center items-center"
+            >
+                {like ? 
+                <h1 className="text-red-600 text-center text-4xl" onClick={deleteLike}><FaHeartCircleMinus /></h1> 
+                :
+                <h1 className="text-red-600 text-center text-4xl" onClick={submitLike}><FaHeartCirclePlus /></h1>
+                } 
+            </div>
         </>
     )
 }
