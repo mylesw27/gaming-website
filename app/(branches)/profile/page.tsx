@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { use } from 'react';
 import PasswordReset from '../../components/PasswordReset/page';
 import Navigation from '../../components/Navigation/page';
@@ -28,13 +28,16 @@ const handlePasswordReset = async (newPassword: string) => {
     console.log('Decoded token:', decodedToken);
 
     // Make a PUT request to update the user's password
-    const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password: newPassword }),
-    });
+    const response = await fetch(
+      `http://localhost:8000/api-v1/users/profile/${userId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password: newPassword }),
+      }
+    );
 
     if (response.ok) {
       console.log('Password reset successful!');
@@ -72,13 +75,16 @@ const handleUpdateBio = async (newBio: string) => {
     console.log('Decoded token:', decodedToken);
 
     // Make a PUT request to update the user's bio
-    const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bio: newBio }),
-    });
+    const response = await fetch(
+      `http://localhost:8000/api-v1/users/profile/${userId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bio: newBio }),
+      }
+    );
 
     if (response.ok) {
       console.log('Bio update successful!');
@@ -90,7 +96,7 @@ const handleUpdateBio = async (newBio: string) => {
   } catch (error) {
     console.log('An error occurred during bio update:', error);
   }
-}
+};
 
 interface Game {
   userId: number;
@@ -123,7 +129,7 @@ const Profile = () => {
     return;
   }
   const [games, setGames] = useState<Game[]>([]);
-  // This will fetch all the games and then filter by the userId from the jwt. 
+  // This will fetch all the games and then filter by the userId from the jwt.
   const fetchUserGames = async () => {
     try {
       // Make an API request to fetch random games data
@@ -132,54 +138,56 @@ const Profile = () => {
         throw new Error('Failed to fetch random games');
       }
       const data = await response.json();
-      setGames(data.games)
-
+      setGames(data.games);
     } catch (error) {
       console.error('Error fetching user games:', error);
     }
   };
 
-  const userId = decodedToken? (decodedToken as any).id : null;
+  const userId = decodedToken ? (decodedToken as any).id : null;
 
   // This will filter the games by the userId
-  const userGames = games.filter(game => game.userId === userId);
-
+  const userGames = games.filter((game) => game.userId === userId);
 
   useEffect(() => {
     fetchUserGames();
     setBio((decodedToken as any).bio);
-  }
-  , []);
-  
+  }, []);
 
   const deleteGame = async (gameId: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/game/${gameId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      }); 
-      console.log(gameId)
+      const response = await fetch(
+        `http://localhost:8000/api-v1/game/${gameId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      );
+      console.log(gameId);
     } catch (error) {
       console.error('Error deleting game:', error);
     }
     fetchUserGames();
-  }
+  };
 
   const [avatar, setAvatar] = useState<string>('');
 
   const handleAvatarUpload = async () => {
     try {
-      const userId = decodedToken? (decodedToken as any).id : null;
-      const response = await fetch(`http://localhost:8000/api-v1/users/profile/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ avatar }),
-      });
+      const userId = decodedToken ? (decodedToken as any).id : null;
+      const response = await fetch(
+        `http://localhost:8000/api-v1/users/profile/${userId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ avatar }),
+        }
+      );
       if (response.ok) {
         console.log('Avatar upload successful!');
         // Perform any additional actions upon successful avatar upload
@@ -192,28 +200,26 @@ const Profile = () => {
     }
   };
 
-
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken.name}</h2>
 
       <div className="mb-4">
-  <input
-    type="text"
-    placeholder="Update your avatar URL"
-    value={avatar}
-    onChange={(e) => setAvatar(e.target.value)}
-    className="border rounded w-full py-2 px-3"
-  />
-  <button
-    onClick={() => handleAvatarUpload()}
-    className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-  >
-    Update Avatar
-  </button>
-</div>
+        <input
+          type="text"
+          placeholder="Update your avatar URL"
+          value={avatar}
+          onChange={(e) => setAvatar(e.target.value)}
+          className="border rounded w-full py-2 px-3"
+        />
+        <button
+          onClick={() => handleAvatarUpload()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+        >
+          Update Avatar
+        </button>
+      </div>
 
-      
       <div className="mb-4">
         <input
           type="text"
@@ -229,18 +235,42 @@ const Profile = () => {
           Update Bio
         </button>
       </div>
+      <button
+        onClick={() => (window.location.href = '/profile/blog')}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+      >
+        Blog Post Form
+      </button>
       <div>
-        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">Your Games</h2>
+        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">
+          Your Games
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {userGames.length > 0 ? (
             userGames.map((game) => (
-              <div key={game._id} className="flex flex-col items-center space-y-6">
-                <a href={`/profile/games/edit/${game._id}`} className="text-center md:text-left">
-                  <h3 className="text-3xl md:text-5xl font-semibold mb-4">{game.title}</h3>
+              <div
+                key={game._id}
+                className="flex flex-col items-center space-y-6"
+              >
+                <a
+                  href={`/profile/games/edit/${game._id}`}
+                  className="text-center md:text-left"
+                >
+                  <h3 className="text-3xl md:text-5xl font-semibold mb-4">
+                    {game.title}
+                  </h3>
                 </a>
-                <img src={game.image} alt={game.title} className="w-24 h-24 rounded-full" />
-                <p className="text-base md:text-lg">Category: {game.category}</p>
-                <p className="text-base md:text-lg">Description: {game.description}</p>
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  className="w-24 h-24 rounded-full"
+                />
+                <p className="text-base md:text-lg">
+                  Category: {game.category}
+                </p>
+                <p className="text-base md:text-lg">
+                  Description: {game.description}
+                </p>
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
                   onClick={() => deleteGame(game._id)}
@@ -255,17 +285,15 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex justify-center mt-6">
-      <a href="/profile/upload">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-          Upload a Game
-        </button>
-      </a>
-    </div>
-    <PasswordReset onSubmit={handlePasswordReset} />
+        <a href="/profile/upload">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+            Upload a Game
+          </button>
+        </a>
+      </div>
+      <PasswordReset onSubmit={handlePasswordReset} />
     </div>
   );
-
 };
-
 
 export default Profile;
