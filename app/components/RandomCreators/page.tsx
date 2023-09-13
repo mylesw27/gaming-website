@@ -27,7 +27,7 @@ const RandomCreators: React.FC = () => {
 
       // Parse the response data as JSON
       const data = await response.json();
-      console.log(data)
+      console.log('Data',data)
       // Update the users state variable with the fetched data
       setUsers(data);
     } catch (error) {
@@ -102,6 +102,12 @@ const RandomCreators: React.FC = () => {
                       <div className="p-4">
                         <p className="text-base lg:text-lg mb-2">
                           By: {user.userName}
+                        </p>
+                        <p className="text-base lg:text-lg mb-2">
+                          Games: {user.games?.length || 0}
+                        </p>
+                        <p className="text-base lg:text-lg mb-2">
+                          Bio: {user.bio}
                         </p>
                       </div>
                    
