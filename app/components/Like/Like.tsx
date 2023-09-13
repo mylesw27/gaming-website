@@ -85,12 +85,12 @@ export default function Like(props: {game: Game}) {
     return (
         <>
             <div 
-            className="flex w-20 h-20 rounded-full bg-gray-300 justify-center items-center"
+            className="flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center bg-opacity-60 hover:bg-opacity-70 relative"
             >
                 {like ? 
-                <h1 className="text-red-600 text-center text-4xl" onClick={deleteLike}><FaHeartCircleMinus /></h1> 
+                <h1 className="text-red-600 text-center text-3xl absolute" onClick={deleteLike}><FaHeartCircleMinus /></h1> 
                 :
-                <h1 className="text-red-600 text-center text-4xl" onClick={submitLike}><FaHeartCirclePlus /></h1>
+                <h1 className="text-red-600 text-center text-2xl absolute" onClick={submitLike}><FaHeartCirclePlus /></h1>
                 } 
             </div>
         </>
