@@ -6,19 +6,31 @@ import {
   MenubarShortcut,
 } from '@/components/ui/menubar';
 import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
+
 
 const Navigation = () => {
   const [searchValue, setSearchValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const handleSearchSubmit = (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
-    // Implement your search logic here
-  };
+  const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleSearchSubmit = async (event: any) => {
+    event.preventDefault();
+    router.push(`/games/search/${encodeURIComponent(searchValue)}`);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+    setIsMenuOpen(false);
+  }
+
 
   return (
     <Menubar className="flex justify-between items-center p-2 bg-gray-900 border-gray-900 rounded-md-gray-900">
@@ -32,12 +44,21 @@ const Navigation = () => {
         </a>
         <div className="hidden md:flex space-x-4">
           <MenubarMenu>
+            <a href="/">
             <MenubarShortcut>Home</MenubarShortcut>
+            </a>
+            <a href="/login">
             <MenubarShortcut>Login</MenubarShortcut>
-            <MenubarShortcut>File</MenubarShortcut>
+            </a>
+            <a href="/sign-up">
             <MenubarShortcut>Sign Up</MenubarShortcut>
+            </a>
+            <a href="/sign-out">
             <MenubarShortcut>Sign Out</MenubarShortcut>
+            </a>
+            <a href="/games">
             <MenubarShortcut>Games</MenubarShortcut>
+            </a>
           </MenubarMenu>
         </div>
       </div>
@@ -52,30 +73,39 @@ const Navigation = () => {
         </form>
       </div>
       <div className="md:hidden">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMenu}
-          className="p-2 focus:outline-none"
-        >
-          Menu
-        </button>
-        {menuOpen && (
-          <div className="mt-2">
-            {/* Mobile Menu */}
-            <MenubarMenu>
-              <MenubarShortcut>Home</MenubarShortcut>
-              <MenubarShortcut>Login</MenubarShortcut>
-              <MenubarShortcut>File</MenubarShortcut>
-              <MenubarShortcut>Sign Up</MenubarShortcut>
-              <MenubarShortcut>Sign Out</MenubarShortcut>
-              <MenubarShortcut>Games</MenubarShortcut>
-            </MenubarMenu>
-          </div>
-        )}
-      </div>
+  {/* Mobile Menu Button */}
+  <button
+  onClick={toggleMenu}
+  className="p-2 focus:outline-none text-white"
+>
+  Menu
+</button>
+  {isMenuOpen && (
+    <div className={`mt-2 transition-transform transform ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+      {/* Mobile Menu */}
+      <MenubarMenu>
+        <a href="/">
+          <MenubarShortcut>Home</MenubarShortcut>
+        </a>
+        <a href="/login">
+          <MenubarShortcut>Login</MenubarShortcut>
+        </a>
+        <a href="/sign-up">
+          <MenubarShortcut>Sign Up</MenubarShortcut>
+        </a>
+        <a href="/sign-out">
+          <MenubarShortcut>Sign Out</MenubarShortcut>
+        </a>
+        <a href="/games">
+          <MenubarShortcut>Games</MenubarShortcut>
+        </a>
+      </MenubarMenu>
+    </div>
+  )}
+</div>
     </Menubar>
   );
-};
+}
 
 export default Navigation;
 
