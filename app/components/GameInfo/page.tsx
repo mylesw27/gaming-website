@@ -24,6 +24,7 @@ interface Game {
 
 const GameComponent: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
+  const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
 
   const fetchGame = async () => {
     try {
@@ -45,6 +46,13 @@ const GameComponent: React.FC = () => {
 
       // Update the game state variable with the fetched data
       setGame(data.game);
+
+      const likeResponse = await fetch(
+        `http://localhost:8000/api-v1/like/game/${gameID}/`
+      );
+      const likeData = await likeResponse.json();
+      conso
+      setNumberOfLikes(likeData.likes);
     } catch (error) {
       console.error('Error fetching game:', error);
     }
@@ -53,6 +61,8 @@ const GameComponent: React.FC = () => {
   useEffect(() => {
     fetchGame();
   }, []);
+
+  console.log(numberOfLikes)
 
   const copyLink = () => {
     const textField = document.createElement('textarea');
@@ -89,10 +99,10 @@ const GameComponent: React.FC = () => {
           </div>
       </div>
       {/* ---- Column 1 ---- */}
-      <div className="col-span-1 md:col-span-1 row-span-1 ">
-        <div className="w-full h-64 rounded-lg flex justify-center items-center relative">
+      <div className="col-span-1 md:col-span-1 row-span-1 w-fit">
+        <div className="w-96 h-96 rounded-lg flex justify-center items-center relative">
           {game ? (
-            <div className='h-full rounded-lg flex justify-center items-center relative'>
+            <div className='h-full rounded-lg flex relative'>
               <img
                 src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg'}
                 alt={game.title}
@@ -188,6 +198,9 @@ const GameComponent: React.FC = () => {
               <p>Loading...</p>
             )}
             {game ? <p className="text-center">{game.techstack}</p> : null}
+          </div>
+          <div className="my-4 text-center">
+            <p>Likes: {numberOfLikes}</p>
           </div>
         </div>
       </div>

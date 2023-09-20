@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('')
     
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -49,6 +50,8 @@ const Login: React.FC = () => {
             window.location.href = '/';
         } else {
             console.error('Error logging in user:', response.statusText);
+            const data = await response.json()
+            setMessage(data.msg)
         }
         } catch (error) {
         console.error('Error logging in user:', error);
@@ -59,6 +62,7 @@ const Login: React.FC = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-800">
         <div className="bg-white p-8 rounded shadow-md w-96">
           <h2 className="text-2xl font-bold mb-4">Login</h2>
+          {message ? <p className='text-red-600'>{message}</p> : null}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium">

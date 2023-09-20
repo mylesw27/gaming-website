@@ -53,12 +53,9 @@ export default function Like(props: {game: Game}) {
             }
         }
     }, [user, game])
-    
-    console.log(like)
 
     const submitLike = () => {
         setTime(new Date().getTime())
-        console.log(game, user.id, time)
         const response = fetch(`http://localhost:8000/api-v1/like/`, {
             method: "POST",
             headers: {

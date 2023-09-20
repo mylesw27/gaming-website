@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import jwt from 'jsonwebtoken';
+import { BiSolidError } from 'react-icons/bi';
 
 interface GameData {
   userName: string;
@@ -22,6 +23,7 @@ const Upload: React.FC = () => {
   const [github, setGithub] = useState('');
   const [link, setLink] = useState('');
   const [message, setMessage] = useState('');
+  const [errorField, setErrorField] = useState('');
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -97,10 +99,10 @@ const Upload: React.FC = () => {
           console.log('Game Data uploaded successfully:', data);
           window.location.href = '/';
         } else {
-          if (response.status === 422) {
-            response.json().then((message) => setMessage(message.msg));
-          }
           console.error('Error uploading game:', response.statusText);
+          const data = await response.json();
+          setMessage(data.msg);
+          setErrorField(data.error);
         }
       } catch (error) {
         console.error('Error uploading game:', error);
@@ -113,10 +115,11 @@ const Upload: React.FC = () => {
   return (
     <div className="p-8">
        <h2 className="text-2xl font-bold mb-4">Upload Game</h2>
-      {message && <p className='text-red-500'>{message}</p>}
+      {message && <p className='text-red-500 italic'>{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-semibold">Title:</label>
+          
+          <label className="flex align-center font-semibold">{errorField === 'title' && <h2 className='text-red-500 flex items-center'><BiSolidError /></h2>}Title:</label>
           <input type="text" value={title} onChange={handleTitleChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
@@ -154,7 +157,7 @@ const Upload: React.FC = () => {
           <input type="text" value={github} onChange={handleGithubChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block font-semibold">Link:</label>
+          <label className="flex align-center font-semibold">{errorField === 'link' && <h2 className='text-red-500 flex items-center'><BiSolidError /></h2>}Link:</label>
           <input type="text" value={link} onChange={handleLinkChange} required className="w-full p-2 border rounded" />
         </div>
         <button type="submit" className="px-4 py-2 bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700">
