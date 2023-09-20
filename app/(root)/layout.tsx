@@ -1,5 +1,6 @@
 import WebsiteFooter from "../components/Footer/page"
 import Navigation from "../components/Navigation/page"
+import '../globals.css'
 
 export const metadata = {
   title: 'Create Next App',
