@@ -1,9 +1,8 @@
-'use client';
-import React, { use } from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
 import PasswordReset from '../../components/PasswordReset/page';
-import Navigation from '../../components/Navigation/page';
 import jwt from 'jsonwebtoken';
-import { useState, useEffect } from 'react';
+import { ProfileForm } from '@/app/components/ProfileForm/page';
 
 const handlePasswordReset = async (newPassword: string) => {
   try {
@@ -115,44 +114,44 @@ interface Game {
 
 const Profile = () => {
   const [bio, setBio] = useState<string>('');
+  const [avatar, setAvatar] = useState<string>('');
+  const [games, setGames] = useState<Game[]>([]);
 
   const token = localStorage.getItem('token');
-  if (!token) {
-    console.log('Token not found.');
-    // Handle error scenario, such as redirecting to the login page
-    return;
-  }
-  const decodedToken = jwt.decode(token);
-  if (!decodedToken || typeof decodedToken !== 'object') {
-    console.log('Decoded token not found or invalid.');
-    // Handle error scenario, such as redirecting to the login page
-    return;
-  }
-  const [games, setGames] = useState<Game[]>([]);
-  // This will fetch all the games and then filter by the userId from the jwt.
-  const fetchUserGames = async () => {
-    try {
-      // Make an API request to fetch random games data
-      const response = await fetch(`http://localhost:8000/api-v1/game/all`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch random games');
-      }
-      const data = await response.json();
-      setGames(data.games);
-    } catch (error) {
-      console.error('Error fetching user games:', error);
+  const decodedToken = jwt.decode(token as string);
+
+  useEffect(() => {
+    if (!token || typeof decodedToken !== 'object') {
+      console.log('Token not found or invalid.');
+      // Handle error scenario, such as redirecting to the login page
+      return;
     }
-  };
+
+    const userId = decodedToken?.id;
+
+    const fetchUserGames = async () => {
+      try {
+        // Make an API request to fetch random games data
+        const response = await fetch(`http://localhost:8000/api-v1/game/all`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch random games');
+        }
+        const data = await response.json();
+        setGames(data.games);
+      } catch (error) {
+        console.error('Error fetching user games:', error);
+      }
+    };
+
+    // This will fetch all the games and then filter by the userId from the jwt.
+    fetchUserGames();
+    setBio(decodedToken?.bio || '');
+  }, [decodedToken, setBio, token]);
 
   const userId = decodedToken ? (decodedToken as any).id : null;
 
   // This will filter the games by the userId
   const userGames = games.filter((game) => game.userId === userId);
-
-  useEffect(() => {
-    fetchUserGames();
-    setBio((decodedToken as any).bio);
-  }, []);
 
   const deleteGame = async (gameId: string) => {
     try {
@@ -162,7 +161,7 @@ const Profile = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: token,
+            Authorization: token as string,
           },
         }
       );
@@ -172,8 +171,6 @@ const Profile = () => {
     }
     fetchUserGames();
   };
-
-  const [avatar, setAvatar] = useState<string>('');
 
   const handleAvatarUpload = async () => {
     try {
@@ -202,42 +199,12 @@ const Profile = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken.name}</h2>
+      <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken && typeof decodedToken === 'object' ? decodedToken.name : ''}</h2>
+      <ProfileForm />
 
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Update your avatar URL"
-          value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
-          className="border rounded w-full py-2 px-3"
-        />
-        <button
-          onClick={() => handleAvatarUpload()}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-        >
-          Update Avatar
-        </button>
-      </div>
-
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Update your bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          className="border rounded w-full py-2 px-3"
-        />
-        <button
-          onClick={() => handleUpdateBio(bio)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-        >
-          Update Bio
-        </button>
-      </div>
       <button
         onClick={() => (window.location.href = '/profile/blog')}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
       >
         Blog Post Form
       </button>
@@ -286,7 +253,7 @@ const Profile = () => {
       </div>
       <div className="flex justify-center mt-6">
         <a href="/profile/upload">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+          <button className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded">
             Upload a Game
           </button>
         </a>
@@ -297,3 +264,7 @@ const Profile = () => {
 };
 
 export default Profile;
+function fetchUserGames() {
+  throw new Error('Function not implemented.');
+}
+
