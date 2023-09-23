@@ -4,99 +4,6 @@ import PasswordReset from '../../components/PasswordReset/page';
 import jwt from 'jsonwebtoken';
 import { ProfileForm } from '@/app/components/ProfileForm/page';
 
-const handlePasswordReset = async (newPassword: string) => {
-  try {
-    // Get the user ID from the jwt payload
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.log('Token not found.');
-      // Handle error scenario, such as redirecting to the login page
-      return;
-    }
-
-    const decodedToken = jwt.decode(token);
-    if (!decodedToken || typeof decodedToken !== 'object') {
-      console.log('Decoded token not found or invalid.');
-      // Handle error scenario, such as redirecting to the login page
-      return;
-    }
-
-    const userId = decodedToken.id;
-
-    console.log('User ID from JWT:', userId);
-    console.log('Decoded token:', decodedToken);
-
-    // Make a PUT request to update the user's password
-    const response = await fetch(
-      `http://localhost:8000/api-v1/users/profile/${userId}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password: newPassword }),
-      }
-    );
-
-    if (response.ok) {
-      console.log('Password reset successful!');
-      // Perform any additional actions upon successful password reset
-    } else {
-      console.log('Password reset failed.');
-      // Handle error scenario, such as displaying an error message to the user
-    }
-  } catch (error) {
-    console.log('An error occurred during password reset:', error);
-    // Handle error scenario
-  }
-};
-
-const handleUpdateBio = async (newBio: string) => {
-  try {
-    // Get the user ID from the jwt payload
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.log('Token not found.');
-      // Handle error scenario, such as redirecting to the login page
-      return;
-    }
-
-    const decodedToken = jwt.decode(token);
-    if (!decodedToken || typeof decodedToken !== 'object') {
-      console.log('Decoded token not found or invalid.');
-      // Handle error scenario, such as redirecting to the login page
-      return;
-    }
-
-    const userId = decodedToken.id;
-
-    console.log('User ID from JWT:', userId);
-    console.log('Decoded token:', decodedToken);
-
-    // Make a PUT request to update the user's bio
-    const response = await fetch(
-      `http://localhost:8000/api-v1/users/profile/${userId}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bio: newBio }),
-      }
-    );
-
-    if (response.ok) {
-      console.log('Bio update successful!');
-      // Perform any additional actions upon successful bio update
-    } else {
-      console.log('Bio update failed.');
-      // Handle error scenario, such as displaying an error message to the user
-    }
-  } catch (error) {
-    console.log('An error occurred during bio update:', error);
-  }
-};
-
 interface Game {
   userId: number;
   _id: string;
@@ -172,42 +79,14 @@ const Profile = () => {
     fetchUserGames();
   };
 
-  const handleAvatarUpload = async () => {
-    try {
-      const userId = decodedToken ? (decodedToken as any).id : null;
-      const response = await fetch(
-        `http://localhost:8000/api-v1/users/profile/${userId}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ avatar }),
-        }
-      );
-      if (response.ok) {
-        console.log('Avatar upload successful!');
-        // Perform any additional actions upon successful avatar upload
-      } else {
-        console.log('Avatar upload failed.');
-        // Handle error scenario, such as displaying an error message to the user
-      }
-    } catch (error) {
-      console.log('An error occurred during avatar upload:', error);
-    }
-  };
+
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken && typeof decodedToken === 'object' ? decodedToken.name : ''}</h2>
       <ProfileForm />
 
-      <button
-        onClick={() => (window.location.href = '/profile/blog')}
-        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-      >
-        Blog Post Form
-      </button>
+     
       <div>
         <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">
           Your Games
@@ -219,14 +98,11 @@ const Profile = () => {
                 key={game._id}
                 className="flex flex-col items-center space-y-6"
               >
-                <a
-                  href={`/profile/games/edit/${game._id}`}
-                  className="text-center md:text-left"
-                >
+               
                   <h3 className="text-3xl md:text-5xl font-semibold mb-4">
                     {game.title}
                   </h3>
-                </a>
+         
                 <img
                   src={game.image}
                   alt={game.title}
@@ -244,6 +120,18 @@ const Profile = () => {
                 >
                   Delete Game
                 </button>
+                <button
+        onClick={() => (window.location.href = '/profile/blog')}
+        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+      >
+        Blog Post Form
+      </button>
+      <button
+        onClick={() => (window.location.href = '/profile/games/edit/${game._id}')}
+        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
+      >
+        Edit Game Info
+      </button>
               </div>
             ))
           ) : (
@@ -258,7 +146,6 @@ const Profile = () => {
           </button>
         </a>
       </div>
-      <PasswordReset onSubmit={handlePasswordReset} />
     </div>
   );
 };
