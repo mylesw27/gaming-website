@@ -1,8 +1,17 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import PasswordReset from '../../components/PasswordReset/page';
 import jwt from 'jsonwebtoken';
 import { ProfileForm } from '@/app/components/ProfileForm/page';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 interface Game {
   userId: number;
@@ -79,72 +88,81 @@ const Profile = () => {
     fetchUserGames();
   };
 
-
-
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Hi {decodedToken && typeof decodedToken === 'object' ? decodedToken.name : ''}</h2>
+    <div className="p-6 bg-gray-800">
+      <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
+        Hi{' '}
+        {decodedToken && typeof decodedToken === 'object'
+          ? decodedToken.name
+          : ''}
+      </h2>
       <ProfileForm />
 
-     
       <div>
-        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6">
+        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
           Your Games
         </h2>
+        <Button
+          variant="secondary"
+          className="py-2 px-4 mb-4 md:mb-6"
+          onClick={() => (window.location.href = 'profile/upload')}
+        >
+          Upload a Game
+        </Button>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {userGames.length > 0 ? (
             userGames.map((game) => (
-              <div
-                key={game._id}
-                className="flex flex-col items-center space-y-6"
-              >
-               
-                  <h3 className="text-3xl md:text-5xl font-semibold mb-4">
+              <Card key={game._id}>
+                <CardHeader>
+                  <CardTitle className="text-3xl md:text-5xl font-semibold mb-4">
                     {game.title}
-                  </h3>
-         
-                <img
-                  src={game.image}
-                  alt={game.title}
-                  className="w-24 h-24 rounded-full"
-                />
-                <p className="text-base md:text-lg">
-                  Category: {game.category}
-                </p>
-                <p className="text-base md:text-lg">
-                  Description: {game.description}
-                </p>
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
-                  onClick={() => deleteGame(game._id)}
-                >
-                  Delete Game
-                </button>
-                <button
-        onClick={() => (window.location.href = '/profile/blog')}
-        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-      >
-        Blog Post Form
-      </button>
-      <button
-        onClick={() => (window.location.href = '/profile/games/edit/${game._id}')}
-        className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-2"
-      >
-        Edit Game Info
-      </button>
-              </div>
+                  </CardTitle>
+                  <CardDescription>
+                    <img
+                      src={game.image}
+                      alt={game.title}
+                      className="w-full h-48 object-cover mb-4 md:mb-6 rounded-lg"
+                    />
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-base md:text-lg">
+                    Category: {game.category}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    Description: {game.description}
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    variant="destructive"
+                    onClick={() => deleteGame(game._id)}
+                  >
+                    Delete Game
+                  </Button>
+
+                  <Button
+                    variant="default"
+                    onClick={() => (window.location.href = '/profile/blog')}
+                  >
+                    Blog Post Form
+                  </Button>
+
+                  <Button
+                    variant="default"
+                    onClick={() =>
+                      (window.location.href = `/profile/games/edit/${game._id}`)
+                    }
+                  >
+                    Edit Game Info
+                  </Button>
+                </CardFooter>
+              </Card>
             ))
           ) : (
             <div className="text-gray-600">No games found.</div>
           )}
         </div>
-      </div>
-      <div className="flex justify-center mt-6">
-        <a href="/profile/upload">
-          <button className="bg-blue-500 hover.bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-            Upload a Game
-          </button>
-        </a>
       </div>
     </div>
   );
@@ -154,4 +172,3 @@ export default Profile;
 function fetchUserGames() {
   throw new Error('Function not implemented.');
 }
-

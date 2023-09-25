@@ -3,7 +3,9 @@ import PasswordReset from '../../components/PasswordReset/page';
 import Navigation from '../../components/Navigation/page';
 import jwt from 'jsonwebtoken';
 import { useState, useEffect } from 'react';
-import { useForm, useFieldArray, SubmitHandler, FieldValues } from 'react-hook-form';
+import {
+  useForm,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { cn } from '../../../lib/utils';
@@ -75,7 +77,7 @@ export function ProfileForm() {
     bio?: string;
     password?: string;
     urls?: { value: string }[];
-};
+  };
 
   const token = localStorage.getItem('token');
   if (!token) {
@@ -93,7 +95,6 @@ export function ProfileForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(profileFormSchema),
   });
-  
 
   // UPDATE PROFILE
   const updateProfile = async (data: FormValues) => {
@@ -107,11 +108,10 @@ export function ProfileForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({bio, avatar, password}),
+        body: JSON.stringify({ bio, avatar, password }),
       });
 
       if (response.ok) {
-
         console.log(`Profile update successful!`);
       } else {
         console.log(`Profile update failed.`);
@@ -122,80 +122,83 @@ export function ProfileForm() {
   };
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();  // Prevent default button behavior
+    event.preventDefault(); // Prevent default button behavior
     const values = form.getValues();
     console.log('values', values);
     updateProfile(values);
-};
-
-
-  
-  
+  };
 
   return (
-    <div>
+    <div className='bg-gray-800'>
       <Form {...form}>
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-white'>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Share a brief introduction about yourself"
+                  className="resize-none bg-gray-100 text-gray-100"
+                  {...field}
+                  value={bio}
+                  name="bio"
+                  onChange={(e) => setBio(e.target.value)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className='py-2'>
+        </div>
+        <FormField
 
-          <FormField
-            control={form.control}
-            name="bio"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bio</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Share a brief introduction about yourself"
-                    className="resize-none"
-                    {...field}
-                    value={bio}
-                    name="bio"
-                    onChange={(e) => setBio(e.target.value)}
-                  />
-                </FormControl>
-                <FormDescription>
-                  You can <span>@mention</span> other users and organizations to
-                  reference them.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="avatar"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Avatar</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Paste the URL of your profile picture"
-                    {...field}
-                    value={avatar}
-                    name="avatar"
-                    onChange={(e) => setAvatar(e.target.value)}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Change Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter your new password" {...field} name='password' value={password} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button onClick={handleButtonClick}>Update Profile</Button>
-
-
+          control={form.control}
+          name="avatar"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-white'>Avatar</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Paste the URL of your profile picture"
+                  className="resize-none bg-gray-100 text-gray-100"
+                  {...field}
+                  value={avatar}
+                  name="avatar"
+                  onChange={(e) => setAvatar(e.target.value)}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className='py-2'>
+        </div>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-white'>Change Password</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter your new password"
+                  className="resize-none bg-gray-100 text-gray-100"
+                  {...field}
+                  name="password"
+                  value={password}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+                <div className='py-2'>
+        </div>
+        <div className="py-3">
+          <Button onClick={handleButtonClick} variant={'secondary'}>Update Profile</Button>
+        </div>
       </Form>
-
-
     </div>
   );
 }
