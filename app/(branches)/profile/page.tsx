@@ -109,7 +109,7 @@ const Profile = () => {
         >
           Upload a Game
         </Button>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           {userGames.length > 0 ? (
             userGames.map((game) => (
               <Card key={game._id}>
@@ -134,20 +134,23 @@ const Profile = () => {
                   </p>
                 </CardContent>
                 <CardFooter>
+                  <div className="px-4">
                   <Button
                     variant="destructive"
                     onClick={() => deleteGame(game._id)}
                   >
                     Delete Game
                   </Button>
-
+                  </div>
+                  <div className='px-4'>
                   <Button
                     variant="default"
                     onClick={() => (window.location.href = '/profile/blog')}
                   >
                     Blog Post Form
                   </Button>
-
+                  </div>
+                  <div className='px-4'>
                   <Button
                     variant="default"
                     onClick={() =>
@@ -156,6 +159,7 @@ const Profile = () => {
                   >
                     Edit Game Info
                   </Button>
+                  </div>
                 </CardFooter>
               </Card>
             ))
