@@ -145,7 +145,7 @@ const Profile = () => {
                   <div className='px-4'>
                   <Button
                     variant="default"
-                    onClick={() => (window.location.href = '/profile/blog')}
+                    onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
                   >
                     Blog Post Form
                   </Button>
