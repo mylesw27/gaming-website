@@ -19,6 +19,7 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [avatar, setAvatar] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const token = localStorage.getItem('token');
 
   const handleSearchSubmit = async (event: any) => {
     event.preventDefault();
@@ -32,7 +33,6 @@ const Navigation = () => {
   };
 
   const getAvatar = () => {
-    const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token as string);
     const userId =
       typeof decodedToken === 'object' && decodedToken !== null
@@ -58,12 +58,12 @@ const Navigation = () => {
   };
 
   useEffect(() => {
-    getAvatar();
-  }, []);
+    if (token) {
+      getAvatar();
+    }
+  }, [token]);
 
-  // Inside your component
   const toggleMenu = () => {
-    console.log('Toggling menu');
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -78,33 +78,45 @@ const Navigation = () => {
           />
         </a>
         <div className="hidden md:flex space-x-4">
-          <MenubarMenu>
-            <a href="/">
-              <MenubarShortcut className="text-white text-sm">
-                Home
-              </MenubarShortcut>
-            </a>
-            <a href="/login">
-              <MenubarShortcut className="text-white text-sm">
-                Login
-              </MenubarShortcut>
-            </a>
-            <a href="/sign-up">
-              <MenubarShortcut className="text-white text-sm">
-                Sign Up
-              </MenubarShortcut>
-            </a>
-            <a href="/sign-out">
-              <MenubarShortcut className="text-white text-sm">
-                Sign Out
-              </MenubarShortcut>
-            </a>
-            <a href="/games">
-              <MenubarShortcut className="text-white text-sm">
-                Games
-              </MenubarShortcut>
-            </a>
-          </MenubarMenu>
+          <NavigationMenu>
+            <NavigationMenuLink href="/" className="text-white text-sm px-3">
+              Home
+            </NavigationMenuLink>
+
+            {token ? (
+              <>
+                <NavigationMenuLink
+                  onClick={handleSignOut}
+                  className="text-white text-sm px-3"
+                >
+                  Sign Out
+                </NavigationMenuLink>
+
+                <NavigationMenuLink
+                  href="/games"
+                  className="text-white text-sm px-3"
+                >
+                  Games
+                </NavigationMenuLink>
+              </>
+            ) : (
+              <>
+                <NavigationMenuLink
+                  href="/login"
+                  className="text-white text-sm px-3"
+                >
+                  Login
+                </NavigationMenuLink>
+
+                <NavigationMenuLink
+                  href="/sign-up"
+                  className="text-white text-sm px-3"
+                >
+                  Sign Up
+                </NavigationMenuLink>
+              </>
+            )}
+          </NavigationMenu>
         </div>
       </div>
       <div className="md:flex items-center space-x-2">
@@ -117,12 +129,14 @@ const Navigation = () => {
           />
         </form>
         {/* Desktop Avatar */}
-        <a href="/profile" className="hidden md:block">
-          <Avatar>
-            <AvatarImage src={avatar} alt="Avatar" />
-            <AvatarFallback>{name}</AvatarFallback>
-          </Avatar>
-        </a>
+        {token && ( 
+          <a href="/profile" className="hidden md:block">
+            <Avatar>
+              <AvatarImage src={avatar} alt="Avatar" />
+              <AvatarFallback>{name}</AvatarFallback>
+            </Avatar>
+          </a>
+        )}
       </div>
 
       {/* Mobile Menu */}
@@ -144,14 +158,16 @@ const Navigation = () => {
               }`}
             >
               {/* Mobile Avatar */}
-              <div className="mb-4 flex justify-center">
-                <a href="/profile">
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage src={avatar} alt="Avatar" />
-                    <AvatarFallback>{name}</AvatarFallback>
-                  </Avatar>
-                </a>
-              </div>
+              {token && ( 
+                <div className="mb-4 flex justify-center">
+                  <a href="/profile">
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage src={avatar} alt="Avatar" />
+                      <AvatarFallback>{name}</AvatarFallback>
+                    </Avatar>
+                  </a>
+                </div>
+              )}
 
               {/* Mobile Menu Links */}
               <div>
@@ -159,26 +175,36 @@ const Navigation = () => {
                   Home
                 </NavigationMenuLink>
               </div>
-              <div>
-                <NavigationMenuLink href="/login" onClick={toggleMenu}>
-                  Login
-                </NavigationMenuLink>
-              </div>
-              <div>
-                <NavigationMenuLink href="/sign-up" onClick={toggleMenu}>
-                  Sign Up
-                </NavigationMenuLink>
-              </div>
-              <div>
-                <NavigationMenuLink href="#" onClick={handleSignOut}>
-                  Sign Out
-                </NavigationMenuLink>
-              </div>
-              <div>
-                <NavigationMenuLink href="/games" onClick={toggleMenu}>
-                  Games
-                </NavigationMenuLink>
-              </div>
+              {token ? (
+                <>
+                  <div>
+                    <NavigationMenuLink
+                      href="/sign-out"
+                      onClick={handleSignOut}
+                    >
+                      Sign Out
+                    </NavigationMenuLink>
+                  </div>
+                  <div>
+                    <NavigationMenuLink href="/games" onClick={toggleMenu}>
+                      Games
+                    </NavigationMenuLink>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <NavigationMenuLink href="/login" onClick={toggleMenu}>
+                      Login
+                    </NavigationMenuLink>
+                  </div>
+                  <div>
+                    <NavigationMenuLink href="/sign-up" onClick={toggleMenu}>
+                      Sign Up
+                    </NavigationMenuLink>
+                  </div>
+                </>
+              )}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenu>
