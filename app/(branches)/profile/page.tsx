@@ -133,34 +133,41 @@ const Profile = () => {
                     Description: {game.description}
                   </p>
                 </CardContent>
-                <CardFooter>
-                  <div className="px-4">
-                  <Button
-                    variant="destructive"
-                    onClick={() => deleteGame(game._id)}
-                  >
-                    Delete Game
-                  </Button>
-                  </div>
-                  <div className='px-4'>
-                  <Button
-                    variant="default"
-                    onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
-                  >
-                    Blog Post Form
-                  </Button>
-                  </div>
-                  <div className='px-4'>
-                  <Button
-                    variant="default"
-                    onClick={() =>
-                      (window.location.href = `/profile/games/edit/${game._id}`)
-                    }
-                  >
-                    Edit Game Info
-                  </Button>
-                  </div>
-                </CardFooter>
+                <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
+  <div className="flex-grow">
+    <Button
+      className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
+      variant="destructive"
+      onClick={() => deleteGame(game._id)}
+    >
+      Delete Game
+    </Button>
+  </div>
+  
+  <div className="flex-grow">
+    <Button
+      className="w-full md:w-auto"
+      variant="default"
+      onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
+    >
+      Blog Form
+    </Button>
+  </div>
+  
+  <div className="flex-grow">
+    <Button
+      className="w-full md:w-auto"
+      variant="default"
+      onClick={() =>
+        (window.location.href = `/profile/games/edit/${game._id}`)
+      }
+    >
+      Edit Game
+    </Button>
+  </div>
+</CardFooter>
+
+
               </Card>
             ))
           ) : (
