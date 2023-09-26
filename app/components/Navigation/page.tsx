@@ -15,16 +15,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Navigation = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
   const [avatar, setAvatar] = useState<string>('');
   const [name, setName] = useState<string>('');
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const handleSearchSubmit = async (event: any) => {
     event.preventDefault();
@@ -46,7 +40,6 @@ const Navigation = () => {
         : '';
     const fetchUserAvatar = async () => {
       try {
-        // Make an API request to fetch random games data
         const response = await fetch(
           `http://localhost:8000/api-v1/users/profile/${userId}`
         );
@@ -67,6 +60,12 @@ const Navigation = () => {
   useEffect(() => {
     getAvatar();
   }, []);
+
+  // Inside your component
+  const toggleMenu = () => {
+    console.log('Toggling menu');
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <Menubar className="flex justify-between items-center bg-gray-900 border-gray-900 rounded-md-gray-900 h-16">
@@ -132,7 +131,7 @@ const Navigation = () => {
           <NavigationMenuItem>
             {/* Mobile Menu Button */}
             <NavigationMenuTrigger
-              onClick={toggleMenu}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="focus:outline-none text-black"
             >
               Menu
@@ -156,13 +155,19 @@ const Navigation = () => {
 
               {/* Mobile Menu Links */}
               <div>
-                <NavigationMenuLink href="/">Home</NavigationMenuLink>
+                <NavigationMenuLink href="/" onClick={toggleMenu}>
+                  Home
+                </NavigationMenuLink>
               </div>
               <div>
-                <NavigationMenuLink href="/login">Login</NavigationMenuLink>
+                <NavigationMenuLink href="/login" onClick={toggleMenu}>
+                  Login
+                </NavigationMenuLink>
               </div>
               <div>
-                <NavigationMenuLink href="/sign-up">Sign Up</NavigationMenuLink>
+                <NavigationMenuLink href="/sign-up" onClick={toggleMenu}>
+                  Sign Up
+                </NavigationMenuLink>
               </div>
               <div>
                 <NavigationMenuLink href="#" onClick={handleSignOut}>
@@ -170,7 +175,9 @@ const Navigation = () => {
                 </NavigationMenuLink>
               </div>
               <div>
-                <NavigationMenuLink href="/games">Games</NavigationMenuLink>
+                <NavigationMenuLink href="/games" onClick={toggleMenu}>
+                  Games
+                </NavigationMenuLink>
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
