@@ -34,7 +34,7 @@ const Navigation = () => {
   };
 
   return (
-    <Menubar className="flex justify-between items-center p-2 bg-gray-900 border-gray-900 rounded-md-gray-900">
+    <Menubar className="flex justify-between items-center bg-gray-900 border-gray-900 rounded-md-gray-900">
       <div className="flex items-center space-x-4">
         <a href="/">
           <img
@@ -118,3 +118,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
