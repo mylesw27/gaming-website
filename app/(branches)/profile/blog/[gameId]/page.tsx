@@ -1,6 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import jwt, {JwtPayload} from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+
 
 // Interfaces
 interface Post {
@@ -89,7 +91,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
 
     const decodedToken = jwt.decode(token) as JwtPayload | null;
     const gameId = selectedGameId;
-    console.log('gameId', gameId)
+    console.log('gameId', gameId);
 
     try {
       const response = await fetch(
@@ -98,7 +100,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${token}`,
+            Authorization: `${token}`,
           },
           body: JSON.stringify({
             userName: decodedToken ? decodedToken.userName : '',
@@ -109,7 +111,6 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
             videoLink,
           }),
         }
-        
       );
 
       if (!response.ok) {
@@ -131,91 +132,110 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
       // Handle and display the error to the user
     }
   };
-  
-return (
-  <div className="form-container p-8">
-    <h2 className="text-2xl font-bold mb-4">Create Blog Post</h2>
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <label className="block font-semibold">
-        Title
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="w-full p-2 border rounded"
-        />
-      </label>
-      <label className="block font-semibold">
-        Game
-        <select
-          value={selectedGameId || ""}
-          onChange={(e) => setSelectedGameId(e.target.value)}
-          required
-          className="w-full p-2 border rounded"
-        >
-          <option value="" disabled>
-            Select a game
-          </option>
-          {games.map((game) => (
-            <option key={game._id} value={game._id}>
-              {game.title}
+
+  return (
+    <div className="form-container p-8 bg-gray-800 text-white">
+      <h2 className="text-2xl font-bold mb-4">Create Blog Post</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <label className="block font-semibold text-white">
+          Title
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="w-full p-2 border rounded bg-gray-100 text-black"
+          />
+        </label>
+        <label className="block font-semibold text-white">
+          Game
+          <select
+            value={selectedGameId || ''}
+            onChange={(e) => setSelectedGameId(e.target.value)}
+            required
+            className="w-full p-2 border rounded bg-gray-100 text-black"
+          >
+            <option value="" disabled>
+              Select a game
             </option>
-          ))}
-        </select>
-      </label>
-      <label className="block font-semibold">
-        Content
-        <textarea
-          placeholder="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          className="w-full p-2 border rounded"
-        />
-      </label>
-      <label className="block font-semibold">
-        Image URL
-        <input
-          type="url"
-          placeholder="Image URL"
-          value={imageLink}
-          onChange={(e) => setImageLink(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      </label>
-      <label className="block font-semibold">
-        Video Link URL
-        <input
-          type="url"
-          placeholder="Video Link URL"
-          value={videoLink}
-          onChange={(e) => setVideoLink(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      </label>
-      <div className="form-actions mt-4">
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700">Create Post</button>
-        <button type="button" onClick={() => setShowPreview(!showPreview)} className="ml-4 px-4 py-2 bg-gray-400 text-white font-bold rounded cursor-pointer hover:bg-gray-500">
-          Preview Post
-        </button>
-      </div>
-    </form>
-    <div className="preview-section mt-8">
-      {showPreview && (
-        <div className="preview-content border p-4 rounded">
-          <h2 className="text-xl font-bold">{title}</h2>
-          <p className="mt-4">{content}</p>
-          {imageLink && <img src={imageLink} alt={`Image for ${title}`} className="mt-4 rounded" />}
-          {videoLink && (
-            <iframe src={videoLink} title={`Video for ${title}`} className="mt-4 w-full h-56 rounded" />
-          )}
+            {games.map((game) => (
+              <option key={game._id} value={game._id}>
+                {game.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block font-semibold text-white">
+          Content
+          <textarea
+            placeholder="Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+            className="w-full p-2 border rounded bg-gray-100 text-black"
+          />
+        </label>
+        <label className="block font-semibold text-white">
+          Image URL
+          <input
+            type="url"
+            placeholder="Image URL"
+            value={imageLink}
+            onChange={(e) => setImageLink(e.target.value)}
+            className="w-full p-2 border rounded bg-gray-100 text-black"
+          />
+        </label>
+        <label className="block font-semibold text-white">
+          Video Link URL
+          <input
+            type="url"
+            placeholder="Video Link URL"
+            value={videoLink}
+            onChange={(e) => setVideoLink(e.target.value)}
+            className="w-full p-2 border rounded bg-gray-100 text-black"
+          />
+        </label>
+        <div className="form-actions mt-4">
+          <button
+            type="submit"
+            className="px-4 py-2 bg-black text-white font-bold rounded"
+          >
+            Create Post
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowPreview(!showPreview)}
+            className="ml-4 px-4 py-2 bg-black text-white font-bold rounded"
+          >
+            Preview Post
+          </button>
         </div>
-      )}
+      </form>
+      <div className="preview-section mt-8">
+        {showPreview && (
+          <div className="preview-content border p-4 rounded">
+            <h2 className="text-xl font-bold">{title}</h2>
+            <p className="mt-4">{content}</p>
+            {imageLink && (
+              <img
+                src={imageLink}
+                alt={`Image for ${title}`}
+                className="mt-4 rounded"
+              />
+            )}
+            {videoLink && (
+              <iframe
+                src={videoLink}
+                title={`Video for ${title}`}
+                className="mt-4 w-full h-56 rounded"
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
-}
+  );
+};
 
 export default BlogPostForm;
