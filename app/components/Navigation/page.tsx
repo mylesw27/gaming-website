@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menubar, MenubarMenu, MenubarShortcut } from '@/components/ui/menubar';
 import {
   NavigationMenu,
@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
+import jwt from 'jsonwebtoken';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Navigation = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -17,6 +19,8 @@ const Navigation = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [avatar, setAvatar] = useState<string>('');
+  const [name, setName] = useState<string>('');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -33,8 +37,39 @@ const Navigation = () => {
     setIsMenuOpen(false);
   };
 
+  const getAvatar = () => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt.decode(token as string);
+    const userId =
+      typeof decodedToken === 'object' && decodedToken !== null
+        ? decodedToken.id
+        : '';
+    const fetchUserAvatar = async () => {
+      try {
+        // Make an API request to fetch random games data
+        const response = await fetch(
+          `http://localhost:8000/api-v1/users/profile/${userId}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch user avatar');
+        }
+        const data = await response.json();
+        setAvatar(data.user.avatar);
+        setName(data.user.name);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching user avatar:', error);
+      }
+    };
+    fetchUserAvatar();
+  };
+
+  useEffect(() => {
+    getAvatar();
+  }, []);
+
   return (
-    <Menubar className="flex justify-between items-center bg-gray-900 border-gray-900 rounded-md-gray-900">
+    <Menubar className="flex justify-between items-center bg-gray-900 border-gray-900 rounded-md-gray-900 h-16">
       <div className="flex items-center space-x-4">
         <a href="/">
           <img
@@ -46,19 +81,29 @@ const Navigation = () => {
         <div className="hidden md:flex space-x-4">
           <MenubarMenu>
             <a href="/">
-              <MenubarShortcut>Home</MenubarShortcut>
+              <MenubarShortcut className="text-white text-sm">
+                Home
+              </MenubarShortcut>
             </a>
             <a href="/login">
-              <MenubarShortcut>Login</MenubarShortcut>
+              <MenubarShortcut className="text-white text-sm">
+                Login
+              </MenubarShortcut>
             </a>
             <a href="/sign-up">
-              <MenubarShortcut>Sign Up</MenubarShortcut>
+              <MenubarShortcut className="text-white text-sm">
+                Sign Up
+              </MenubarShortcut>
             </a>
             <a href="/sign-out">
-              <MenubarShortcut>Sign Out</MenubarShortcut>
+              <MenubarShortcut className="text-white text-sm">
+                Sign Out
+              </MenubarShortcut>
             </a>
             <a href="/games">
-              <MenubarShortcut>Games</MenubarShortcut>
+              <MenubarShortcut className="text-white text-sm">
+                Games
+              </MenubarShortcut>
             </a>
           </MenubarMenu>
         </div>
@@ -72,44 +117,62 @@ const Navigation = () => {
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </form>
+        {/* Desktop Avatar */}
+        <a href="/profile" className="hidden md:block">
+          <Avatar>
+            <AvatarImage src={avatar} alt="Avatar" />
+            <AvatarFallback>{name}</AvatarFallback>
+          </Avatar>
+        </a>
       </div>
+
+      {/* Mobile Menu */}
       <div className="md:hidden">
         <NavigationMenu>
-          <NavigationMenuItem className=''>
+          <NavigationMenuItem>
             {/* Mobile Menu Button */}
             <NavigationMenuTrigger
               onClick={toggleMenu}
-              className=" focus:outline-none text-black"
+              className="focus:outline-none text-black"
             >
               Menu
             </NavigationMenuTrigger>
 
-            {/* {isMenuOpen && (
-              <div
-                className={`mt-2 transition-transform transform ${
-                  isMenuOpen ? 'translate-y-0' : '-translate-y-full'
-                }`}
-              > */}
-                {/* Mobile Menu */}
-                <NavigationMenuContent className='flex flex-col space-y-2 p-2'>
-                  <div>
-                    <NavigationMenuLink href="/">Home</NavigationMenuLink>
-                  </div>
-                  <div>
-                    <NavigationMenuLink href="/login">Login</NavigationMenuLink>
-                  </div>
-                  <div>
-                    <NavigationMenuLink href="/sign-up">Sign Up</NavigationMenuLink>
-                  </div>
-                  <div>
-                    <NavigationMenuLink href="#" onClick={handleSignOut}>Sign Out</NavigationMenuLink>
-                  </div>
-                  <div>
-                    <NavigationMenuLink href="/games">Games</NavigationMenuLink>
-                  </div>
-                </NavigationMenuContent>
-              {/* </div>
-            )} */}
+            {/* Mobile Menu Content */}
+            <NavigationMenuContent
+              className={`flex flex-col space-y-2 p-2 ${
+                isMenuOpen ? 'block' : 'hidden'
+              }`}
+            >
+              {/* Mobile Avatar */}
+              <div className="mb-4 flex justify-center">
+                <a href="/profile">
+                  <Avatar className="w-12 h-12">
+                    <AvatarImage src={avatar} alt="Avatar" />
+                    <AvatarFallback>{name}</AvatarFallback>
+                  </Avatar>
+                </a>
+              </div>
+
+              {/* Mobile Menu Links */}
+              <div>
+                <NavigationMenuLink href="/">Home</NavigationMenuLink>
+              </div>
+              <div>
+                <NavigationMenuLink href="/login">Login</NavigationMenuLink>
+              </div>
+              <div>
+                <NavigationMenuLink href="/sign-up">Sign Up</NavigationMenuLink>
+              </div>
+              <div>
+                <NavigationMenuLink href="#" onClick={handleSignOut}>
+                  Sign Out
+                </NavigationMenuLink>
+              </div>
+              <div>
+                <NavigationMenuLink href="/games">Games</NavigationMenuLink>
+              </div>
+            </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenu>
       </div>
@@ -118,4 +181,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
