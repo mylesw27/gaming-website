@@ -1,7 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { get } from 'http';
+import { redirect } from 'next/dist/server/api-utils';
+import router from 'next/router';
+
 
 // Interfaces
 interface Post {
@@ -98,9 +100,48 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     getPostInformation();
   }, []); // Empty dependency array, so it runs only once when the component mounts
 
-  // Handle form submission when the "Create Post" button is clicked
-  const handleCreatePostClick = async () => {
-    // ... (remaining code for creating a new post)
+  // Handle form when the Update Post button is clicked
+  const handleUpdatePostClick = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('Token not found.');
+            return;
+        }
+        const decodedToken = jwt.decode(token);
+        if (!decodedToken || typeof decodedToken !== 'object') {
+            console.log('Decoded token not found or invalid.');
+            return;
+        }
+        
+        const postId = window.location.pathname.split('/')[5];
+        const gameId = window.location.pathname.split('/')[3];
+        console.log('postId', postId)
+        const response = await fetch(`http://localhost:8000/api-v1/post/${postId}`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+            },
+            body: JSON.stringify({
+            title,
+            content,
+            postId,
+            imageLink,
+            videoLink,
+            }),
+        });
+        console.log(response)
+        if (!response.ok) {
+            throw new Error('Failed to create post');
+        }
+        const data = await response.json();
+        console.log('Updated the blog post!')
+        window.location.href = `/profile/blog/${gameId}`;
+
+    } catch {
+        console.error('Error creating post');
+    }
   };
 
   return (
@@ -159,10 +200,10 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
         <div className="form-actions mt-4">
           <button
             type="button"
-            onClick={handleCreatePostClick} // Use onClick for the button
+            onClick={handleUpdatePostClick}
             className="px-4 py-2 bg-black text-white font-bold rounded"
           >
-            Create Post
+            Update Post
           </button>
           <button
             type="button"
