@@ -1,6 +1,11 @@
-'use client';
+'use client'
 import React, { useState, useEffect } from 'react';
+<<<<<<< Updated upstream
 import jwt, {JwtPayload} from 'jsonwebtoken';
+=======
+import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+>>>>>>> Stashed changes
 
 // Interfaces
 interface Post {
@@ -9,6 +14,7 @@ interface Post {
   gameId: number;
   imageLink: string;
   videoLink: string;
+  _id: string;
 }
 
 interface Game {
@@ -21,10 +27,10 @@ interface Game {
   description: string;
 }
 
-interface BlogFormProps {
-  onSubmit: (newPost: Post) => void;
-}
+const BlogPostDisplay = () => {
+  const gameID = window.location.pathname.split('/')[3]; // Use [3] to get the gameId from the URL
 
+<<<<<<< Updated upstream
 const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   // State Hooks
   const [title, setTitle] = useState('');
@@ -90,9 +96,16 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const decodedToken = jwt.decode(token) as JwtPayload | null;
     const gameId = selectedGameId;
     console.log('gameId', gameId)
+=======
+  const [blogPosts, setBlogPosts] = useState<Post[]>([]);
+  const [game, setGame] = useState<Game | null>(null);
+>>>>>>> Stashed changes
 
+  // Get all blog posts for the game
+  const getBlogPosts = async () => {
     try {
       const response = await fetch(
+<<<<<<< Updated upstream
         `http://localhost:8000/api-v1/post/${selectedGameId}`,
         {
           method: 'POST',
@@ -110,27 +123,51 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
           }),
         }
         
+=======
+        `http://localhost:8000/api-v1/post/all/${gameID}`
+>>>>>>> Stashed changes
       );
-
       if (!response.ok) {
-        throw new Error('Failed to create post');
+        throw new Error('Failed to fetch blog posts');
       }
-
       const data = await response.json();
-      console.log(data);
-      onSubmit(data.newBlogPost);
-
-      // Clear form fields after successful submission
-      setTitle('');
-      setContent('');
-      setImageLink('');
-      setVideoLink('');
-      setSelectedGameId(null);
+      setBlogPosts(data.posts);
+      setGame(data.post);
     } catch (error) {
-      console.error('Error creating post:', error);
-      // Handle and display the error to the user
+      console.error('Error fetching blog posts:', error);
     }
   };
+
+  useEffect(() => {
+    getBlogPosts();
+  }, [gameID]);
+
+  // Function to handle edit button click
+  const handleEditPost = (postId: string) => {
+    window.location.href = `/profile/blog/${gameID}/edit/${postId}`;
+  };
+
+  // Function to handle delete button click
+  const handleDeletePost = async (postId: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`http://localhost:8000/api-v1/post/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token as string,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete the blog post');
+      }
+      // Update the UI by removing the deleted blog post from the state
+      setBlogPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+    }
+  };
+<<<<<<< Updated upstream
   
 return (
   <div className="form-container p-8">
@@ -213,9 +250,43 @@ return (
           )}
         </div>
       )}
+=======
+
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      <h2>Game: {game?.title}</h2>
+      <Button>
+        <a href={`/profile/blog/${gameID}/post`}>Create New Post</a>
+      </Button>
+      {blogPosts.map((post, index) => (
+        <Card key={index} className="mb-4">
+          <CardContent>
+            <a href={`/games/${gameID}/blog/${post._id}/`}>
+              <CardTitle>{post.title}</CardTitle>
+              <CardDescription>{post.content}</CardDescription>
+              {/* {post.imageLink && (
+                <img src={post.imageLink} alt={post.title} className="mt-2" />
+              )}
+              {post.videoLink && (
+                <iframe
+                  src={post.videoLink}
+                  title={post.title}
+                  className="mt-2"
+                />
+              )} */}
+            </a>
+          </CardContent>
+          <div className="flex justify-between mt-2">
+            <Button onClick={() => handleEditPost(post._id)}>Edit</Button>
+            <Button onClick={() => handleDeletePost(post._id)}>Delete</Button>
+          </div>
+        </Card>
+      ))}
+>>>>>>> Stashed changes
     </div>
   </div>
 );
 }
 
-export default BlogPostForm;
+export default BlogPostDisplay;

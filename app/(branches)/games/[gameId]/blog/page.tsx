@@ -1,5 +1,6 @@
-'use client';
+'use client'
 import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 
 // Interfaces
 interface Post {
@@ -38,6 +39,8 @@ const BlogPostDisplay = () => {
       }
       const data = await response.json();
       setBlogPosts(data.posts);
+      setGame(data.post);
+      console.log('The game title',data.post.title)
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }
@@ -49,21 +52,29 @@ const BlogPostDisplay = () => {
 
   return (
     <div>
+      <h1>Blog Posts</h1>
+      <h2>Game: {game?.title}</h2>
       {blogPosts.map((post, index) => (
-        <div key={index}>
-          <a
-            href={`/games/${gameID}/blog/${post._id}/`}
-          >
-            <h3>Title: {post.title}</h3>
-            <p>Content: {post.content}</p>
-            {post.imageLink && <img src={post.imageLink} alt={post.title} />}
-            {post.videoLink && (
-              <iframe src={post.videoLink} title={post.title} />
-            )}
-          </a>
-        </div>
+        <Card key={index} className="mb-4">
+          <CardContent>
+            <a href={`/games/${gameID}/blog/${post._id}/`}>
+              <CardTitle>{post.title}</CardTitle>
+              <CardDescription>{post.content}</CardDescription>
+              {post.imageLink && (
+                <img src={post.imageLink} alt={post.title} className="mt-2" />
+              )}
+              {post.videoLink && (
+                <iframe
+                  src={post.videoLink}
+                  title={post.title}
+                  className="mt-2"
+                />
+              )}
+            </a>
+          </CardContent>
+        </Card>
       ))}
-       <button onClick={() => { window.location.href = `/games/${gameID}/`; }}>
+      <button onClick={() => { window.location.href = `/games/${gameID}/`; }}>
         Back to GameInfo
       </button>
     </div>
