@@ -60,6 +60,11 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
   const startIndex = (currentPage - 1) * gamesPerPage;
   const displayedGames = games.slice(startIndex, startIndex + gamesPerPage);
 
+  if (displayedGames.length === 0) {
+    // No games found for this category, return null
+    return null;
+  }
+
   return (
     <div className="text-slate-300 bg-gray-800 py-9">
       <h2 className="text-slate-300 bg-gray-800 text-2xl font-bold mb-4 md:text-3xl md:mb-6 text-center">
@@ -80,43 +85,39 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
         </button>
       </div>
       <div className="carousel grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {displayedGames.length > 0 ? (
-          displayedGames.map((game) => (
-            <div
-              key={game._id}
-              className="carousel-item p-4 text-slate-300 bg-gray-700 rounded-lg"
-            >
+        {displayedGames.map((game) => (
+          <div
+            key={game._id}
+            className="carousel-item p-4 text-slate-300 bg-gray-700 rounded-lg"
+          >
+            <a href={`/games/${game._id}`}>
+              <h3 className="text-lg font-bold mb-2 md:text-xl">
+                {game.title}
+              </h3>
+            </a>
+            <div className="w-full h-64 md:h-80 lg:h-96">
               <a href={`/games/${game._id}`}>
-                <h3 className="text-lg font-bold mb-2 md:text-xl">
-                  {game.title}
-                </h3>
-              </a>
-              <div className="w-full h-64 md:h-80 lg:h-96">
-                <a href={`/games/${game._id}`}>
-                  <img
-                    src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/'}
-                    alt={game.title}
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/';
-                    }}
-                    className="object-cover w-full h-full rounded-lg"
-                  />
-                </a>
-              </div>
-              <p className="text-sm text-slate-300 mb-2 md:text-base">
-                Category: {game.category}
-              </p>
-              <p className="text-sm text-slate-300 mb-2 md:text-base">
-                Description: {game.description}
-              </p>
-              <a href={`/profile/${game.userId}`}>
-                <p className="text-sm text-slate-300">By: {game.userName}</p>
+                <img
+                  src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/'}
+                  alt={game.title}
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/';
+                  }}
+                  className="object-cover w-full h-full rounded-lg"
+                />
               </a>
             </div>
-          ))
-        ) : (
-          <div className="text-red-500">No games found.</div>
-        )}
+            <p className="text-sm text-slate-300 mb-2 md:text-base">
+              Category: {game.category}
+            </p>
+            <p className="text-sm text-slate-300 mb-2 md:text-base">
+              Description: {game.description}
+            </p>
+            <a href={`/profile/${game.userId}`}>
+              <p className="text-sm text-slate-300">By: {game.userName}</p>
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   );
