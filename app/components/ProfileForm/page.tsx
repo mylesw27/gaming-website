@@ -3,9 +3,7 @@ import PasswordReset from '../../components/PasswordReset/page';
 import Navigation from '../../components/Navigation/page';
 import jwt from 'jsonwebtoken';
 import { useState, useEffect } from 'react';
-import {
-  useForm,
-} from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { cn } from '../../../lib/utils';
@@ -40,7 +38,7 @@ interface Game {
 
 export function ProfileForm() {
   const [bio, setBio] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
 
@@ -59,7 +57,7 @@ export function ProfileForm() {
       })
       .email(),
     bio: z.string().max(160).min(4).optional(),
-    password: z.string().min(8).max(100).optional(),
+    newPassword: z.string().min(8).max(100).optional(),
     avatar: z.string().url({ message: 'Please enter a valid URL.' }),
     urls: z
       .array(
@@ -75,7 +73,7 @@ export function ProfileForm() {
     username: string;
     email: string;
     bio?: string;
-    password?: string;
+    newPassword?: string;
     urls?: { value: string }[];
   };
 
@@ -108,7 +106,7 @@ export function ProfileForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ bio, avatar, password }),
+        body: JSON.stringify({ bio, avatar, newPassword }),
       });
 
       if (response.ok) {
@@ -121,22 +119,34 @@ export function ProfileForm() {
     }
   };
 
+  const {toast} = useToast();
+
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent default button behavior
+    event.preventDefault();
     const values = form.getValues();
     console.log('values', values);
     updateProfile(values);
+    // Set all text fields to empty
+    setBio('');
+    setAvatar('');
+    setNewPassword('');
+    toast({
+      title: "Profile Updated",
+      description: "Congratulations! Your profile has been updated.",
+    })
   };
 
+  
+
   return (
-    <div className='bg-gray-800'>
+    <div className="bg-gray-800">
       <Form {...form}>
         <FormField
           control={form.control}
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-white'>Bio</FormLabel>
+              <FormLabel className="text-white">Bio</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Share a brief introduction about yourself"
@@ -151,15 +161,13 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <div className='py-2'>
-        </div>
+        <div className="py-2"></div>
         <FormField
-
           control={form.control}
           name="avatar"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-white'>Avatar</FormLabel>
+              <FormLabel className="text-white">Avatar</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Paste the URL of your profile picture"
@@ -173,31 +181,31 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <div className='py-2'>
-        </div>
+        <div className="py-2"></div>
         <FormField
           control={form.control}
-          name="password"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-white'>Change Password</FormLabel>
+              <FormLabel className="text-white">Change Password</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your new password"
                   className="resize-none bg-gray-100 text-black"
                   {...field}
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="newPassword"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </FormControl>
             </FormItem>
           )}
         />
-                <div className='py-2'>
-        </div>
+        <div className="py-2"></div>
         <div className="py-3">
-          <Button onClick={handleButtonClick} variant={'secondary'}>Update Profile</Button>
+          <Button onClick={handleButtonClick} variant={'secondary'}>
+            Update Profile
+          </Button>
         </div>
       </Form>
     </div>
