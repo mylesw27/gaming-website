@@ -47,24 +47,34 @@ const HeroSection: React.FC<HeroSectionProps> = ({ objectIDs }) => {
   }, [objectIDs]);
 
   return (
-    <div className="flex flex-col items-center">
-      {heroGame ? (
-        <div className="flex flex-col items-center space-y-6 md:flex-row md:space-y-0 md:space-x-8">
-          <img className="w-3/4 md:w-1/2 rounded-lg" src={heroGame.image} alt={heroGame.title} />
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">{heroGame.title}</h1>
-            <p className="text-base md:text-lg">By: {heroGame.userName}</p>
-            <p className="text-base md:text-lg">Category: {heroGame.category}</p>
-            <p className="text-base md:text-lg">Tech Stack: {heroGame.techstack}</p>
-            <p className="text-base md:text-lg">Github: {heroGame.github}</p>
-            <p className="text-base md:text-lg">Deployment: {heroGame.link}</p>
-            <p className="text-base md:text-lg">Description: {heroGame.description}</p>
-          </div>
+    <div className="flex flex-col items-center justify-center">
+  {heroGame ? (
+    <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8">
+      <a href={`/games/${heroGame._id}`} className="flex justify-center">
+        <img
+          className="w-3/4 md:w-1/2 rounded-lg"
+          src={heroGame.image}
+          alt={heroGame.title}
+        />
+        <div className="text-center md:text-left pl-9">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 hover:underline">
+            {heroGame.title}
+          </h1>
+          <p className="text-base md:text-lg">By: {heroGame.userName}</p>
+          <p className="text-base md:text-lg">Category: {heroGame.category}</p>
+          <p className="text-base md:text-lg">Tech Stack: {heroGame.techstack}</p>
+          <p className="text-base md:text-lg">Github: {heroGame.github}</p>
+          <p className="text-base md:text-lg">Deployment: {heroGame.link}</p>
+          <p className="text-base md:text-lg">Description: {heroGame.description}</p>
         </div>
-      ) : (
-        <p>No hero game found.</p>
-      )}
+      </a>
     </div>
+  ) : (
+    <p>No hero game found.</p>
+  )}
+</div>
+
+  
   );
 };
 

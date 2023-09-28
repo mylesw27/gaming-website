@@ -87,7 +87,7 @@ const Navigation = () => {
               <>
                 <NavigationMenuLink
                   onClick={handleSignOut}
-                  className="text-white text-sm px-3"
+                  className="text-white text-sm px-3 cursor-pointer"
                 >
                   Sign Out
                 </NavigationMenuLink>
@@ -113,6 +113,12 @@ const Navigation = () => {
                   className="text-white text-sm px-3"
                 >
                   Sign Up
+                </NavigationMenuLink>
+                <NavigationMenuLink
+                  href="/games"
+                  className="text-white text-sm px-3"
+                >
+                  Games
                 </NavigationMenuLink>
               </>
             )}

@@ -75,7 +75,7 @@ const RandomCreators: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">Random Creators</h2>
+      <h2 className="flex text-3xl font-bold mb-4 justify-center">Random Creators</h2>
       <div className="flex overflow-x-auto" {...swipeHandlers}>
         {users.length > 0 ? (
           users.map((user, index) => {

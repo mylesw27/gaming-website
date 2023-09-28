@@ -79,7 +79,7 @@ const NewGames: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">New</h2>
+      <h2 className="flex text-3xl font-bold mb-4 justify-center">New Games</h2>
       <div className="flex overflow-x-auto" {...swipeHandlers}>
         {games.length > 0 ? (
           games.map((game, index) => {
