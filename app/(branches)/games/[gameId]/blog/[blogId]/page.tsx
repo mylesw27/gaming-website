@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 
-
 interface BlogPost {
   title: string;
   content: string;
@@ -43,21 +42,41 @@ const BlogPostDetails = () => {
   const game = pathSegments[2];
 
   return (
-    <div>
-      <h1>{blogPost.title}</h1>
-      <p>{blogPost.content}</p>
+    <div className="bg-white rounded-lg shadow-lg p-6 mx-auto max-w-xl mt-8">
+      <h1 className="text-3xl font-semibold mb-4">{blogPost.title}</h1>
+      <p className="text-gray-700">{blogPost.content}</p>
       {blogPost.imageLink && (
-        <img src={blogPost.imageLink} alt={blogPost.title} />
+        <img
+          src={blogPost.imageLink}
+          alt={blogPost.title}
+          className="mt-4 rounded-md"
+        />
       )}
-      {blogPost.videoLink && (
-        <iframe src={blogPost.videoLink} title={blogPost.title} />
-      )}
-      <button onClick={() => { window.location.href = `/games/${game}/blog/`; }}>
-        Back to Posts
-      </button>
-      <button onClick={() => { window.location.href = `/games/${game}`; }}>
-        Back to Game
-      </button>
+      {/* {blogPost.videoLink && (
+        <iframe
+          src={blogPost.videoLink}
+          title={blogPost.title}
+          className="mt-4 rounded-md"
+        />
+      )} */}
+      <div className="mt-6 flex justify-between">
+        <button
+          onClick={() => {
+            window.location.href = `/games/${game}/blog/`;
+          }}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          Back to Posts
+        </button>
+        <button
+          onClick={() => {
+            window.location.href = `/games/${game}`;
+          }}
+          className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-gray-300"
+        >
+          Back to Game
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import WebsiteFooter from "../components/Footer/page"
 import Navigation from "../components/Navigation/page"
 import '../globals.css'
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
   title: 'Next.js',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen">
         <Navigation />
         <div className="flex-grow">{children}</div>
+        <Toaster />
         <WebsiteFooter />
       </body>
     </html>

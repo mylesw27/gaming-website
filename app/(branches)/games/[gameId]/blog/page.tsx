@@ -1,6 +1,11 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card';
 
 // Interfaces
 interface Post {
@@ -40,7 +45,7 @@ const BlogPostDisplay = () => {
       const data = await response.json();
       setBlogPosts(data.posts);
       setGame(data.post);
-      console.log('The game title',data.post.title)
+      console.log('The game title', data.post.title);
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }
@@ -59,22 +64,32 @@ const BlogPostDisplay = () => {
           <CardContent>
             <a href={`/games/${gameID}/blog/${post._id}/`}>
               <CardTitle>{post.title}</CardTitle>
-              <CardDescription>{post.content}</CardDescription>
+
               {post.imageLink && (
-                <img src={post.imageLink} alt={post.title} className="mt-2" />
+                <img
+                  src={post.imageLink}
+                  alt={post.title}
+                  className="mt-2"
+                  style={{ width: '300px', height: '200px' }}
+                />
               )}
-              {post.videoLink && (
+              {/* {post.videoLink && (
                 <iframe
                   src={post.videoLink}
                   title={post.title}
                   className="mt-2"
                 />
-              )}
+              )} */}
+              <CardDescription>{post.content}</CardDescription>
             </a>
           </CardContent>
         </Card>
       ))}
-      <button onClick={() => { window.location.href = `/games/${gameID}/`; }}>
+      <button
+        onClick={() => {
+          window.location.href = `/games/${gameID}/`;
+        }}
+      >
         Back to GameInfo
       </button>
     </div>

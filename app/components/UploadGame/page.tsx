@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import jwt from 'jsonwebtoken';
-import { BiSolidError } from 'react-icons/bi';
+import { useToast } from '../../../components/ui/use-toast';
+import { Button } from '@/components/ui/button';
 
 interface GameData {
   userName: string;
@@ -52,6 +53,8 @@ const Upload: React.FC = () => {
   const handleLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLink(event.target.value);
   };
+
+  const {toast} = useToast();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -110,24 +113,28 @@ const Upload: React.FC = () => {
     } else {
       console.error('Token not found.');
     }
+    toast({
+      title: "Game Uploaded",
+      description: "Congratulations! Your game has been added",
+    })
   };
 
   return (
-    <div className="p-8">
-       <h2 className="text-2xl font-bold mb-4">Upload Game</h2>
+    <div className="p-8 bg-gray-800">
+       <h2 className="text-2xl font-bold mb-4 text-white">Upload Game</h2>
       {message && <p className='text-red-500 italic'>{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           
-          <label className="flex align-center font-semibold">{errorField === 'title' && <h2 className='text-red-500 flex items-center'><BiSolidError /></h2>}Title:</label>
+          <label className="flex align-center font-semibold text-white">Title:</label>
           <input type="text" value={title} onChange={handleTitleChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block font-semibold">Description:</label>
+          <label className="block font-semibold text-white">Description:</label>
           <input type="text" value={description} onChange={handleDescriptionChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block font-semibold">Category:</label>
+          <label className="block font-semibold text-white">Category:</label>
           <select value={category} onChange={handleCategoryChange} required className="w-full p-2 border rounded">
             <option value="">Select a category</option>
             <option value="Action">Action</option>
@@ -145,24 +152,24 @@ const Upload: React.FC = () => {
           </select>
         </div>
         <div>
-          <label className="block font-semibold">Techstack:</label>
+          <label className="block font-semibold text-white">Techstack:</label>
           <input type="text" value={techstack} onChange={handleTechstackChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block font-semibold">Image:</label>
+          <label className="block font-semibold text-white">Image:</label>
           <input type="text" value={image} onChange={handleImageChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block font-semibold">Github:</label>
+          <label className="block font-semibold text-white">Github:</label>
           <input type="text" value={github} onChange={handleGithubChange} required className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="flex align-center font-semibold">{errorField === 'link' && <h2 className='text-red-500 flex items-center'><BiSolidError /></h2>}Link:</label>
+          <label className="flex align-center font-semibold text-white">Deployed Game Link:</label>
           <input type="text" value={link} onChange={handleLinkChange} required className="w-full p-2 border rounded" />
         </div>
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700">
+        <Button type="submit" variant={'secondary'}>
           Upload
-        </button>
+        </Button>
       </form>
     </div>
   );

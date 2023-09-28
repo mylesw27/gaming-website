@@ -4,7 +4,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { redirect } from 'next/dist/server/api-utils';
 import router from 'next/router';
 
-
 // Interfaces
 interface Post {
   title: string;
@@ -103,44 +102,47 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   // Handle form when the Update Post button is clicked
   const handleUpdatePostClick = async () => {
     try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('Token not found.');
-            return;
-        }
-        const decodedToken = jwt.decode(token);
-        if (!decodedToken || typeof decodedToken !== 'object') {
-            console.log('Decoded token not found or invalid.');
-            return;
-        }
-        
-        const postId = window.location.pathname.split('/')[5];
-        const gameId = window.location.pathname.split('/')[3];
-        console.log('postId', postId)
-        const response = await fetch(`http://localhost:8000/api-v1/post/${postId}`, {
-            method: 'PUT',
-            headers: {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('Token not found.');
+        return;
+      }
+      const decodedToken = jwt.decode(token);
+      if (!decodedToken || typeof decodedToken !== 'object') {
+        console.log('Decoded token not found or invalid.');
+        return;
+      }
+
+      const postId = window.location.pathname.split('/')[5];
+      const gameId = window.location.pathname.split('/')[3];
+      console.log('postId', postId);
+      const response = await fetch(
+        `http://localhost:8000/api-v1/post/${postId}`,
+        {
+          method: 'PUT',
+          headers: {
             'Content-Type': 'application/json',
             Authorization: token,
-            },
-            body: JSON.stringify({
+          },
+          body: JSON.stringify({
             title,
             content,
             postId,
+            gameId,
             imageLink,
             videoLink,
-            }),
-        });
-        console.log(response)
-        if (!response.ok) {
-            throw new Error('Failed to create post');
+          }),
         }
-        const data = await response.json();
-        console.log('Updated the blog post!')
-        window.location.href = `/profile/blog/${gameId}`;
+      );
 
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+      const data = await response.json();
+      console.log('Updated the blog post!');
+      window.location.href = `/profile/blog/${gameId}`;
     } catch {
-        console.error('Error creating post');
+      console.error('Error creating post');
     }
   };
 
@@ -187,7 +189,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
             className="w-full p-2 border rounded bg-gray-100 text-black"
           />
         </label>
-        <label className="block font-semibold text-white">
+        {/* <label className="block font-semibold text-white">
           Video Link URL
           <input
             type="url"
@@ -196,7 +198,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
             onChange={(e) => setVideoLink(e.target.value)}
             className="w-full p-2 border rounded bg-gray-100 text-black"
           />
-        </label>
+        </label> */}
         <div className="form-actions mt-4">
           <button
             type="button"

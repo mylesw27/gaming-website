@@ -150,7 +150,7 @@ const Profile = () => {
       variant="default"
       onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
     >
-      Blog Form
+      Blog Posts
     </Button>
   </div>
   
