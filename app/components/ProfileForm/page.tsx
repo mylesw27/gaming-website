@@ -140,7 +140,7 @@ export function ProfileForm() {
               <FormControl>
                 <Textarea
                   placeholder="Share a brief introduction about yourself"
-                  className="resize-none bg-gray-100 text-gray-100"
+                  className="resize-none bg-gray-100"
                   {...field}
                   value={bio}
                   name="bio"
@@ -163,7 +163,7 @@ export function ProfileForm() {
               <FormControl>
                 <Input
                   placeholder="Paste the URL of your profile picture"
-                  className="resize-none bg-gray-100 text-gray-100"
+                  className="resize-none bg-gray-100"
                   {...field}
                   value={avatar}
                   name="avatar"
@@ -184,10 +184,11 @@ export function ProfileForm() {
               <FormControl>
                 <Input
                   placeholder="Enter your new password"
-                  className="resize-none bg-gray-100 text-gray-100"
+                  className="resize-none bg-gray-100 text-black"
                   {...field}
                   name="password"
                   value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </FormControl>
             </FormItem>

@@ -29,6 +29,8 @@ const BlogPostDisplay = () => {
 
   const [blogPosts, setBlogPosts] = useState<Post[]>([]);
   const [game, setGame] = useState<Game | null>(null);
+  const [imageLink, setImageLink] = useState('');
+  const [videoLink, setVideoLink] = useState('');
 
   // Get all blog posts for the game
   const getBlogPosts = async () => {
@@ -42,6 +44,7 @@ const BlogPostDisplay = () => {
       const data = await response.json();
       setBlogPosts(data.posts);
       setGame(data.post);
+      console.log(data)
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }
@@ -89,17 +92,23 @@ const BlogPostDisplay = () => {
           <CardContent>
             <a href={`/games/${gameID}/blog/${post._id}/`}>
               <CardTitle>{post.title}</CardTitle>
-              <CardDescription>{post.content}</CardDescription>
-              {/* {post.imageLink && (
-                <img src={post.imageLink} alt={post.title} className="mt-2" />
-              )}
-              {post.videoLink && (
-                <iframe
-                  src={post.videoLink}
-                  title={post.title}
-                  className="mt-2"
-                />
-              )} */}
+             
+              {post.imageLink && (
+  <img
+    src={post.imageLink}
+    alt={post.title}
+    className="mt-2"
+    style={{ width: '300px', height: '200px' }} 
+  />
+)}
+ <CardDescription>{post.content}</CardDescription>
+{/* {post.videoLink && (
+  <div className="video-container">
+<iframe id="ytplayer" width="720" height="405"
+      src={`https://www.youtube.com/embed/${post.videoLink.split('v=')[1]}`}
+      title={post.title}/>
+  </div>
+)} */}
             </a>
           </CardContent>
           <div className="flex justify-between mt-2">
