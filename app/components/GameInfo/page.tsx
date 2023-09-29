@@ -51,7 +51,6 @@ const GameComponent: React.FC = () => {
         `http://localhost:8000/api-v1/like/game/${gameID}/`
       );
       const likeData = await likeResponse.json();
-      conso
       setNumberOfLikes(likeData.likes);
     } catch (error) {
       console.error('Error fetching game:', error);
@@ -75,70 +74,87 @@ const GameComponent: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 justify-center bg-gray-800 px-64 text-gray-200 h-screen">
+    <div className="container mx-auto p-8 text-white">
       {/* Game Header */}
-      <div className='col-span-1 lg:col-span-2'>
-        <div className="my-4 text-center">
-          {game ? (
-            <p className="text-3xl font-bold mb-2">{game.title}</p>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
-        <div className="my-4 text-center">
-            {game ? (
-              <p>
-                By:{' '}
-                <a className="underline" href={`../profile/${game.userId}`}>
-                  {game.userName}
-                </a>
-              </p>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
+      <div className="text-center mb-8">
+        {game ? (
+          <h1 className="text-4xl font-bold">{game.title}</h1>
+        ) : (
+          <p>Loading...</p>
+        )}
+        {game && (
+          <p>
+            By:{' '}
+            <a className="underline" href={`../profile/${game.userId}`}>
+              {game.userName}
+            </a>
+          </p>
+        )}
       </div>
-      {/* ---- Column 1 ---- */}
-      <div className="col-span-1 md:col-span-1 row-span-1 w-fit">
-        <div className="w-96 h-96 rounded-lg flex justify-center items-center relative">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-700">
+        {/* Game Image */}
+        <div className="md:col-span-1">
           {game ? (
-            <div className='h-full rounded-lg flex relative'>
+            <div className="w-full h-97 rounded-lg overflow-hidden relative">
               <img
                 src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg'}
                 alt={game.title}
                 onError={(e) => {
-                  e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg'
+                  e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg';
                 }}
-                className="h-full rounded-lg ob"
+                className="w-full h-full object-cover"
               />
-              <div className='absolute left-2 top-64 flex justify-center space-x-4'>
-                <Like game={game} /> 
-                  <div className="flex justify-center space-x-4">
-                    <FacebookShareButton url={window.location.href}>
-                      <button
-                        className="bg-gray-300 bg-opacity-60 hover:bg-opacity-70 text-gray-800 font-semibold h-10 w-10 rounded-full flex justify-center items-center"
-                        onClick={copyLink}
-                      >
-                        <TbBrandFacebook className='text-center content-center justify-center text-2xl text-blue-900'/>
-                      </ button>
-                    </FacebookShareButton>
-                    <TwitterShareButton url={window.location.href}>
-                      <button
-                        className="bg-gray-300 bg-opacity-60 hover:bg-opacity-70 text-gray-800 font-semibold h-10 w-10 rounded-full flex justify-center items-center"
-                        onClick={copyLink}
-                      >
-                        <TbBrandTwitter className='text-center content-center justify-center text-2xl text-blue-400'/>
-                      </ button>
-                    </TwitterShareButton>
-                    <div>
-                      <button
-                        className="bg-gray-300 bg-opacity-60 hover:bg-opacity-70 text-gray-800 font-semibold h-10 w-10 rounded-full flex justify-center items-center"
-                        onClick={copyLink}
-                      >
-                        <TbCopy className='text-center content-center justify-center text-2xl'/>
-                      </button>
-                    </div>
-                  </div>
+              <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-4 p-4 bg-white bg-opacity-50 text-black">
+                <Like game={game} />
+                <p>Likes: {numberOfLikes}</p>
+                <FacebookShareButton url={window.location.href}>
+                  <button className="icon-button">
+                    <TbBrandFacebook className="icon" />
+                  </button>
+                </FacebookShareButton>
+                <TwitterShareButton url={window.location.href}>
+                  <button className="icon-button">
+                    <TbBrandTwitter className="icon" />
+                  </button>
+                </TwitterShareButton>
+                <button className="icon-button" onClick={copyLink}>
+                  <TbCopy className="icon" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+
+        {/* Game Details */}
+        <div className="md:col-span-1 p-9">
+          {game ? (
+            <div>
+              <div className="mb-4">
+                <p className="text-xl font-bold">Category:</p>
+                <p>{game.category}</p>
+              </div>
+              <div className="mb-4">
+                <p className="text-xl font-bold">Description:</p>
+                <p>{game.description}</p>
+              </div>
+              <div className="mb-4">
+                <p className="text-xl font-bold">Link:</p>
+                <a className="underline" href={game.link} target="_blank" rel="noopener noreferrer">
+                  {game.link}
+                </a>
+              </div>
+              <div className="mb-4">
+                <p className="text-xl font-bold">Github:</p>
+                <a className="underline" href={game.github} target="_blank" rel="noopener noreferrer">
+                  {game.github}
+                </a>
+              </div>
+              <div className="mb-4">
+                <p className="text-xl font-bold">TechStack:</p>
+                <p>{game.techstack}</p>
               </div>
             </div>
           ) : (
@@ -146,66 +162,9 @@ const GameComponent: React.FC = () => {
           )}
         </div>
       </div>
-        {/* ---- Column 2 ---- */}
-      <div className='lg:col-span-1'>
-        <div>
-          <div className="my-4 text-center">
-            {game ? <p>Category: {game.category}</p> : <p>Loading...</p>}
-          </div>
-          
-          <div className="my-4">
-            {game ? (
-              <p className="text-xl font-bold text-center">Description:</p>
-            ) : (
-              <p>Loading...</p>
-            )}
-            {game ? <p className="text-center">{game.description}</p> : null}
-          </div>
-          <div className="my-4">
-            {game ? (
-              <p className="text-xl font-bold text-center">Link:</p>
-            ) : (
-              <p>Loading...</p>
-            )}
-            {game ? (
-              <p className="text-center">
-                <a className="underline" href={game.link} target="_blank">
-                  {' '}
-                  {game.link}{' '}
-                </a>
-              </p>
-            ) : null}
-          </div>
-          <div className="my-4">
-            {game ? (
-              <p className="text-xl font-bold text-center">Github:</p>
-            ) : (
-              <p>Loading...</p>
-            )}
-            {game ? (
-              <p className="text-center">
-                <a className="underline" href={game.github} target="_blank">
-                  {' '}
-                  {game.github}{' '}
-                </a>
-              </p>
-            ) : null}
-          </div>
-          <div className="my-4">
-            {game ? (
-              <p className="text-xl font-bold text-center">TechStack:</p>
-            ) : (
-              <p>Loading...</p>
-            )}
-            {game ? <p className="text-center">{game.techstack}</p> : null}
-          </div>
-          <div className="my-4 text-center">
-            <p>Likes: {numberOfLikes}</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
+
 
 export default GameComponent;
