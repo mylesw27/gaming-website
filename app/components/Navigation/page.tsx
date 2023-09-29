@@ -72,7 +72,7 @@ const Navigation = () => {
       <div className="flex items-center space-x-4">
         <a href="/">
           <img
-            src="./logo.png"
+            src="/logo.png"
             alt="Logo"
             className="object-contain h-10 w-10"
           />
