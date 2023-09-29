@@ -74,9 +74,9 @@ const GameComponent: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 text-white">
+    <div className="container mx-auto p-8 text-white ">
       {/* Game Header */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 ">
         {game ? (
           <h1 className="text-4xl font-bold">{game.title}</h1>
         ) : (
@@ -92,11 +92,11 @@ const GameComponent: React.FC = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-700">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-700 rounded-lg">
         {/* Game Image */}
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 ">
           {game ? (
-            <div className="w-full h-97 rounded-lg overflow-hidden relative">
+            <div className="w-full h-97  overflow-hidden relative rounded-l-lg">
               <img
                 src={game.image || 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg'}
                 alt={game.title}
