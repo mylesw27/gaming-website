@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
-import { FaHeartCircleMinus, FaHeartCirclePlus } from "react-icons/fa6"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { TbBrandFacebook, TbBrandTwitter, TbCopy } from "react-icons/tb";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Game {   
     _id: string;
@@ -82,14 +82,19 @@ export default function Like(props: {game: Game}) {
         setLike(null)
     }
 
-    const copyLink = () => {
-        const textField = document.createElement('textarea');
+    const {toast} = useToast();
+
+    const copyLink = () => {        const textField = document.createElement('textarea');
         textField.innerText = window.location.href;
         document.body.appendChild(textField);
         textField.select();
         document.execCommand('copy');
         textField.remove();
-        alert('Link copied to clipboard');
+        toast({
+            title: "Link Copied",
+            description: "You're link has been copied to your clipboard.",
+   
+        });
       };
 
     return (
