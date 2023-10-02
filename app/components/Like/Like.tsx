@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
 import { FaHeartCircleMinus, FaHeartCirclePlus } from "react-icons/fa6"
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 
 interface Game {   
     _id: string;
@@ -33,7 +34,7 @@ export default function Like(props: {game: Game}) {
     const [user, setUser] = useState<User>({email: "", exp: 0, iat: 0, id: "", name: "", userName: ""})
     const [time, setTime] = useState<any>(null)
     const [like, setLike] = useState<any>(null)
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") || ""
 
     useEffect(() => {
         if (token) {
@@ -82,12 +83,12 @@ export default function Like(props: {game: Game}) {
     return (
         <>
             <div 
-            className="flex w-10 h-10 rounded-full bg-gray-300 justify-center items-center bg-opacity-60 hover:bg-opacity-70 relative"
+            className="flex w-10 h-10 justify-center items-center bg-opacity-60 hover:bg-opacity-70 relative"
             >
                 {like ? 
-                <h1 className="text-red-600 text-center text-3xl absolute" onClick={deleteLike}><FaHeartCircleMinus /></h1> 
+                <h1 className="text-red-600 text-center  absolute" onClick={deleteLike}><AiFillHeart /></h1> 
                 :
-                <h1 className="text-red-600 text-center text-2xl absolute" onClick={submitLike}><FaHeartCirclePlus /></h1>
+                <h1 className="text-red-600 text-center  absolute" onClick={submitLike}><AiOutlineHeart /></h1>
                 } 
             </div>
         </>
