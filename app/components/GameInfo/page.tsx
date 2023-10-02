@@ -63,15 +63,7 @@ const GameComponent: React.FC = () => {
 
   console.log(numberOfLikes)
 
-  const copyLink = () => {
-    const textField = document.createElement('textarea');
-    textField.innerText = window.location.href;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
-    alert('Link copied to clipboard');
-  };
+  
 
   return (
     <div className="container mx-auto p-8 text-white ">
@@ -106,21 +98,7 @@ const GameComponent: React.FC = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-4 p-4 bg-white bg-opacity-50 text-black">
-                <Like game={game} />
-                <p>Likes: {numberOfLikes}</p>
-                <FacebookShareButton url={window.location.href}>
-                  <button className="icon-button">
-                    <TbBrandFacebook className="icon" />
-                  </button>
-                </FacebookShareButton>
-                <TwitterShareButton url={window.location.href}>
-                  <button className="icon-button">
-                    <TbBrandTwitter className="icon" />
-                  </button>
-                </TwitterShareButton>
-                <button className="icon-button" onClick={copyLink}>
-                  <TbCopy className="icon" />
-                </button>
+                <Like game={game}/>
               </div>
             </div>
           ) : (

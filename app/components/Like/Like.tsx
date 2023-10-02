@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
 import { FaHeartCircleMinus, FaHeartCirclePlus } from "react-icons/fa6"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { TbBrandFacebook, TbBrandTwitter, TbCopy } from "react-icons/tb";
 
 interface Game {   
     _id: string;
@@ -80,10 +82,20 @@ export default function Like(props: {game: Game}) {
         setLike(null)
     }
 
+    const copyLink = () => {
+        const textField = document.createElement('textarea');
+        textField.innerText = window.location.href;
+        document.body.appendChild(textField);
+        textField.select();
+        document.execCommand('copy');
+        textField.remove();
+        alert('Link copied to clipboard');
+      };
+
     return (
         <>
             <div 
-            className="flex w-10 h-10 justify-center items-center bg-opacity-60 hover:bg-opacity-70 relative"
+            className="flex justify-center items-center space-x-4"
             >
                 {like ? 
                 <h1 className="text-red-600 text-center  absolute" onClick={deleteLike}><AiFillHeart /></h1> 
@@ -91,6 +103,19 @@ export default function Like(props: {game: Game}) {
                 <h1 className="text-red-600 text-center  absolute" onClick={submitLike}><AiOutlineHeart /></h1>
                 } 
             </div>
+            <FacebookShareButton url={window.location.href}>
+                  <button className="icon-button">
+                    <TbBrandFacebook className="icon" />
+                  </button>
+                </FacebookShareButton>
+                <TwitterShareButton url={window.location.href}>
+                  <button className="icon-button">
+                    <TbBrandTwitter className="icon" />
+                  </button>
+                </TwitterShareButton>
+                <button className="icon-button" onClick={copyLink}>
+                  <TbCopy className="icon" />
+                </button>
         </>
     )
 }
