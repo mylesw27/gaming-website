@@ -27,17 +27,17 @@ const WebsiteFooter = () => {
                     items: [
                         {
                             title: 'Suggestions',
-                            url: 'https://www.google.com',
+                            url: 'https://forms.gle/y6CVPK57zajhcK3t7',
                             openExternal: true,
                         },
                         {
                             title: 'Bug Report',
-                            url: 'https://ant.design',
+                            url: 'https://github.com/juanedcabrera/gaming-website/issues/new',
                             openExternal: true,
                         },
                         {
                             title: 'Work on Github Issues',
-                            url: 'www.github.com',
+                            url: 'https://github.com/juanedcabrera/gaming-website/issues',
                             openExternal: true,
                         },
                     ],
