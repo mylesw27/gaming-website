@@ -88,18 +88,16 @@ const Profile = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-5 bg-gray-800">
-      <div></div>
-      <div className="col-span-3">
-        <div className="p-6 bg-gray-800 mx-auto">
-          <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
-            Hi{' '}
-            {decodedToken && typeof decodedToken === 'object'
-              ? decodedToken.name
-              : ''}
-          </h2>
-          <ProfileForm />
-
+    <>
+    {token ?
+      <div className="p-6 bg-gray-800">
+      <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
+        Hi{' '}
+        {decodedToken && typeof decodedToken === 'object'
+          ? decodedToken.name
+          : ''}
+      </h2>
+      <ProfileForm />
           <div>
             <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
               Your Games
@@ -181,6 +179,10 @@ const Profile = () => {
       </div>
       <div></div>
     </div>
+    :
+    <div className="p-6 bg-gray-800"></div>
+    }
+    </>
   );
 };
 
