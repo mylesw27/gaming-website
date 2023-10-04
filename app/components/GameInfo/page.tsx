@@ -4,26 +4,9 @@ import Like from '../Like/Like';
 import { FacebookShareButton, TwitterShareButton, FacebookIcon, TwitterIcon } from 'react-share';
 import { TbCopy, TbBrandFacebook, TbBrandTwitter } from 'react-icons/tb'
 
-interface Game {
-  _id: string;
-  title: string;
-  userName: string;
-  userId: number;
-  category: string;
-  description: string;
-  image: string;
-  techstack: string;
-  github: string;
-  link: string;
-  likes: number;
-  comments: number;
-  views: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 const GameComponent: React.FC = () => {
-  const [game, setGame] = useState<Game | null>(null);
+  const [game, setGame] = useState<any>(null);
   const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
 
   const fetchGame = async () => {
@@ -47,11 +30,11 @@ const GameComponent: React.FC = () => {
       // Update the game state variable with the fetched data
       setGame(data.game);
 
-      const likeResponse = await fetch(
-        `http://localhost:8000/api-v1/like/game/${gameID}/`
-      );
-      const likeData = await likeResponse.json();
-      setNumberOfLikes(likeData.likes);
+      // const likeResponse = await fetch(
+      //   `http://localhost:8000/api-v1/like/${gameID}/`
+      // );
+      // const likeData = await likeResponse.json();
+      // setNumberOfLikes(likeData.likes);
     } catch (error) {
       console.error('Error fetching game:', error);
     }
@@ -61,9 +44,6 @@ const GameComponent: React.FC = () => {
     fetchGame();
   }, []);
 
-  console.log(numberOfLikes)
-
-  
 
   return (
     <div className="container mx-auto p-8 text-white ">
@@ -98,7 +78,7 @@ const GameComponent: React.FC = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-4 p-4 bg-white bg-opacity-50 text-black">
-                <Like game={game}/>
+                <Like game={game} />
               </div>
             </div>
           ) : (

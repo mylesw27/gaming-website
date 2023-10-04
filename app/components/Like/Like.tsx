@@ -5,6 +5,13 @@ import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { TbBrandFacebook, TbBrandTwitter, TbCopy } from "react-icons/tb";
 import { useToast } from "@/components/ui/use-toast";
 
+interface Like {
+    _id: string;
+    user_id: User[];
+    game_id: Game[];
+    time: Date;
+}
+
 interface Game {   
     _id: string;
   title: string;
@@ -15,25 +22,27 @@ interface Game {
   techstack: string;
   github: string;
   link: string;
-  likes: number;
+  likes: Like[];
   comments: number;
   views: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface User {   
-    email: string;
-    exp: number;
-    iat: number;
-    id: string;
+interface User {
+    id: any; 
+    _id: string;
     name: string;
+    email: string;
     userName: string;
+    avatar: string;
+    bio: string;
+    games: Game[];
 }
 
 export default function Like(props: {game: Game}) {
-    const [game, setGame] = useState(props.game._id)
-    const [user, setUser] = useState<User>({email: "", exp: 0, iat: 0, id: "", name: "", userName: ""})
+    const [theGame, setTheGame] = useState(props.game._id)
+    const [user, setUser] = useState<User>()
     const [time, setTime] = useState<any>(null)
     const [like, setLike] = useState<any>(null)
     const token = localStorage.getItem("token") || ""
@@ -46,16 +55,17 @@ export default function Like(props: {game: Game}) {
     }, [])
 
     useEffect(() => {
-        if (user && game) {
+        if (user && theGame) {
+            console.log('Yellow Submarine',user.id, theGame)
             try {
-                const response = fetch(`http://localhost:8000/api-v1/like/${user.id}/${game}`)
+                const response = fetch(`http://localhost:8000/api-v1/like/${user.id}/${theGame}`)
                 .then(response => response.json())
                 .then(data => setLike(data.like))
             } catch (error) {
                 console.log(error)
             }
         }
-    }, [user, game])
+    }, [user, theGame])
 
     const submitLike = () => {
         setTime(new Date().getTime())
@@ -65,7 +75,11 @@ export default function Like(props: {game: Game}) {
                 "Content-Type": "application/json",
                 Authorization: token,
             },
-            body: JSON.stringify({user_id: user.id, game_id: game, time: time})
+            body: JSON.stringify({
+                user_id: user?.id,
+                game_id: theGame,
+                time: time,
+            }),
         })
         .then(response => response.json())
         .then(data => setLike(data.like))
@@ -81,6 +95,7 @@ export default function Like(props: {game: Game}) {
         })
         setLike(null)
     }
+    
 
     const {toast} = useToast();
 
