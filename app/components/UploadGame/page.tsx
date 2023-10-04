@@ -99,8 +99,6 @@ const Upload: React.FC = () => {
           const data = await response.json();
           localStorage.setItem('token', token);
           const game = jwt.decode(token);
-          console.log('Game uploaded successfully:', game);
-          console.log('Game Data uploaded successfully:', data);
           window.location.href = '/';
         } else {
           console.error('Error uploading game:', response.statusText);

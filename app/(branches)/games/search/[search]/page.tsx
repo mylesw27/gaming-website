@@ -32,7 +32,7 @@ export default function Search({ params }: { params: { search: string } }) {
         }
         const data = await response.json();
         setGames(data.games);
-        console.log(data);
+
       } catch (error) {
         console.error('Error searching for game:', error);
       }

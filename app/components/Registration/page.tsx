@@ -54,8 +54,6 @@ const Registration: React.FC = () => {
         localStorage.setItem('token', data.token);
         // Decode the JWT and save the user data
         const user = jwt.decode(data.token);
-        console.log('User registered successfully:', user);
-        console.log('User registered successfully:', data);
         // Redirect the user to the login page
         window.location.href = '/login';
       } else {

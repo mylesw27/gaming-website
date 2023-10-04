@@ -45,7 +45,6 @@ const BlogPostDisplay = () => {
       const data = await response.json();
       setBlogPosts(data.posts);
       setGame(data.post);
-      console.log(data)
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }

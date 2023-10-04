@@ -38,7 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!token || typeof decodedToken !== 'object') {
-      console.log('Token not found or invalid.');
+      console.error('Token not found or invalid.');
       // Handle error scenario, such as redirecting to the login page
       return;
     }
@@ -81,7 +81,6 @@ const Profile = () => {
           },
         }
       );
-      console.log(gameId);
     } catch (error) {
       console.error('Error deleting game:', error);
     }

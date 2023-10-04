@@ -57,13 +57,12 @@ export default function Like(props: {game: Game}) {
 
     useEffect(() => {
         if (user && theGame) {
-            console.log('Yellow Submarine',user.id, theGame)
             try {
                 const response = fetch(`${apiUrl}/api-v1/like/${user.id}/${theGame}`)
                 .then(response => response.json())
                 .then(data => setLike(data.like))
             } catch (error) {
-                console.log(error)
+                console.error("Error fetching like:", error)
             }
         }
     }, [user, theGame])

@@ -34,7 +34,6 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
         throw new Error(`Failed to fetch games for category: ${category}`);
       }
       const data = await response.json();
-      console.log(data.games);
       setGames(data.games);
     } catch (error) {
       console.error(`Error fetching games for category ${category}:`, error);

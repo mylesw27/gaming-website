@@ -77,7 +77,7 @@ const EditGame: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Game uploaded successfully:', data);
+        console.error('Game uploaded successfully:', data);
         window.location.href = '/profile/games';
       } else {
         console.error('Error uploading game:', response.statusText);

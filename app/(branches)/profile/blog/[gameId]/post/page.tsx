@@ -43,14 +43,14 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
 
     // Token validation
     if (!token) {
-      console.log('Token not found.');
+      console.error('Token not found.');
       return;
     }
 
     const decodedToken = jwt.decode(token);
 
     if (!decodedToken || typeof decodedToken !== 'object') {
-      console.log('Decoded token not found or invalid.');
+      console.error('Decoded token not found or invalid.');
       return;
     }
 
@@ -76,20 +76,20 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   // Handle form submission when the "Create Post" button is clicked
   const handleCreatePostClick = async () => {
     if (!selectedGameId) {
-      console.log('No game selected');
+      console.error('No game selected');
       return;
     }
 
     const token = localStorage.getItem('token');
 
     if (!token) {
-      console.log('Token not found.');
+      console.error('Token not found.');
       return;
     }
 
     const decodedToken = jwt.decode(token) as JwtPayload | null;
     const gameId = selectedGameId;
-    console.log('gameId', gameId);
+    console.error('gameId', gameId);
 
     try {
       const response = await fetch(
@@ -116,7 +116,6 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
       }
 
       const data = await response.json();
-      console.log(data);
       onSubmit(data.newBlogPost);
 
       // Clear form fields after successful submission

@@ -13,7 +13,6 @@ const GameComponent: React.FC = () => {
     try {
       // Get the game ID from the URL
       const gameID = window.location.pathname.split('/').pop();
-      console.log(gameID);
 
       // Make an API request to fetch the game data
       const response = await fetch(
@@ -25,8 +24,6 @@ const GameComponent: React.FC = () => {
 
       // Parse the response data as JSON
       const data = await response.json();
-      console.log(data.game);
-
       // Update the game state variable with the fetched data
       setGame(data.game);
 
