@@ -44,14 +44,14 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
 
     // Token validation
     if (!token) {
-      console.log('Token not found.');
+      console.error('Token not found.');
       return;
     }
 
     const decodedToken = jwt.decode(token);
 
     if (!decodedToken || typeof decodedToken !== 'object') {
-      console.log('Decoded token not found or invalid.');
+      console.error('Decoded token not found or invalid.');
       return;
     }
 
@@ -88,7 +88,6 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
           throw new Error('Failed to fetch game information');
         }
         const data = await response.json();
-        console.log('data', data);
         setGame(data.game);
       } catch (error) {
         console.error('Error fetching game information:', error);
@@ -106,18 +105,17 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        console.log('Token not found.');
+        console.error('Token not found.');
         return;
       }
       const decodedToken = jwt.decode(token);
       if (!decodedToken || typeof decodedToken !== 'object') {
-        console.log('Decoded token not found or invalid.');
+        console.error('Decoded token not found or invalid.');
         return;
       }
 
       const postId = window.location.pathname.split('/')[5];
       const gameId = window.location.pathname.split('/')[3];
-      console.log('postId', postId);
       const response = await fetch(
         `${apiUrl}/api-v1/post/${postId}`,
         {
@@ -141,7 +139,6 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
         throw new Error('Failed to create post');
       }
       const data = await response.json();
-      console.log('Updated the blog post!');
       window.location.href = `/profile/blog/${gameId}`;
     } catch {
       console.error('Error creating post');

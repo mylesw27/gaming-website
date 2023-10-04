@@ -27,7 +27,6 @@ const RandomCreators: React.FC = () => {
 
       // Parse the response data as JSON
       const data = await response.json();
-      console.log('Data',data)
       // Update the users state variable with the fetched data
       setUsers(data);
     } catch (error) {

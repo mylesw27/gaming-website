@@ -50,7 +50,6 @@ const Navigation = () => {
         const data = await response.json();
         setAvatar(data.user.avatar);
         setName(data.user.name);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching user avatar:', error);
       }

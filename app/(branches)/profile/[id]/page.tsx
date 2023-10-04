@@ -45,14 +45,11 @@ export default function ProfileView({ params }: { params: { id: string } }) {
             }
             const data = await response.json();
             setGames(data.games);
-            // console.log(gamesArray)
         } catch (error) {
             console.error('Error fetching games:', error);
         }
     };
 
-    // console.log(profile)
-    console.log(games)
 
     useEffect(() => {
         fetchProfile();

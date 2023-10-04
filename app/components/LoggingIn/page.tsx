@@ -44,8 +44,6 @@ const Login: React.FC = () => {
             localStorage.setItem('token', data.token);
             // Decode the JWT and save the user data
             const user = jwt.decode(data.token);
-            console.log('User logged in successfully:', user);
-            console.log('User logged in successfully:', data);
             // Redirect the user to the home page
             window.location.href = '/';
         } else {
