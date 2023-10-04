@@ -23,11 +23,12 @@ const CategoryGames: React.FC<Props> = ({ category }) => {
   const [games, setGames] = useState<Game[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const gamesPerPage = 6;
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const fetchGamesByCategory = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api-v1/game/category/${category}`
+        `${apiUrl}/api-v1/game/category/${category}`
       );
       if (!response.ok) {
         throw new Error(`Failed to fetch games for category: ${category}`);

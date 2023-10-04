@@ -35,6 +35,8 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
   // Effect Hook for Initialization
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -56,7 +58,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const getUserGames = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/game/user/${decodedToken.id}`
+          `${apiUrl}/api-v1/game/user/${decodedToken.id}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch games');

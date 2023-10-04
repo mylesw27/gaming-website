@@ -46,6 +46,7 @@ export default function Like(props: {game: Game}) {
     const [time, setTime] = useState<any>(null)
     const [like, setLike] = useState<any>(null)
     const token = localStorage.getItem("token") || ""
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
     useEffect(() => {
         if (token) {
@@ -58,7 +59,7 @@ export default function Like(props: {game: Game}) {
         if (user && theGame) {
             console.log('Yellow Submarine',user.id, theGame)
             try {
-                const response = fetch(`http://localhost:8000/api-v1/like/${user.id}/${theGame}`)
+                const response = fetch(`${apiUrl}/api-v1/like/${user.id}/${theGame}`)
                 .then(response => response.json())
                 .then(data => setLike(data.like))
             } catch (error) {
@@ -69,7 +70,7 @@ export default function Like(props: {game: Game}) {
 
     const submitLike = () => {
         setTime(new Date().getTime())
-        const response = fetch(`http://localhost:8000/api-v1/like/`, {
+        const response = fetch(`${apiUrl}/api-v1/like/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -86,7 +87,7 @@ export default function Like(props: {game: Game}) {
     }
 
     const deleteLike = () => {
-        fetch(`http://localhost:8000/api-v1/like/${like._id}`, {
+        fetch(`${apiUrl}/api-v1/like/${like._id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

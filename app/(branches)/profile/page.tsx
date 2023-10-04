@@ -32,7 +32,7 @@ const Profile = () => {
   const [bio, setBio] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token as string);
 
@@ -48,7 +48,7 @@ const Profile = () => {
     const fetchUserGames = async () => {
       try {
         // Make an API request to fetch random games data
-        const response = await fetch(`http://localhost:8000/api-v1/game/all`);
+        const response = await fetch(`${apiUrl}/api-v1/game/all`);
         if (!response.ok) {
           throw new Error('Failed to fetch random games');
         }
@@ -72,7 +72,7 @@ const Profile = () => {
   const deleteGame = async (gameId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api-v1/game/${gameId}`,
+        `${apiUrl}/api-v1/game/${gameId}`,
         {
           method: 'DELETE',
           headers: {
@@ -137,40 +137,40 @@ const Profile = () => {
                       </p>
                     </CardContent>
                     <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
-      <div className="flex-grow">
-        <Button
-          className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
-          variant="destructive"
-          onClick={() => deleteGame(game._id)}
-        >
-          Delete Game
-        </Button>
-      </div>
-      
-      <div className="flex-grow">
-        <Button
-          className="w-full md:w-auto"
-          variant="default"
-          onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
-        >
-          Blog Posts
-        </Button>
-      </div>
-      
-      <div className="flex-grow">
-        <Button
-          className="w-full md:w-auto"
-          variant="default"
-          onClick={() =>
-            (window.location.href = `/profile/games/edit/${game._id}`)
-          }
-        >
-          Edit Game
-        </Button>
-      </div>
-    </CardFooter>
+                      <div className="flex-grow">
+                        <Button
+                          className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
+                          variant="destructive"
+                          onClick={() => deleteGame(game._id)}
+                        >
+                          Delete Game
+                        </Button>
+                      </div>
 
+                      <div className="flex-grow">
+                        <Button
+                          className="w-full md:w-auto"
+                          variant="default"
+                          onClick={() =>
+                            (window.location.href = `/profile/blog/${game._id}`)
+                          }
+                        >
+                          Blog Posts
+                        </Button>
+                      </div>
 
+                      <div className="flex-grow">
+                        <Button
+                          className="w-full md:w-auto"
+                          variant="default"
+                          onClick={() =>
+                            (window.location.href = `/profile/games/edit/${game._id}`)
+                          }
+                        >
+                          Edit Game
+                        </Button>
+                      </div>
+                    </CardFooter>
                   </Card>
                 ))
               ) : (
