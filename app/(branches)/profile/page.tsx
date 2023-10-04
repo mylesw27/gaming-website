@@ -89,92 +89,98 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-800">
-      <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
-        Hi{' '}
-        {decodedToken && typeof decodedToken === 'object'
-          ? decodedToken.name
-          : ''}
-      </h2>
-      <ProfileForm />
+    <div className="grid md:grid-cols-5 bg-gray-800">
+      <div></div>
+      <div className="col-span-3">
+        <div className="p-6 bg-gray-800 mx-auto">
+          <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
+            Hi{' '}
+            {decodedToken && typeof decodedToken === 'object'
+              ? decodedToken.name
+              : ''}
+          </h2>
+          <ProfileForm />
 
-      <div>
-        <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
-          Your Games
-        </h2>
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
+              Your Games
+            </h2>
+            <Button
+              variant="secondary"
+              className="py-2 px-4 mb-4 md:mb-6"
+              onClick={() => (window.location.href = 'profile/upload')}
+            >
+              Upload a Game
+            </Button>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+              {userGames.length > 0 ? (
+                userGames.map((game) => (
+                  <Card key={game._id}>
+                    <CardHeader>
+                      <CardTitle className="text-3xl md:text-5xl font-semibold mb-4">
+                        {game.title}
+                      </CardTitle>
+                      <CardDescription>
+                        <img
+                          src={game.image}
+                          alt={game.title}
+                          className="w-full h-48 object-cover mb-4 md:mb-6 rounded-lg"
+                        />
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-base md:text-lg">
+                        Category: {game.category}
+                      </p>
+                      <p className="text-base md:text-lg">
+                        Description: {game.description}
+                      </p>
+                    </CardContent>
+                    <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
+      <div className="flex-grow">
         <Button
-          variant="secondary"
-          className="py-2 px-4 mb-4 md:mb-6"
-          onClick={() => (window.location.href = 'profile/upload')}
+          className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
+          variant="destructive"
+          onClick={() => deleteGame(game._id)}
         >
-          Upload a Game
+          Delete Game
         </Button>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
-          {userGames.length > 0 ? (
-            userGames.map((game) => (
-              <Card key={game._id}>
-                <CardHeader>
-                  <CardTitle className="text-3xl md:text-5xl font-semibold mb-4">
-                    {game.title}
-                  </CardTitle>
-                  <CardDescription>
-                    <img
-                      src={game.image}
-                      alt={game.title}
-                      className="w-full h-48 object-cover mb-4 md:mb-6 rounded-lg"
-                    />
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-base md:text-lg">
-                    Category: {game.category}
-                  </p>
-                  <p className="text-base md:text-lg">
-                    Description: {game.description}
-                  </p>
-                </CardContent>
-                <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
-  <div className="flex-grow">
-    <Button
-      className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
-      variant="destructive"
-      onClick={() => deleteGame(game._id)}
-    >
-      Delete Game
-    </Button>
-  </div>
-  
-  <div className="flex-grow">
-    <Button
-      className="w-full md:w-auto"
-      variant="default"
-      onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
-    >
-      Blog Posts
-    </Button>
-  </div>
-  
-  <div className="flex-grow">
-    <Button
-      className="w-full md:w-auto"
-      variant="default"
-      onClick={() =>
-        (window.location.href = `/profile/games/edit/${game._id}`)
-      }
-    >
-      Edit Game
-    </Button>
-  </div>
-</CardFooter>
+      </div>
+      
+      <div className="flex-grow">
+        <Button
+          className="w-full md:w-auto"
+          variant="default"
+          onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
+        >
+          Blog Posts
+        </Button>
+      </div>
+      
+      <div className="flex-grow">
+        <Button
+          className="w-full md:w-auto"
+          variant="default"
+          onClick={() =>
+            (window.location.href = `/profile/games/edit/${game._id}`)
+          }
+        >
+          Edit Game
+        </Button>
+      </div>
+    </CardFooter>
 
 
-              </Card>
-            ))
-          ) : (
-            <div className="text-gray-600">No games found.</div>
-          )}
+                  </Card>
+                ))
+              ) : (
+                <div className="text-gray-600">No games found.</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
+      <div></div>
     </div>
   );
 };
