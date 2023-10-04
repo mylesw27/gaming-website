@@ -144,18 +144,29 @@ const Profile = () => {
                         </Button>
                       </div>
 
-                      <div className="flex-grow">
-                        <Button
-                          className="w-full md:w-auto"
-                          variant="default"
-                          onClick={() =>
-                            (window.location.href = `/profile/blog/${game._id}`)
-                          }
-                        >
-                          Blog Posts
-                        </Button>
-                      </div>
-
+  
+  {/* <div className="flex-grow">
+    <Button
+      className="w-full md:w-auto"
+      variant="default"
+      onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
+    >
+      Blog Posts
+    </Button>
+  </div> */}
+  
+  <div className="flex-grow">
+    <Button
+      className="w-full md:w-auto"
+      variant="default"
+      onClick={() =>
+        (window.location.href = `/profile/games/edit/${game._id}`)
+      }
+    >
+      Edit Game
+    </Button>
+  </div>
+</CardFooter>
                       <div className="flex-grow">
                         <Button
                           className="w-full md:w-auto"
