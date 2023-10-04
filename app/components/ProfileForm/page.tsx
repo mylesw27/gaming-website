@@ -41,6 +41,7 @@ export function ProfileForm() {
   const [newPassword, setNewPassword] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const profileFormSchema = z.object({
     username: z
@@ -79,13 +80,13 @@ export function ProfileForm() {
 
   const token = localStorage.getItem('token');
   if (!token) {
-    console.log('Token not found.');
+    console.error('Token not found.');
     // Handle error scenario, such as redirecting to the login page
     return;
   }
   const decodedToken = jwt.decode(token);
   if (!decodedToken || typeof decodedToken !== 'object') {
-    console.log('Decoded token not found or invalid.');
+    console.error('Decoded token not found or invalid.');
     // Handle error scenario, such as redirecting to the login page
     return;
   }
@@ -99,7 +100,7 @@ export function ProfileForm() {
     try {
       const userId = decodedToken.id;
 
-      const endpoint = `http://localhost:8000/api-v1/users/profile/${userId}`;
+      const endpoint = `${apiUrl}/api-v1/users/profile/${userId}`;
 
       const response = await fetch(endpoint, {
         method: 'PUT',
@@ -110,12 +111,12 @@ export function ProfileForm() {
       });
 
       if (response.ok) {
-        console.log(`Profile update successful!`);
+        console.error(`Profile update successful!`);
       } else {
-        console.log(`Profile update failed.`);
+        console.error(`Profile update failed.`);
       }
     } catch (error) {
-      console.log(`An error occurred during profile update:`, error);
+      console.error(`An error occurred during profile update:`, error);
     }
   };
 
@@ -124,7 +125,6 @@ export function ProfileForm() {
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const values = form.getValues();
-    console.log('values', values);
     updateProfile(values);
     // Set all text fields to empty
     setBio('');

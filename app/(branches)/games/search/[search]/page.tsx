@@ -19,19 +19,20 @@ interface Game {
 export default function Search({ params }: { params: { search: string } }) {
   const [search, setSearch] = useState('');
   const [games, setGames] = useState<Game[]>([]);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     async function searchGames() {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/game/search/${params.search}`
+          `${apiUrl}/api-v1/game/search/${params.search}`
         );
         if (!response.ok) {
           throw new Error(`Failed to search for game: ${params.search}`);
         }
         const data = await response.json();
         setGames(data.games);
-        console.log(data);
+
       } catch (error) {
         console.error('Error searching for game:', error);
       }

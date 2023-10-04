@@ -21,11 +21,12 @@ const NewGames: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPageDesktop = 3;
   const gamesPerPageMobile = 2;
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const fetchNewGames = async () => {
     try {
       // Make an API request to fetch random games data
-      const response = await fetch(`http://localhost:8000/api-v1/game/all`);
+      const response = await fetch(`${apiUrl}/api-v1/game/all`);
       if (!response.ok) {
         throw new Error('Failed to fetch random games');
       }

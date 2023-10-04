@@ -4,37 +4,19 @@ import Like from '../Like/Like';
 import { FacebookShareButton, TwitterShareButton, FacebookIcon, TwitterIcon } from 'react-share';
 import { TbCopy, TbBrandFacebook, TbBrandTwitter } from 'react-icons/tb'
 
-interface Game {
-  _id: string;
-  title: string;
-  userName: string;
-  userId: number;
-  category: string;
-  description: string;
-  image: string;
-  techstack: string;
-  github: string;
-  link: string;
-  likes: number;
-  comments: number;
-  views: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 const GameComponent: React.FC = () => {
-  const [game, setGame] = useState<Game | null>(null);
+  const [game, setGame] = useState<any>(null);
   const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const fetchGame = async () => {
     try {
       // Get the game ID from the URL
       const gameID = window.location.pathname.split('/').pop();
-      console.log(gameID);
 
       // Make an API request to fetch the game data
       const response = await fetch(
-        `http://localhost:8000/api-v1/game/${gameID}`
+        `${apiUrl}/api-v1/game/${gameID}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch game');
@@ -42,16 +24,14 @@ const GameComponent: React.FC = () => {
 
       // Parse the response data as JSON
       const data = await response.json();
-      console.log(data.game);
-
       // Update the game state variable with the fetched data
       setGame(data.game);
 
-      const likeResponse = await fetch(
-        `http://localhost:8000/api-v1/like/game/${gameID}/`
-      );
-      const likeData = await likeResponse.json();
-      setNumberOfLikes(likeData.likes);
+      // const likeResponse = await fetch(
+      //   `${apiUrl}/api-v1/like/${gameID}/`
+      // );
+      // const likeData = await likeResponse.json();
+      // setNumberOfLikes(likeData.likes);
     } catch (error) {
       console.error('Error fetching game:', error);
     }
@@ -61,17 +41,6 @@ const GameComponent: React.FC = () => {
     fetchGame();
   }, []);
 
-  console.log(numberOfLikes)
-
-  const copyLink = () => {
-    const textField = document.createElement('textarea');
-    textField.innerText = window.location.href;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
-    alert('Link copied to clipboard');
-  };
 
   return (
     <div className="container mx-auto p-8 text-white ">
@@ -107,20 +76,6 @@ const GameComponent: React.FC = () => {
               />
               <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-4 p-4 bg-white bg-opacity-50 text-black">
                 <Like game={game} />
-                <p>Likes: {numberOfLikes}</p>
-                <FacebookShareButton url={window.location.href}>
-                  <button className="icon-button">
-                    <TbBrandFacebook className="icon" />
-                  </button>
-                </FacebookShareButton>
-                <TwitterShareButton url={window.location.href}>
-                  <button className="icon-button">
-                    <TbBrandTwitter className="icon" />
-                  </button>
-                </TwitterShareButton>
-                <button className="icon-button" onClick={copyLink}>
-                  <TbCopy className="icon" />
-                </button>
               </div>
             </div>
           ) : (

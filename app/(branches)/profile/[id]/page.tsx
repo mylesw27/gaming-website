@@ -22,10 +22,11 @@ interface Game {
 export default function ProfileView({ params }: { params: { id: string } }) {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [games, setGames] = useState<Game[]>([]);
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
      
     const fetchProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api-v1/users/profile/${params.id}`);
+            const response = await fetch(`${apiUrl}/api-v1/users/profile/${params.id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch profile');
             }
@@ -38,20 +39,17 @@ export default function ProfileView({ params }: { params: { id: string } }) {
 
     const fetchGames = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api-v1/game/user/${params.id}`);
+            const response = await fetch(`${apiUrl}/api-v1/game/user/${params.id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch games');
             }
             const data = await response.json();
             setGames(data.games);
-            // console.log(gamesArray)
         } catch (error) {
             console.error('Error fetching games:', error);
         }
     };
 
-    // console.log(profile)
-    console.log(games)
 
     useEffect(() => {
         fetchProfile();

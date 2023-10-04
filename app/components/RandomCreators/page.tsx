@@ -16,18 +16,17 @@ const RandomCreators: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPageDesktop = 3;
   const usersPerPageMobile = 2;
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const fetchRandomUsers = async () => {
     try {
       // Make an API request to fetch random users data
-      const response = await fetch(`http://localhost:8000/api-v1/users/random`);
+      const response = await fetch(`${apiUrl}/api-v1/users/random`);
       if (!response.ok) {
         throw new Error('Failed to fetch random users');
       }
 
       // Parse the response data as JSON
       const data = await response.json();
-      console.log('Data',data)
       // Update the users state variable with the fetched data
       setUsers(data);
     } catch (error) {

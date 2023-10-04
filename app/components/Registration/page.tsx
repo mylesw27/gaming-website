@@ -7,6 +7,7 @@ const Registration: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -38,7 +39,7 @@ const Registration: React.FC = () => {
 
     try {
       // Make a POST request to the server with the user data
-      const response = await fetch(`http://localhost:8000/api-v1/users/register`, {
+      const response = await fetch(`${apiUrl}/api-v1/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,8 +54,6 @@ const Registration: React.FC = () => {
         localStorage.setItem('token', data.token);
         // Decode the JWT and save the user data
         const user = jwt.decode(data.token);
-        console.log('User registered successfully:', user);
-        console.log('User registered successfully:', data);
         // Redirect the user to the login page
         window.location.href = '/login';
       } else {
