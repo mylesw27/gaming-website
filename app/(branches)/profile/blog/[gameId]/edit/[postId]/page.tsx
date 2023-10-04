@@ -36,6 +36,8 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [game, setGame] = useState<Game | null>(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
   // Effect Hook for Initialization
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -59,7 +61,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const getPostInformation = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/post/${postId}`
+          `${apiUrl}/api-v1/post/${postId}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch post information');
@@ -80,7 +82,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const getGameInformation = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/game/${gameID}`
+          `${apiUrl}/api-v1/game/${gameID}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch game information');
@@ -117,7 +119,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
       const gameId = window.location.pathname.split('/')[3];
       console.log('postId', postId);
       const response = await fetch(
-        `http://localhost:8000/api-v1/post/${postId}`,
+        `${apiUrl}/api-v1/post/${postId}`,
         {
           method: 'PUT',
           headers: {

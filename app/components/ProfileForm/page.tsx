@@ -41,6 +41,7 @@ export function ProfileForm() {
   const [newPassword, setNewPassword] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const profileFormSchema = z.object({
     username: z
@@ -99,7 +100,7 @@ export function ProfileForm() {
     try {
       const userId = decodedToken.id;
 
-      const endpoint = `http://localhost:8000/api-v1/users/profile/${userId}`;
+      const endpoint = `${apiUrl}/api-v1/users/profile/${userId}`;
 
       const response = await fetch(endpoint, {
         method: 'PUT',

@@ -24,10 +24,11 @@ interface GameData {
 
 const EditGame: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const fetchGame = async (gameId: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/game/${gameId}`);
+      const response = await fetch(`${apiUrl}/api-v1/game/${gameId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch game');
       }
@@ -65,7 +66,7 @@ const EditGame: React.FC = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/game/${gameId}`, {
+      const response = await fetch(`${apiUrl}/api-v1/game/${gameId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

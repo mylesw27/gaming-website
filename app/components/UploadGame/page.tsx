@@ -25,6 +25,7 @@ const Upload: React.FC = () => {
   const [link, setLink] = useState('');
   const [message, setMessage] = useState('');
   const [errorField, setErrorField] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -85,7 +86,7 @@ const Upload: React.FC = () => {
       };
 
       try {
-        const response = await fetch('http://localhost:8000/api-v1/game/upload', {
+        const response = await fetch(`${apiUrl}/api-v1/game/upload`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

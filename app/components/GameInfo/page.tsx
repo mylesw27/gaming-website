@@ -8,7 +8,7 @@ import { TbCopy, TbBrandFacebook, TbBrandTwitter } from 'react-icons/tb'
 const GameComponent: React.FC = () => {
   const [game, setGame] = useState<any>(null);
   const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const fetchGame = async () => {
     try {
       // Get the game ID from the URL
@@ -17,7 +17,7 @@ const GameComponent: React.FC = () => {
 
       // Make an API request to fetch the game data
       const response = await fetch(
-        `http://localhost:8000/api-v1/game/${gameID}`
+        `${apiUrl}/api-v1/game/${gameID}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch game');
@@ -31,7 +31,7 @@ const GameComponent: React.FC = () => {
       setGame(data.game);
 
       // const likeResponse = await fetch(
-      //   `http://localhost:8000/api-v1/like/${gameID}/`
+      //   `${apiUrl}/api-v1/like/${gameID}/`
       // );
       // const likeData = await likeResponse.json();
       // setNumberOfLikes(likeData.likes);

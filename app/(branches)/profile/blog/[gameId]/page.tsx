@@ -31,12 +31,13 @@ const BlogPostDisplay = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [imageLink, setImageLink] = useState('');
   const [videoLink, setVideoLink] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   // Get all blog posts for the game
   const getBlogPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api-v1/post/all/${gameID}`
+        `${apiUrl}/api-v1/post/all/${gameID}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch blog posts');

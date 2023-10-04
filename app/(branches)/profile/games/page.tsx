@@ -25,11 +25,12 @@ interface Game {
 
 const UserGames = () => {
   const [games, setGames] = useState<Game[]>([]);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   // This will fetch all the games and then filter by the userId from the jwt. 
   const fetchUserGames = async () => {
     try {
       // Make an API request to fetch random games data
-      const response = await fetch(`http://localhost:8000/api-v1/game/all`);
+      const response = await fetch(`${apiUrl}/api-v1/game/all`);
       if (!response.ok) {
         throw new Error('Failed to fetch random games');
       }
