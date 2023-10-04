@@ -81,42 +81,48 @@ const BlogPostDisplay = () => {
   };
 
   return (
-    <div>
-      <h1>Blog Posts</h1>
-      <h2>Game: {game?.title}</h2>
-      <Button>
-        <a href={`/profile/blog/${gameID}/post`}>Create New Post</a>
-      </Button>
-      {blogPosts.map((post, index) => (
-        <Card key={index} className="mb-4">
-          <CardContent>
-            <a href={`/games/${gameID}/blog/${post._id}/`}>
-              <CardTitle>{post.title}</CardTitle>
-             
-              {post.imageLink && (
-  <img
-    src={post.imageLink}
-    alt={post.title}
-    className="mt-2"
-    style={{ width: '300px', height: '200px' }} 
-  />
-)}
- <CardDescription>{post.content}</CardDescription>
-{/* {post.videoLink && (
-  <div className="video-container">
-<iframe id="ytplayer" width="720" height="405"
-      src={`https://www.youtube.com/embed/${post.videoLink.split('v=')[1]}`}
-      title={post.title}/>
-  </div>
-)} */}
-            </a>
-          </CardContent>
-          <div className="flex justify-between mt-2">
-            <Button onClick={() => handleEditPost(post._id)}>Edit</Button>
-            <Button onClick={() => handleDeletePost(post._id)}>Delete</Button>
-          </div>
-        </Card>
-      ))}
+    <div className="grid md:grid-cols-5 bg-gray-800">
+      <div></div>
+      <div className="col-span-3">
+        <div>
+          <h1>Blog Posts</h1>
+          <h2>Game: {game?.title}</h2>
+          <Button>
+            <a href={`/profile/blog/${gameID}/post`}>Create New Post</a>
+          </Button>
+          {blogPosts.map((post, index) => (
+            <Card key={index} className="mb-4">
+              <CardContent>
+                <a href={`/games/${gameID}/blog/${post._id}/`}>
+                  <CardTitle>{post.title}</CardTitle>
+                
+                            {post.imageLink && (
+                <img
+                  src={post.imageLink}
+                  alt={post.title}
+                  className="mt-2"
+                  style={{ width: '300px', height: '200px' }} 
+                />
+              )}
+              <CardDescription>{post.content}</CardDescription>
+              {/* {post.videoLink && (
+                <div className="video-container">
+              <iframe id="ytplayer" width="720" height="405"
+                    src={`https://www.youtube.com/embed/${post.videoLink.split('v=')[1]}`}
+                    title={post.title}/>
+                </div>
+              )} */}
+                          </a>
+              </CardContent>
+              <div className="flex justify-between mt-2">
+                <Button onClick={() => handleEditPost(post._id)}>Edit</Button>
+                <Button onClick={() => handleDeletePost(post._id)}>Delete</Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+      <div></div>
     </div>
   );
 };

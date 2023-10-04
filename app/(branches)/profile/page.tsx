@@ -32,15 +32,20 @@ const Profile = () => {
   const [bio, setBio] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
+  // const [token, setToken] = useState<string>('');
+  // const [decodedToken, setDecodedToken] = useState<any>(null);
 
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token as string);
 
   useEffect(() => {
+    // setToken(localStorage.getItem('token') || '');
+    // setDecodedToken(jwt.decode(token as string));
     if (!token || typeof decodedToken !== 'object') {
       console.log('Token not found or invalid.');
       // Handle error scenario, such as redirecting to the login page
-      return;
+      // window.location.href = '/login';
+      // return;
     }
 
     const userId = decodedToken?.id;
@@ -89,7 +94,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-800">
+    <>
+    {token ?
+      <div className="p-6 bg-gray-800">
       <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
         Hi{' '}
         {decodedToken && typeof decodedToken === 'object'
@@ -176,6 +183,10 @@ const Profile = () => {
         </div>
       </div>
     </div>
+    :
+    <div className="p-6 bg-gray-800"></div>
+    }
+    </>
   );
 };
 
