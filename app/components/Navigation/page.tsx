@@ -20,6 +20,7 @@ const Navigation = () => {
   const [avatar, setAvatar] = useState<string>('');
   const [name, setName] = useState<string>('');
   const token = localStorage.getItem('token');
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   const handleSearchSubmit = async (event: any) => {
     event.preventDefault();
@@ -41,7 +42,7 @@ const Navigation = () => {
     const fetchUserAvatar = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/users/profile/${userId}`
+          `${apiUrl}/api-v1/users/profile/${userId}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch user avatar');
@@ -49,7 +50,6 @@ const Navigation = () => {
         const data = await response.json();
         setAvatar(data.user.avatar);
         setName(data.user.name);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching user avatar:', error);
       }

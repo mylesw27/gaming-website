@@ -29,23 +29,21 @@ interface Game {
 
 const BlogPostDisplay = () => {
   const gameID = window.location.pathname.split('/')[2];
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const [blogPosts, setBlogPosts] = useState<Post[]>([]);
   const [game, setGame] = useState<Game | null>(null);
 
   // Get all blog posts for the game
   const getBlogPosts = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api-v1/post/all/${gameID}`
-      );
+      const response = await fetch(`${apiUrl}/api-v1/post/all/${gameID}`);
       if (!response.ok) {
         throw new Error('Failed to fetch blog posts');
       }
       const data = await response.json();
       setBlogPosts(data.posts);
       setGame(data.post);
-      console.log('The game title', data.post.title);
+
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }

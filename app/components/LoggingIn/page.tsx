@@ -7,7 +7,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('')
-    
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     
         try {
         // Make a POST request to the server with the user data
-        const response = await fetch(`http://localhost:8000/api-v1/users/login`, {
+        const response = await fetch(`${apiUrl}/api-v1/users/login`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -44,8 +44,6 @@ const Login: React.FC = () => {
             localStorage.setItem('token', data.token);
             // Decode the JWT and save the user data
             const user = jwt.decode(data.token);
-            console.log('User logged in successfully:', user);
-            console.log('User logged in successfully:', data);
             // Redirect the user to the home page
             window.location.href = '/';
         } else {

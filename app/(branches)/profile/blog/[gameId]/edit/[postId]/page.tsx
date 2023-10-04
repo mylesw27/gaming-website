@@ -36,20 +36,22 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [game, setGame] = useState<Game | null>(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
   // Effect Hook for Initialization
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     // Token validation
     if (!token) {
-      console.log('Token not found.');
+      console.error('Token not found.');
       return;
     }
 
     const decodedToken = jwt.decode(token);
 
     if (!decodedToken || typeof decodedToken !== 'object') {
-      console.log('Decoded token not found or invalid.');
+      console.error('Decoded token not found or invalid.');
       return;
     }
 
@@ -59,7 +61,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const getPostInformation = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/post/${postId}`
+          `${apiUrl}/api-v1/post/${postId}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch post information');
@@ -80,13 +82,12 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     const getGameInformation = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api-v1/game/${gameID}`
+          `${apiUrl}/api-v1/game/${gameID}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch game information');
         }
         const data = await response.json();
-        console.log('data', data);
         setGame(data.game);
       } catch (error) {
         console.error('Error fetching game information:', error);
@@ -104,20 +105,19 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        console.log('Token not found.');
+        console.error('Token not found.');
         return;
       }
       const decodedToken = jwt.decode(token);
       if (!decodedToken || typeof decodedToken !== 'object') {
-        console.log('Decoded token not found or invalid.');
+        console.error('Decoded token not found or invalid.');
         return;
       }
 
       const postId = window.location.pathname.split('/')[5];
       const gameId = window.location.pathname.split('/')[3];
-      console.log('postId', postId);
       const response = await fetch(
-        `http://localhost:8000/api-v1/post/${postId}`,
+        `${apiUrl}/api-v1/post/${postId}`,
         {
           method: 'PUT',
           headers: {
@@ -139,7 +139,6 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
         throw new Error('Failed to create post');
       }
       const data = await response.json();
-      console.log('Updated the blog post!');
       window.location.href = `/profile/blog/${gameId}`;
     } catch {
       console.error('Error creating post');

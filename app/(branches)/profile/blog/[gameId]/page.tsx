@@ -31,12 +31,13 @@ const BlogPostDisplay = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [imageLink, setImageLink] = useState('');
   const [videoLink, setVideoLink] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   // Get all blog posts for the game
   const getBlogPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api-v1/post/all/${gameID}`
+        `${apiUrl}/api-v1/post/all/${gameID}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch blog posts');
@@ -44,7 +45,6 @@ const BlogPostDisplay = () => {
       const data = await response.json();
       setBlogPosts(data.posts);
       setGame(data.post);
-      console.log(data)
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }
@@ -81,7 +81,7 @@ const BlogPostDisplay = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-5 bg-gray-800">
+    <div className="grid md:grid-cols-5 bg-gray-800 ">
       <div></div>
       <div className="col-span-3">
         <div>

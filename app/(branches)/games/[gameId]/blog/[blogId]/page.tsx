@@ -11,6 +11,7 @@ interface BlogPost {
 
 const BlogPostDetails = () => {
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   // Fetch the blog post data based on [blogId] from the URL
   const blogId = window.location.pathname.split('/').pop();
@@ -18,7 +19,7 @@ const BlogPostDetails = () => {
   const getBlogPost = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api-v1/post/${blogId}`
+        `${apiUrl}/api-v1/post/${blogId}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch blog post');

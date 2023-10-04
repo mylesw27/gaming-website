@@ -22,13 +22,13 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ objectIDs }) => {
   const [heroGame, setHeroGame] = useState<HeroGame | null>(null);
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const fetchHeroGame = async () => {
     try {
       const objectID = objectIDs[0]; // Assuming only the first objectID is used
 
       // Make an API request to fetch the hero game data based on the provided objectID
-      const response = await fetch(`http://localhost:8000/api-v1/game/${objectID}`);
+      const response = await fetch(`${apiUrl}/api-v1/game/${objectID}`);
       if (!response.ok) {
         throw new Error('Failed to fetch hero game');
       }
