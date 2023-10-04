@@ -144,7 +144,7 @@ const Profile = () => {
     </Button>
   </div>
   
-  <div className="flex-grow">
+  {/* <div className="flex-grow">
     <Button
       className="w-full md:w-auto"
       variant="default"
@@ -152,7 +152,7 @@ const Profile = () => {
     >
       Blog Posts
     </Button>
-  </div>
+  </div> */}
   
   <div className="flex-grow">
     <Button
