@@ -32,20 +32,13 @@ const Profile = () => {
   const [bio, setBio] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [games, setGames] = useState<Game[]>([]);
-  // const [token, setToken] = useState<string>('');
-  // const [decodedToken, setDecodedToken] = useState<any>(null);
 
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token as string);
 
   useEffect(() => {
-    // setToken(localStorage.getItem('token') || '');
-    // setDecodedToken(jwt.decode(token as string));
     if (!token || typeof decodedToken !== 'object') {
       console.log('Token not found or invalid.');
-      // Handle error scenario, such as redirecting to the login page
-      // window.location.href = '/login';
-      // return;
     }
 
     const userId = decodedToken?.id;
