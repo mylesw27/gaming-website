@@ -114,6 +114,7 @@ export default function Like(props: {game: Game}) {
 
     return (
         <>
+        {user ? (
             <div 
             className="flex justify-center items-center space-x-4"
             >
@@ -123,6 +124,7 @@ export default function Like(props: {game: Game}) {
                 <h1 className="text-red-600 text-center  absolute" onClick={submitLike}><AiOutlineHeart /></h1>
                 } 
             </div>
+    ) : null}
             <FacebookShareButton url={window.location.href}>
                   <button className="icon-button">
                     <TbBrandFacebook className="icon" />
