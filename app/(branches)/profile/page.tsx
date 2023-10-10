@@ -81,12 +81,7 @@ const Profile = () => {
     } catch (error) {
       console.error('Error deleting game:', error);
     }
-    fetchUserGames();
   };
-
-  function fetchUserGames() {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <>
