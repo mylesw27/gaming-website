@@ -43,7 +43,7 @@ const GameComponent: React.FC = () => {
 
 
   return (
-    <div className="container mx-auto p-8 text-white ">
+    <div className="container mx-auto p-11 text-white ">
       {/* Game Header */}
       <div className="text-center mb-8 ">
         {game ? (
@@ -72,7 +72,7 @@ const GameComponent: React.FC = () => {
                 onError={(e) => {
                   e.currentTarget.src = 'https://ucarecdn.com/5df07fe1-89d2-44b5-be91-004613f1e288/NYD.svg';
                 }}
-                className="w-full h-full object-cover"
+                className="w-full md:w-[640px] md:h-[480px] object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 flex justify-center space-x-4 p-4 bg-white bg-opacity-50 text-black">
                 <Like game={game} />
