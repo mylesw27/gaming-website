@@ -45,6 +45,7 @@ export default function Like(props: {game: Game}) {
     const [user, setUser] = useState<User>()
     const [time, setTime] = useState<any>(null)
     const [like, setLike] = useState<any>(null)
+    const [fetchedLikes, setFetchedLikes] = useState<any>(null)
     const token = localStorage.getItem("token") || ""
     const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
@@ -66,6 +67,25 @@ export default function Like(props: {game: Game}) {
             }
         }
     }, [user, theGame])
+
+    useEffect(() => {
+        const fetchLikes = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/api-v1/game/${theGame}`)
+                if (!response.ok) {
+                    throw new Error("Failed to fetch likes")
+                }
+                const data = await response.json()
+                setFetchedLikes(data.game.likes)
+            }
+            catch (error) {
+                console.error("Error fetching likes:", error)
+            }
+        }
+        fetchLikes()
+    }
+    , [theGame])
+
 
     const submitLike = () => {
         setTime(new Date().getTime())
@@ -96,7 +116,6 @@ export default function Like(props: {game: Game}) {
         setLike(null)
     }
     
-
     const {toast} = useToast();
 
     const copyLink = () => {        const textField = document.createElement('textarea');
@@ -119,10 +138,11 @@ export default function Like(props: {game: Game}) {
             className="flex justify-center items-center space-x-4"
             >
                 {like ? 
-                <h1 className="text-red-600 text-center  absolute" onClick={deleteLike}><AiFillHeart /></h1> 
+                <h1 className="text-red-600 text-center  absolute" onClick={deleteLike}><AiFillHeart /></h1>
                 :
                 <h1 className="text-red-600 text-center  absolute" onClick={submitLike}><AiOutlineHeart /></h1>
                 } 
+                <h1 className="text-center">{fetchedLikes?.length}</h1>
             </div>
     ) : null}
             <FacebookShareButton url={window.location.href}>
