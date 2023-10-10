@@ -27,6 +27,7 @@ const Upload: React.FC = () => {
   const [errorField, setErrorField] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -55,7 +56,7 @@ const Upload: React.FC = () => {
     setLink(event.target.value);
   };
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -70,7 +71,7 @@ const Upload: React.FC = () => {
     // }
 
     if (token) {
-      const { userName } = jwt.decode(token) as { userName: string }; 
+      const { userName } = jwt.decode(token) as { userName: string };
       const { userId } = jwt.decode(token) as { userId: string };
 
       const gameData: GameData = {
@@ -113,65 +114,126 @@ const Upload: React.FC = () => {
       console.error('Token not found.');
     }
     toast({
-      title: "Game Uploaded",
-      description: "Congratulations! Your game has been added",
-    })
+      title: 'Game Uploaded',
+      description: 'Congratulations! Your game has been added',
+    });
   };
+
+  const user = jwt.decode(localStorage.getItem('token') as string);
 
   return (
     <div className="p-8 bg-gray-800">
-       <h2 className="text-2xl font-bold mb-4 text-white">Upload Game</h2>
-      {message && <p className='text-red-500 italic'>{message}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          
-          <label className="flex align-center font-semibold text-white">Title:</label>
-          <input type="text" value={title} onChange={handleTitleChange} required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block font-semibold text-white">Description:</label>
-          <input type="text" value={description} onChange={handleDescriptionChange} required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block font-semibold text-white">Category:</label>
-          <select value={category} onChange={handleCategoryChange} required className="w-full p-2 border rounded">
-            <option value="">Select a category</option>
-            <option value="Action">Action</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Strategy">Strategy</option>
-            <option value="RPG">RPG</option>
-            <option value="Puzzle">Puzzle</option>
-            <option value="Simulation">Simulation</option>
-            <option value="Sports">Sports</option>
-            <option value="Racing">Racing</option>
-            <option value="CardandBoard">Card & Board</option>
-            <option value="Casual">Casual</option>
-            <option value="MMO">MMO</option>
-            <option value="Arcade">Arcade</option>
-          </select>
-        </div>
-        <div>
-          <label className="block font-semibold text-white">Techstack:</label>
-          <input type="text" value={techstack} onChange={handleTechstackChange} required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block font-semibold text-white">Image:</label>
-          <input type="text" value={image} onChange={handleImageChange} required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block font-semibold text-white">Github:</label>
-          <input type="text" value={github} onChange={handleGithubChange} required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="flex align-center font-semibold text-white">Deployed Game Link:</label>
-          <input type="text" value={link} onChange={handleLinkChange} required className="w-full p-2 border rounded" />
-        </div>
-        <Button type="submit" variant={'secondary'}>
-          Upload
-        </Button>
-      </form>
-    </div>
-  );
-};
-
+      {user ? (
+        <>
+          <h2 className="text-2xl font-bold mb-4 text-white">Upload Game</h2>
+          {message && <p className="text-red-500 italic">{message}</p>}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="flex align-center font-semibold text-white">
+                Title:
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={handleTitleChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold text-white">
+                Description:
+              </label>
+              <input
+                type="text"
+                value={description}
+                onChange={handleDescriptionChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold text-white">
+                Category:
+              </label>
+              <select
+                value={category}
+                onChange={handleCategoryChange}
+                required
+                className="w-full p-2 border rounded"
+              >
+                <option value="">Select a category</option>
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Strategy">Strategy</option>
+                <option value="RPG">RPG</option>
+                <option value="Puzzle">Puzzle</option>
+                <option value="Simulation">Simulation</option>
+                <option value="Sports">Sports</option>
+                <option value="Racing">Racing</option>
+                <option value="CardandBoard">Card & Board</option>
+                <option value="Casual">Casual</option>
+                <option value="MMO">MMO</option>
+                <option value="Arcade">Arcade</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-semibold text-white">
+                Techstack:
+              </label>
+              <input
+                type="text"
+                value={techstack}
+                onChange={handleTechstackChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold text-white">Image:</label>
+              <input
+                type="text"
+                value={image}
+                onChange={handleImageChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold text-white">Github:</label>
+              <input
+                type="text"
+                value={github}
+                onChange={handleGithubChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="flex align-center font-semibold text-white">
+                Deployed Game Link:
+              </label>
+              <input
+                type="text"
+                value={link}
+                onChange={handleLinkChange}
+                required
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <Button type="submit" variant={'secondary'}>
+              Upload
+            </Button>
+          </form>
+        </>
+        ) : (
+          (() => {
+            window.location.replace('/login');
+            return null;
+          })()
+        )}
+      </div>
+    );
+  };
+  
 export default Upload;

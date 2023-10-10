@@ -71,33 +71,34 @@ const Profile = () => {
 
   const deleteGame = async (gameId: string) => {
     try {
-      const response = await fetch(
-        `${apiUrl}/api-v1/game/${gameId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token as string,
-          },
-        }
-      );
+      const response = await fetch(`${apiUrl}/api-v1/game/${gameId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token as string,
+        },
+      });
     } catch (error) {
       console.error('Error deleting game:', error);
     }
     fetchUserGames();
   };
 
+  function fetchUserGames() {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <>
-    {token ?
-      <div className="p-6 bg-gray-800">
-      <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
-        Hi{' '}
-        {decodedToken && typeof decodedToken === 'object'
-          ? decodedToken.name
-          : ''}
-      </h2>
-      <ProfileForm />
+      {token ? (
+        <div className="p-6 bg-gray-800">
+          <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 text-white">
+            Hi{' '}
+            {decodedToken && typeof decodedToken === 'object'
+              ? decodedToken.name
+              : ''}
+          </h2>
+          <ProfileForm />
           <div>
             <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
               Your Games
@@ -109,7 +110,7 @@ const Profile = () => {
             >
               Upload a Game
             </Button>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {userGames.length > 0 ? (
                 userGames.map((game) => (
                   <Card key={game._id}>
@@ -133,43 +134,30 @@ const Profile = () => {
                         Description: {game.description}
                       </p>
                     </CardContent>
-                    <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
-                      <div className="flex-grow">
+                    <CardFooter className="flex justify-between">
+                      <div className="space-x-2">
                         <Button
-                          className="w-full md:w-auto" // This ensures the button takes the full width on mobile and auto width on desktop
+                          className=""
                           variant="destructive"
                           onClick={() => deleteGame(game._id)}
                         >
                           Delete Game
                         </Button>
                       </div>
-
-  
-  {/* <div className="flex-grow">
-    <Button
-      className="w-full md:w-auto"
-      variant="default"
-      onClick={() => (window.location.href = `/profile/blog/${game._id}`)}
-    >
-      Blog Posts
-    </Button>
-  </div> */}
-  
-  <div className="flex-grow">
-    <Button
-      className="w-full md:w-auto"
-      variant="default"
-      onClick={() =>
-        (window.location.href = `/profile/games/edit/${game._id}`)
-      }
-    >
-      Edit Game
-    </Button>
-  </div>
-</CardFooter>
-                      <div className="flex-grow">
+                      {/* <div className="flex-grow">
                         <Button
                           className="w-full md:w-auto"
+                          variant="default"
+                          onClick={() =>
+                            (window.location.href = `/profile/blog/${game._id}`)
+                          }
+                        >
+                          Blog Posts
+                        </Button>
+                      </div> */}
+                      <div className="space-x-2">
+                        <Button
+                          className=""
                           variant="default"
                           onClick={() =>
                             (window.location.href = `/profile/games/edit/${game._id}`)
@@ -187,17 +175,11 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div></div>
-    </div>
-    :
-    <div className="p-6 bg-gray-800"></div>
-    }
+      ) : (
+        <div className="p-6 bg-gray-800"></div>
+      )}
     </>
   );
 };
 
 export default Profile;
-function fetchUserGames() {
-  throw new Error('Function not implemented.');
-}

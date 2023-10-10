@@ -6,6 +6,7 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card';
+import jwt from 'jsonwebtoken';
 
 // Interfaces
 interface Post {
@@ -53,45 +54,57 @@ const BlogPostDisplay = () => {
     getBlogPosts();
   }, [gameID]);
 
+  const user = jwt.decode(localStorage.getItem('token') as string);
+
   return (
     <div>
-      <h1>Blog Posts</h1>
-      <h2>Game: {game?.title}</h2>
-      {blogPosts.map((post, index) => (
-        <Card key={index} className="mb-4">
-          <CardContent>
-            <a href={`/games/${gameID}/blog/${post._id}/`}>
-              <CardTitle>{post.title}</CardTitle>
+      {user ? (
+        <>
+          <h1>Blog Posts</h1>
+          <h2>Game: {game?.title}</h2>
+          {blogPosts.map((post, index) => (
+            <Card key={index} className="mb-4">
+              <CardContent>
+                <a href={`/games/${gameID}/blog/${post._id}/`}>
+                  <CardTitle>{post.title}</CardTitle>
 
-              {post.imageLink && (
-                <img
-                  src={post.imageLink}
-                  alt={post.title}
-                  className="mt-2"
-                  style={{ width: '300px', height: '200px' }}
-                />
-              )}
-              {/* {post.videoLink && (
-                <iframe
-                  src={post.videoLink}
-                  title={post.title}
-                  className="mt-2"
-                />
-              )} */}
-              <CardDescription>{post.content}</CardDescription>
-            </a>
-          </CardContent>
-        </Card>
-      ))}
-      <button
-        onClick={() => {
-          window.location.href = `/games/${gameID}/`;
-        }}
-      >
-        Back to GameInfo
-      </button>
+                  {post.imageLink && (
+                    <img
+                      src={post.imageLink}
+                      alt={post.title}
+                      className="mt-2"
+                      style={{ width: '300px', height: '200px' }}
+                    />
+                  )}
+                  {/* {post.videoLink && (
+                    <iframe
+                      src={post.videoLink}
+                      title={post.title}
+                      className="mt-2"
+                    />
+                  )} */}
+                  <CardDescription>{post.content}</CardDescription>
+                </a>
+              </CardContent>
+            </Card>
+          ))}
+          <button
+            onClick={() => {
+              window.location.href = `/games/${gameID}/`;
+            }}
+          >
+            Back to GameInfo
+          </button>
+        </>
+      ) : (
+        (() => {
+          window.location.replace('/login');
+          return null;
+        })()
+      )}
     </div>
   );
 };
+
 
 export default BlogPostDisplay;
