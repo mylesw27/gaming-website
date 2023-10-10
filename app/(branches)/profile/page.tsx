@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import PasswordReset from '../../components/PasswordReset/page';
 import jwt from 'jsonwebtoken';
 import { ProfileForm } from '@/app/components/ProfileForm/page';
 import {
@@ -12,6 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface Game {
   userId: number;
@@ -138,13 +138,15 @@ const Profile = () => {
                       </CardContent>
                       <CardFooter className="flex justify-between">
                         <div className="space-x-2">
-                          <Button
-                            className=""
-                            variant="destructive"
-                            onClick={() => deleteGame(game._id)}
-                          >
-                            Delete Game
-                          </Button>
+                            <Button
+                              className=""
+                              variant="default"
+                              onClick={() =>
+                                (window.location.href = `/profile/games/edit/${game._id}`)
+                              }
+                            >
+                              <FaEdit />
+                            </Button>
                         </div>
                         {/* <div className="flex-grow">
                           <Button
@@ -160,12 +162,10 @@ const Profile = () => {
                         <div className="space-x-2">
                           <Button
                             className=""
-                            variant="default"
-                            onClick={() =>
-                              (window.location.href = `/profile/games/edit/${game._id}`)
-                            }
+                            variant="destructive"
+                            onClick={() => deleteGame(game._id)}
                           >
-                            Edit Game
+                            <FaTrash />
                           </Button>
                         </div>
                       </CardFooter>
