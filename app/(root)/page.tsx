@@ -17,10 +17,10 @@ export default function Landing() {
         <section className="bg-gray-800 text-white py-10">
           <div className="container mx-auto text-center">
             <h1 className="text-4xl font-bold mb-4">
-              Discover Your Next Adventure
+              Discover Your Next Game
             </h1>
             <p className="text-lg mb-8">
-              Explore a vast collection of games and help support independent software engineers.
+              Explore a vast collection of games and help support independent software engineers/game developers.
             </p>
             <a
               href="/games"
@@ -51,8 +51,7 @@ export default function Landing() {
                   2. Explore Details
                 </h3>
                 <p>
-                  Read game descriptions, check out screenshots, and see user
-                  reviews.
+                  Read game descriptions, check out screenshots, and get the details.
                 </p>
               </div>
               <div className="bg-gray-700 p-6 rounded-lg shadow-md">
@@ -60,7 +59,7 @@ export default function Landing() {
                   3. Create an Account
                 </h3>
                 <p>
-                  Sign up for an account to upload or provide support for the games.
+                  Sign up for an account to upload or provide support for the games and also give a like.
                 </p>
               </div>
             </div>
