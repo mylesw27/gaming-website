@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import jwt from 'jsonwebtoken';
 import { useToast } from '../../../components/ui/use-toast';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 interface GameData {
   userName: string;
@@ -26,7 +27,6 @@ const Upload: React.FC = () => {
   const [message, setMessage] = useState('');
   const [errorField, setErrorField] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -135,6 +135,7 @@ const Upload: React.FC = () => {
               <input
                 type="text"
                 value={title}
+                placeholder='Enter a title for the game'
                 onChange={handleTitleChange}
                 required
                 className="w-full p-2 border rounded"
@@ -147,6 +148,7 @@ const Upload: React.FC = () => {
               <input
                 type="text"
                 value={description}
+                placeholder='Enter a description of the game'
                 onChange={handleDescriptionChange}
                 required
                 className="w-full p-2 border rounded"
@@ -184,16 +186,27 @@ const Upload: React.FC = () => {
               <input
                 type="text"
                 value={techstack}
+                placeholder='Enter the techstack used for the game'
                 onChange={handleTechstackChange}
                 required
                 className="w-full p-2 border rounded"
               />
             </div>
+
             <div>
               <label className="block font-semibold text-white">Image:</label>
+              <div className="m-4">
+                <Alert>
+                  <AlertTitle>Heads up!</AlertTitle>
+                  <AlertDescription>
+                    We use a 3/2 aspect ratio for our images. The ideal size is 640x480 as this is what will be displayed on the desktop.
+                  </AlertDescription>
+                </Alert>
+              </div>
               <input
                 type="text"
                 value={image}
+                placeholder='Enter the image URL for the game'
                 onChange={handleImageChange}
                 required
                 className="w-full p-2 border rounded"
@@ -204,6 +217,7 @@ const Upload: React.FC = () => {
               <input
                 type="text"
                 value={github}
+                placeholder='Enter the Github link for the game'
                 onChange={handleGithubChange}
                 required
                 className="w-full p-2 border rounded"
@@ -216,6 +230,7 @@ const Upload: React.FC = () => {
               <input
                 type="text"
                 value={link}
+                placeholder='Enter the deployed game link'
                 onChange={handleLinkChange}
                 required
                 className="w-full p-2 border rounded"
@@ -226,14 +241,14 @@ const Upload: React.FC = () => {
             </Button>
           </form>
         </>
-        ) : (
-          (() => {
-            window.location.replace('/login');
-            return null;
-          })()
-        )}
-      </div>
-    );
-  };
-  
+      ) : (
+        (() => {
+          window.location.replace('/login');
+          return null;
+        })()
+      )}
+    </div>
+  );
+};
+
 export default Upload;
