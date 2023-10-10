@@ -134,10 +134,10 @@ const Profile = () => {
                         Description: {game.description}
                       </p>
                     </CardContent>
-                    <CardFooter className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 px-4">
-                      <div className="flex-grow">
+                    <CardFooter className="flex justify-between">
+                      <div className="space-x-2">
                         <Button
-                          className="w-full md:w-auto"
+                          className=""
                           variant="destructive"
                           onClick={() => deleteGame(game._id)}
                         >
@@ -155,9 +155,9 @@ const Profile = () => {
                           Blog Posts
                         </Button>
                       </div> */}
-                      <div className="flex-grow">
+                      <div className="space-x-2">
                         <Button
-                          className="w-full md:w-auto"
+                          className=""
                           variant="default"
                           onClick={() =>
                             (window.location.href = `/profile/games/edit/${game._id}`)
