@@ -72,8 +72,6 @@ const Profile = () => {
       return;
     }
 
-    const userId = decodedToken?.id;
-
     const fetchUserGames = async () => {
       try {
         // Make an API request to fetch random games data
@@ -87,7 +85,6 @@ const Profile = () => {
         console.error('Error fetching user games:', error);
       }
     };
-
     // This will fetch all the games and then filter by the userId from the jwt.
     fetchUserGames();
   }, [decodedToken, setGames, token]);
