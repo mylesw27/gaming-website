@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import jwt, { JwtPayload} from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { ProfileForm } from '@/app/components/ProfileForm/page';
 import {
   Card,
@@ -22,7 +22,7 @@ interface Game {
   category: string;
   description: string;
   image: string;
-  likes: number;
+  likes: number[];
   comments: number;
   views: number;
   createdAt: Date;
@@ -38,17 +38,19 @@ const Profile = () => {
   const decodedToken = jwt.decode(token as string);
   const [fetchedLikes, setFetchedLikes] = useState<number>(0);
 
-
   useEffect(() => {
     const userId = decodedToken ? (decodedToken as any).id : null;
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api-v1/users/profile/${userId}`, {
-          headers: {
-            Authorization: token as string,
-          },
-        });
+        const response = await fetch(
+          `${apiUrl}/api-v1/users/profile/${userId}`,
+          {
+            headers: {
+              Authorization: token as string,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch user');
         }
@@ -61,7 +63,7 @@ const Profile = () => {
     };
 
     fetchUser();
-  })
+  });
 
   useEffect(() => {
     if (!token || typeof decodedToken !== 'object') {
@@ -69,8 +71,6 @@ const Profile = () => {
       // Handle error scenario, such as redirecting to the login page
       return;
     }
-
-    const userId = decodedToken?.id;
 
     const fetchUserGames = async () => {
       try {
@@ -81,13 +81,10 @@ const Profile = () => {
         }
         const data = await response.json();
         setGames(data.games);
-        // Filter the games by the userId.
-        const userGames = data.games.filter((game: Game) => game.userId === userId);
       } catch (error) {
         console.error('Error fetching user games:', error);
       }
     };
-
     // This will fetch all the games and then filter by the userId from the jwt.
     fetchUserGames();
   }, [decodedToken, setGames, token]);
@@ -122,8 +119,7 @@ const Profile = () => {
               {decodedToken && typeof decodedToken === 'object'
                 ? decodedToken.name
                 : ''}
-              , welcome back
-              !
+              , welcome back !
             </h2>
             <img
               src={avatar}
@@ -131,8 +127,10 @@ const Profile = () => {
               className="w-32 h-32 object-cover mb-4 md:mb-6 rounded-full"
             />
             {/* show bio */}
-            <p className="text-base md:text-lg mb-4 md:mb-6 text-white">{bio}</p>
-            <Separator className='mb-2'/>
+            <p className="text-base md:text-lg mb-4 md:mb-6 text-white">
+              {bio}
+            </p>
+            <Separator className="mb-2" />
             <ProfileForm />
             <div>
               <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
@@ -171,21 +169,21 @@ const Profile = () => {
                       </CardContent>
                       <CardFooter className="flex justify-between">
                         <div className="space-x-2">
-                            <Button
-                              className=""
-                              variant="default"
-                              onClick={() =>
-                                (window.location.href = `/profile/games/edit/${game._id}`)
-                              }
-                            >
-                              <FaEdit />
-                            </Button>
+                          <Button
+                            className=""
+                            variant="default"
+                            onClick={() =>
+                              (window.location.href = `/profile/games/edit/${game._id}`)
+                            }
+                          >
+                            <FaEdit />
+                          </Button>
                         </div>
                         <div>
                           <p className="text-base md:text-lg">
-                            Likes: {userGames.likes > 0 ? fetchedLikes : 0}
+                            Likes:{' '}
+                            {Array.isArray(game.likes) ? game.likes.length : 0}
                           </p>
-                        
                         </div>
                         {/* <div className="flex-grow">
                           <Button

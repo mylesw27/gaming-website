@@ -137,7 +137,7 @@ const Navigation = () => {
         {/* Desktop Avatar */}
         {token && ( 
           <a href="/profile" className="hidden md:block">
-            <Avatar>
+            <Avatar className='w-10 h-12'>
               <AvatarImage src={avatar} alt="Avatar" />
               <AvatarFallback>{name}</AvatarFallback>
             </Avatar>
@@ -167,7 +167,7 @@ const Navigation = () => {
               {token && ( 
                 <div className="mb-4 flex justify-center">
                   <a href="/profile">
-                    <Avatar className="w-12 h-12">
+                    <Avatar className="w-10 h-12">
                       <AvatarImage src={avatar} alt="Avatar" />
                       <AvatarFallback>{name}</AvatarFallback>
                     </Avatar>
