@@ -87,7 +87,7 @@ const BlogPostForm: React.FC<BlogFormProps> = ({ onSubmit }) => {
       return;
     }
 
-    const decodedToken = jwt.decode(token) as JwtPayload | null;
+    const decodedToken = jwt.decode(token) as JwtPayload;
     const gameId = selectedGameId;
     console.error('gameId', gameId);
 

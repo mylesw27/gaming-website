@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload} from 'jsonwebtoken';
 import { ProfileForm } from '@/app/components/ProfileForm/page';
 import {
   Card,
@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { Separator } from '@/components/ui/separator';
 
 interface Game {
   userId: number;
@@ -35,6 +36,32 @@ const Profile = () => {
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const token = localStorage.getItem('token');
   const decodedToken = jwt.decode(token as string);
+  const [fetchedLikes, setFetchedLikes] = useState<number>(0);
+
+
+  useEffect(() => {
+    const userId = decodedToken ? (decodedToken as any).id : null;
+
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api-v1/users/profile/${userId}`, {
+          headers: {
+            Authorization: token as string,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user');
+        }
+        const data = await response.json();
+        setBio(data.user.bio);
+        setAvatar(data.user.avatar);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  })
 
   useEffect(() => {
     if (!token || typeof decodedToken !== 'object') {
@@ -54,6 +81,8 @@ const Profile = () => {
         }
         const data = await response.json();
         setGames(data.games);
+        // Filter the games by the userId.
+        const userGames = data.games.filter((game: Game) => game.userId === userId);
       } catch (error) {
         console.error('Error fetching user games:', error);
       }
@@ -61,8 +90,7 @@ const Profile = () => {
 
     // This will fetch all the games and then filter by the userId from the jwt.
     fetchUserGames();
-    setBio(decodedToken?.bio || '');
-  }, [decodedToken, setBio, token]);
+  }, [decodedToken, setGames, token]);
 
   const userId = decodedToken ? (decodedToken as any).id : null;
 
@@ -94,7 +122,17 @@ const Profile = () => {
               {decodedToken && typeof decodedToken === 'object'
                 ? decodedToken.name
                 : ''}
+              , welcome back
+              !
             </h2>
+            <img
+              src={avatar}
+              alt="avatar"
+              className="w-32 h-32 object-cover mb-4 md:mb-6 rounded-full"
+            />
+            {/* show bio */}
+            <p className="text-base md:text-lg mb-4 md:mb-6 text-white">{bio}</p>
+            <Separator className='mb-2'/>
             <ProfileForm />
             <div>
               <h2 className="text-2xl font-semibold mb-4 md:text-3xl md:mb-6 pt-9 text-white">
@@ -142,6 +180,12 @@ const Profile = () => {
                             >
                               <FaEdit />
                             </Button>
+                        </div>
+                        <div>
+                          <p className="text-base md:text-lg">
+                            Likes: {userGames.likes > 0 ? fetchedLikes : 0}
+                          </p>
+                        
                         </div>
                         {/* <div className="flex-grow">
                           <Button
