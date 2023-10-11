@@ -98,27 +98,34 @@ export function ProfileForm() {
   // UPDATE PROFILE
   const updateProfile = async (data: FormValues) => {
     try {
-      const userId = decodedToken.id;
+        const userId = decodedToken.id;
+        const endpoint = `${apiUrl}/api-v1/users/profile/${userId}`;
+        
+        // Only send fields that are not blank or undefined. Had to look this up.
+        const updatedData: Partial<FormValues> = {};
 
-      const endpoint = `${apiUrl}/api-v1/users/profile/${userId}`;
+        if (bio) updatedData.bio = bio;
+        if (avatar) updatedData.avatar = avatar;
+        if (newPassword) updatedData.newPassword = newPassword;
 
-      const response = await fetch(endpoint, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bio, avatar, newPassword }),
-      });
+        const response = await fetch(endpoint, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        });
 
-      if (response.ok) {
-        console.error(`Profile update successful!`);
-      } else {
-        console.error(`Profile update failed.`);
-      }
+        if (response.ok) {
+            console.error(`Profile update successful!`);
+        } else {
+            console.error(`Profile update failed.`);
+        }
     } catch (error) {
-      console.error(`An error occurred during profile update:`, error);
+        console.error(`An error occurred during profile update:`, error);
     }
-  };
+};
+
 
   const {toast} = useToast();
 
