@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
 import {
   Card,
@@ -34,7 +34,9 @@ export default function ProfileView({ params }: { params: { id: string } }) {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api-v1/users/profile/${params.id}`);
+      const response = await fetch(
+        `${apiUrl}/api-v1/users/profile/${params.id}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch profile');
       }
@@ -65,28 +67,31 @@ export default function ProfileView({ params }: { params: { id: string } }) {
 
   return (
     <div className="p-6 bg-gray-800 text-white">
-        <div className="container mx-auto">
+      <div className="container mx-auto">
         <h1 className="text-3xl font-semibold mb-4">Profile View</h1>
         {profile ? (
           <>
-<div className="flex items-center space-x-4">
-  <img
-    src={profile.avatar}
-    alt={profile.name}
-    className="w-24 h-24 rounded-full"
-  />
-  <div>
-    <h1 className="text-3xl font-semibold mb-2">{profile.name}</h1>
-    <p className="text-gray-400">{profile.username}</p> 
-    <p className="text-lg mt-2">{profile.bio}</p> 
-  </div>
-</div>
+            <div className="flex items-center space-x-4">
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+                className="w-24 h-24 rounded-full"
+              />
+              <div>
+                <h1 className="text-3xl font-semibold mb-2">{profile.name}</h1>
+                <p className="text-gray-400">{profile.username}</p>
+                <p className="text-lg mt-2">{profile.bio}</p>
+              </div>
+            </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4 md:text-3xl md:mb-6">Games</h2>
+              <h2 className="text-2xl font-bold mt-4 md:text-3xl md:mb-6">
+                Games
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {games.length > 0 ? (
                   games.map((game) => (
+                    <a href={`/games/${game._id}`} key={game._id}>
                     <Card key={game._id}>
                       <CardHeader>
                         <CardTitle className="text-3xl md:text-5xl font-semibold mb-2">
@@ -109,6 +114,7 @@ export default function ProfileView({ params }: { params: { id: string } }) {
                         </p>
                       </CardContent>
                     </Card>
+                    </a>
                   ))
                 ) : (
                   <div className="text-gray-600">No games found.</div>
